@@ -1,0 +1,35 @@
+・装備管理（ログインで装備状況の記憶。画像をドラッグ&ドロップ）
+・翻訳（キャラ、アーティファクト等の機械翻訳に掛けても翻訳されない単語
+    非同期で翻訳。DeepLみたいなやつ。キャラは写真クリックで装備画面に飛ばす。）←この機能いる？
+・pve攻略（ログイン者のみアップロード可能。閲覧は全員○
+    youtubeは自分のアカウントのみAPI（タイトル検索）で埋め込む）
+
+cssはモバイルファースト
+header/footerはtemplatesで共通化する
+Vue.js
+
+iphone11とipad pro(10.5インチ)だけレスポンシブ対応する(実機があるから)
+
+footer about us(なんか入れとく)
+follow us (ツイッター、youtubeアイコンでも入れとく)
+
+ 画像にはalt属性つける
+ クロスブラウザチェック
+CORS (Cross-Origin Resource Sharing) 対策
+CSRF (cross-site request forgeries) 対策
+Dockerを利用したWebアプリケーションのデプロイ(dockerはどこっかーらやるか...)
+
+データベース
+ヒーロー
+id
+en name
+ja name
+nick name　不問
+image
+
+user（セッション情報？）
+id
+pass
+name
+更新日
+最終ログイン
