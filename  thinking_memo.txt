@@ -13,19 +13,13 @@ iphone11とipad pro(10.5インチ)だけレスポンシブ対応する(実機が
 footer about us(なんか入れとく)
 follow us (ツイッター、youtubeアイコンでも入れとく)
 
+テーブル名に不満有
+
  画像にはalt属性つける
  クロスブラウザチェック
 CORS (Cross-Origin Resource Sharing) 対策
 CSRF (cross-site request forgeries) 対策
 Dockerを利用したWebアプリケーションのデプロイ(dockerはどこっかーらやるか...)
-
-データベース
-ヒーロー
-id
-en name
-ja name
-nick name　不問
-image
 
 user（セッション情報？）
 id

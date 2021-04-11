@@ -5,5 +5,6 @@ from . import views
 app_name = 'pve_comp'
 
 urlpatterns = [
-    path("", views.TranslateView.as_view(), name='pve_comp'),
+    path('', views.PveCompView.as_view(), name='pve_comp'),
+    path('upload/', views.UploadView.as_view(), name='upload')
 ]
