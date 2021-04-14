@@ -9,9 +9,10 @@
     <h1>Please upload your file</h1>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{form.as_p}}
+        {{ form.as_p }}
         <button type="submit">登録</button>
     </form>
+    <p>{{ message }}</p>
 </div>
 {% endblock %}
 
