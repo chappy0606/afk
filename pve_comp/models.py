@@ -14,6 +14,3 @@ class ChapterStage(models.Model):
     stage = models.CharField(max_length=4)
     uploaded_at = models.DateTimeField(auto_now_add=True)
     uploaded_image = models.ImageField(upload_to=rename_to_uuid)
-
-    def __str__(self):
-        return f'{self.chapter} {self.stage}'
