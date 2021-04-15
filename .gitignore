@@ -127,6 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+<<<<<<< HEAD
 
 .env.sample
 .env
@@ -148,3 +149,5 @@ poetry.toml
 pyproject.toml
 
 thinking_memo.txt
+=======
+>>>>>>> origin/main
