@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load account %}
 <html lang="ja">
 
 <head>
@@ -15,7 +16,8 @@
 <body>
     <div class="footer-fixed">
         <header>
-            <p>ヘッダー</p>
+            <p>{% user_display user %}</p>
+            <a href="{% url 'account_login' %}">ログイン</a>
         </header>
         {% block content%}{% endblock %}
         <footer>
