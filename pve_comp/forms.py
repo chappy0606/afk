@@ -6,4 +6,4 @@ from . models import ChapterStage
 class UploadForm(forms.ModelForm):
     class Meta:
         model = ChapterStage
-        fields = ('chapter', 'stage', 'uploaded_image')
+        fields = ('chapter_id', 'stage_id', 'uploaded_image',)
