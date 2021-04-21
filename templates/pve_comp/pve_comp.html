@@ -8,6 +8,10 @@
 <div class="container">
     <h1>pve_comp</h1>
     <a href="{% url 'pve_comp:upload' %}">アップロード</a>
+    <form method="GET" action="{% url 'pve_comp:result' %}">
+    {{form.as_p}}
+    <button type="submit">検索</button>
+    </form>
 </div>
 {% endblock %}
 
