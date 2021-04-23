@@ -1,6 +1,6 @@
+from accounts.models import User
 from django.db import models
 import uuid
-import os
 
 class Chapter(models.Model):
     id = models.IntegerField(primary_key=True, verbose_name='章')
@@ -23,5 +23,6 @@ def rename_to_uuid(self, filename):
 class ChapterStage(models.Model):
     chapter_id = models.ForeignKey(Chapter, on_delete=models.CASCADE)
     stage_id = models.ForeignKey(Stage, on_delete=models.CASCADE)
+    username = models.ForeignKey(User, on_delete=models.CASCADE)
     uploaded_at = models.DateTimeField(auto_now_add=True)
     uploaded_image = models.ImageField(upload_to=rename_to_uuid)
