@@ -22,6 +22,10 @@ class UploadView(CreateView):
     template_name = 'pve_comp/upload.html'
     success_url = reverse_lazy('pve_comp:upload')
 
+    def form_valid(self, form):
+        form.instance.username = self.request.user
+        return super(UploadView, self).form_valid(form)
+
 class ResultView(ListView):
     template_name = 'pve_comp/result.html'
     model = ChapterStage

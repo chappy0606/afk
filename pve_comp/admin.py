@@ -4,7 +4,7 @@ from .models import Chapter
 from .models import Stage
 
 class ChapterStageAdmin(admin.ModelAdmin):
-    list_display = ('chapter_id', 'stage_id', 'uploaded_at', 'uploaded_image')
+    list_display = ('chapter_id', 'stage_id', 'username', 'uploaded_at', 'uploaded_image')
 
 class ChapterAdmin(admin.ModelAdmin):
     list_display = ('id',)
