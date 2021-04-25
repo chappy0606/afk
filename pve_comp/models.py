@@ -1,16 +1,17 @@
 from accounts.models import User
 from django.db import models
 import uuid
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 class Chapter(models.Model):
-    id = models.IntegerField(primary_key=True, verbose_name='章')
+    id = models.IntegerField(primary_key=True, verbose_name='章', validators=[MinValueValidator(1)])
 
     def __str__(self):
         return u'{}'.format(self.id)
 
 
 class Stage(models.Model):
-    id = models.IntegerField(primary_key=True, verbose_name='ステージ')
+    id = models.IntegerField(primary_key=True, verbose_name='ステージ', validators=[MinValueValidator(1)])
 
     def __str__(self):
         return u'{}'.format(self.id)

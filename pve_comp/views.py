@@ -1,6 +1,7 @@
 from django.db.models import fields, query
 from django.views.generic import TemplateView, CreateView, ListView
 from django.shortcuts import redirect, render
+from django.contrib import messages
 from .models import ChapterStage
 from django.urls import reverse_lazy
 from .forms import UploadForm
@@ -24,6 +25,7 @@ class UploadView(CreateView):
 
     def form_valid(self, form):
         form.instance.username = self.request.user
+        messages.success(self.request, 'アップロードが完了しました')
         return super(UploadView, self).form_valid(form)
 
 class ResultView(ListView):
@@ -32,9 +34,9 @@ class ResultView(ListView):
     context_object_name = 'chapter_stage_list'
     
     def get_queryset(self):
-        chapter_id = self.request.GET['chapter_id']
-        stage_id = self.request.GET['stage_id']
         
         queryset = ChapterStage.objects.filter(
-            chapter_id = chapter_id, stage_id = stage_id)
+            chapter_id = self.request.GET['chapter_id'], 
+            stage_id = self.request.GET['stage_id']
+            )
         return queryset
