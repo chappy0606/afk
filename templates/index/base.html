@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 {% load account %}
+{% load i18n %}
+
 <html lang="ja">
 
 <head>
@@ -17,15 +19,27 @@
     <div class="footer-fixed">
         <header>
             <p>{% user_display user %}</p>
-            <a href="{% url 'account_login' %}">ログイン</a>
+
+            <form class="login" method="POST" action="{% url 'account_login' %}">
+                {% csrf_token %}
+                <button type="submit">{% trans "Sign In" %}</button>
+            </form>
+
+            <form method="post" action="{% url 'account_logout' %}">
+                {% csrf_token %}
+                <button type="submit">{% trans 'Sign Out' %}</button>
+            </form>
         </header>
+
         {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                    <p>{{ message }}</p>
-                {% endfor %}
-            </ul>
+        <ul class="messages">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </ul>
+
         {% endif %}
+
         {% block content%}{% endblock %}
         <footer>
             <div class="footer-widgets-container">

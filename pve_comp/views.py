@@ -6,6 +6,7 @@ from .models import ChapterStage
 from django.urls import reverse_lazy
 from .forms import UploadForm
 from .forms import SelectForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class PveCompView(TemplateView):
@@ -17,7 +18,7 @@ class PveCompView(TemplateView):
         return context
 
 
-class UploadView(CreateView):
+class UploadView(LoginRequiredMixin, CreateView):
     model = ChapterStage
     form_class = UploadForm
     template_name = 'pve_comp/upload.html'

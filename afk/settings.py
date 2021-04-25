@@ -34,8 +34,8 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 SITE_ID = 1
-ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login'
 LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'index'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
