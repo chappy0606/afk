@@ -20,24 +20,26 @@
         <header>
             <p>{% user_display user %}</p>
 
-            <form class="login" method="POST" action="{% url 'account_login' %}">
-                {% csrf_token %}
-                <button type="submit">{% trans "Sign In" %}</button>
-            </form>
-
-            <form method="post" action="{% url 'account_logout' %}">
-                {% csrf_token %}
-                <button type="submit">{% trans 'Sign Out' %}</button>
-            </form>
+            <nav class="header-menu">
+                <ul>
+                    {% if user.is_authenticated %}
+                        <form name="logout" method="POST" action="{% url 'account_logout' %}">
+                            {% csrf_token %}
+                            <li><a href="javascript:logout.submit()">ログアウト</a></li>
+                        </form>
+                    {% else %}
+                        <li><a href="{% url 'account_login' %}">ログイン</a></li>
+                        <li><a href="{% url 'account_signup' %}">ユーザー登録</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
         </header>
-
         {% if messages %}
         <ul class="messages">
             {% for message in messages %}
-                <p>{{ message }}</p>
+            <p>{{ message }}</p>
             {% endfor %}
         </ul>
-
         {% endif %}
 
         {% block content%}{% endblock %}

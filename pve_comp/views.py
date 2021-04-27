@@ -17,7 +17,6 @@ class PveCompView(TemplateView):
         context['form'] = SelectForm()
         return context
 
-
 class UploadView(LoginRequiredMixin, CreateView):
     model = ChapterStage
     form_class = UploadForm
