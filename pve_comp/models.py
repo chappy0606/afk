@@ -1,7 +1,7 @@
 from accounts.models import User
 from django.db import models
 import uuid
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MinValueValidator
 
 class Chapter(models.Model):
     id = models.IntegerField(primary_key=True, verbose_name='章', validators=[MinValueValidator(1)])
