@@ -1,3 +1,5 @@
 from django.shortcuts import render
+from allauth.account.views import LogoutView as AllAuthLogoutView
 
-# Create your views here.
+class LogoutView(AllAuthLogoutView):
+    template_name = 'index/index.html'

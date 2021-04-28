@@ -9,20 +9,13 @@ header/footerはtemplatesで共通化する(済)
 Vue.js
 iphone11とipad pro(10.5インチ)だけレスポンシブ対応する(実機があるから)
 
-デフォルトのユーザーモデルで十分でもカスタムユーザーモデルを使うのが推奨らしい。
-
 クロスブラウザチェック
 CORS (Cross-Origin Resource Sharing) 対策
-CSRF (cross-site request forgeries) 対策
 Dockerで環境構築（dockerはどこっかーらやるか...)
 
-footer about us(なんか入れとく)(済)
-follow us (ツイッター、youtubeアイコンでも入れとく)(済)
-
 ファビコンの設定(サイト名の左に表示されるマーク32px × 32px)
-
 多重submitの制御(jsでやるとjs無効で突破されるからサーバー側で制御する。)
-アカウント作成、ログイン、ログアウト機能。(アプリ追加したほうが良さそう)
+
 ツイッター、グーグルアカウント認証(all_auth)
 パスワード変更
 パスワードリセット

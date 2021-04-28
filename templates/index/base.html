@@ -23,7 +23,7 @@
             <nav class="header-menu">
                 <ul>
                     {% if user.is_authenticated %}
-                        <form name="logout" method="POST" action="{% url 'account_logout' %}">
+                        <form name="logout" method="POST" action="{% url 'accounts:logout' %}">
                             {% csrf_token %}
                             <li><a href="javascript:logout.submit()">ログアウト</a></li>
                         </form>
