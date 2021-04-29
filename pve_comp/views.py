@@ -1,6 +1,4 @@
-from django.db.models import fields, query
 from django.views.generic import TemplateView, CreateView, ListView
-from django.shortcuts import redirect, render
 from django.contrib import messages
 from .models import ChapterStage
 from django.urls import reverse_lazy

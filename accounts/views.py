@@ -1,5 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from allauth.account.views import LogoutView as AllAuthLogoutView
 
-class LogoutView(AllAuthLogoutView):
-    template_name = 'index/index.html'
+class IndexRedirectView(AllAuthLogoutView):
+    
+    def get(self, *args, **kwargs):
+        return redirect('index')
