@@ -2,8 +2,7 @@ from django.views.generic import TemplateView, CreateView, ListView
 from django.contrib import messages
 from .models import ChapterStage
 from django.urls import reverse_lazy
-from .forms import UploadForm
-from .forms import SelectForm
+from .forms import UploadForm, SelectForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
@@ -13,7 +12,9 @@ class PveCompView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = SelectForm()
+
         return context
+
 
 class UploadView(LoginRequiredMixin, CreateView):
     model = ChapterStage
@@ -24,17 +25,18 @@ class UploadView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.username = self.request.user
         messages.success(self.request, 'アップロードが完了しました')
+
         return super(UploadView, self).form_valid(form)
+
 
 class ResultView(ListView):
     template_name = 'pve_comp/result.html'
     model = ChapterStage
     context_object_name = 'chapter_stage_list'
-    
+
     def get_queryset(self):
-        
         queryset = ChapterStage.objects.filter(
-            chapter_id = self.request.GET['chapter_id'], 
-            stage_id = self.request.GET['stage_id']
-            )
+            chapter_id=self.request.GET['chapter_id'],
+            stage_id=self.request.GET['stage_id'])
+
         return queryset

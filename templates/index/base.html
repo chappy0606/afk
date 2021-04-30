@@ -18,18 +18,20 @@
 <body>
     <div class="footer-fixed">
         <header>
-            <p>{% user_display user %}</p>
+            {% if user.is_authenticated %}
+            <a href="{% url 'accounts:user_detail' user.username %}">{% user_display user %}</a>
+            {% endif %}
 
             <nav class="header-menu">
                 <ul>
                     {% if user.is_authenticated %}
-                        <form name="logout" method="POST" action="{% url 'account_logout' %}">
-                            {% csrf_token %}
-                            <li><a href="javascript:logout.submit()">ログアウト</a></li>
-                        </form>
+                    <form name="logout" method="POST" action="{% url 'account_logout' %}">
+                        {% csrf_token %}
+                        <li><a href="javascript:logout.submit()">ログアウト</a></li>
+                    </form>
                     {% else %}
-                        <li><a href="{% url 'account_login' %}">ログイン</a></li>
-                        <li><a href="{% url 'account_signup' %}">ユーザー登録</a></li>
+                    <li><a href="{% url 'account_login' %}">ログイン</a></li>
+                    <li><a href="{% url 'account_signup' %}">ユーザー登録</a></li>
                     {% endif %}
                 </ul>
             </nav>
