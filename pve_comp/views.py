@@ -1,9 +1,11 @@
+from pve_comp.serializers import ChapterSerializer, ChapterStageSerializer, StageSerializer
 from django.views.generic import TemplateView, CreateView, ListView
 from django.contrib import messages
-from .models import ChapterStage
+from .models import ChapterStage, Chapter, Stage
 from django.urls import reverse_lazy
 from .forms import UploadForm, SelectForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from rest_framework import viewsets
 
 
 class PveCompView(TemplateView):
@@ -40,3 +42,18 @@ class ResultView(ListView):
             stage_id=self.request.GET['stage_id'])
 
         return queryset
+
+
+class ChapterViewSet(viewsets.ModelViewSet):
+    queryset = Chapter.objects.all()
+    serializer_class = ChapterSerializer
+
+
+class StageViewSet(viewsets.ModelViewSet):
+    queryset = Stage.objects.all()
+    serializer_class = StageSerializer
+
+
+class ChapterStageViewSet(viewsets.ModelViewSet):
+    queryset = ChapterStage.objects.all()
+    serializer_class = ChapterStageSerializer

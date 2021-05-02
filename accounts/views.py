@@ -4,7 +4,7 @@ from django.views.generic import DetailView
 from . models import User
 from pve_comp.models import ChapterStage
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from rest_framework import viewsets, filters
+from rest_framework import viewsets
 from accounts.serializers import UserSerializer
 
 
