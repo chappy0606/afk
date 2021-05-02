@@ -45,11 +45,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'rest_framework',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'accounts.apps.AccountsConfig',
-    'translate.apps.TranslateConfig',
     'pve_comp.apps.PveCompConfig',
     'django_cleanup.apps.CleanupConfig',
 ]
