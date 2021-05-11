@@ -1,3 +1,6 @@
+from typing import NoReturn
+
+
 隠密の刃 = 1980
 恐怖の面 = 2400
 敏捷の石 = 1500
@@ -92,3 +95,25 @@
 権威のスタッフ =神聖なる福音+(バジリカの聖炉*2)+36000
 運命の砂時計 = 慈愛の指輪+神聖なる福音+クイリンのリング+蒼穹のハンター+ 51000
 神々の聖杯 = 星の眷属+不敗の意志+黎明の歩み+9000
+
+神々の聖杯component = {'星の眷属': 星の眷属, '不敗の意志': 不敗の意志, '黎明の歩み': 黎明の歩み}
+my_relic = {'星の眷属': 1, '不屈の心': 1, '聖徒の刻印': 1, '不敗の意志': 1}
+
+for name, cost in 神々の聖杯component.items():
+    for key, value in my_relic.items():
+        if key == name:
+            print('素材:' + name)
+            print(key, '所持数' + str(value))
+            神々の聖杯 = 神々の聖杯 - (cost * value)
+            break
+    else:
+        continue
+
+print(神々の聖杯)
+
+
+# for key, value in my_relic.items():
+#     print(key, type(key))
+#     print(value, type(value))
+#     if key in 神々の聖杯材料.keys():
+#         print(神々の聖杯 - int(str(神々の聖杯材料.values())))
