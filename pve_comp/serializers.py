@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from .models import Chapter, Stage, ChapterStage
-from accounts.serializers import UserSerializer
 
 
 class ChapterSerializer(serializers.ModelSerializer):

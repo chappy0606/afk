@@ -1,19 +1,38 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <p>hello</p>
+    <Footer/>
   </div>
 </template>
 
 <script lang="ts">
 
 import { defineComponent } from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
+import Footer from './components/modules/Footer.vue';
 
 export default defineComponent({
   name: 'App',
-  components: {
-    HelloWorld
-  }
+  components: {Footer}
 });
 </script>
+
+<style>
+
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+html,body {
+	height: 100%;
+}
+
+body {
+	background-color: rgb(82, 82, 82);
+	font-family:"ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka, 
+  "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+	-webkit-text-size-adjust: none;
+	width: 100%;
+}
+
+</style>
