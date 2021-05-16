@@ -25,23 +25,18 @@ Dockerで環境構築（dockerはどこっかーらやるか...)
 ログアウトはPOSTメソッド。aタグでログアウトできるのはjsで変換する。済
 画像アップロード時のバリデーター
 (ファイル形式の指定、ファイル容量の制限、小さすぎる画像も制限する)
+
+内部リレーション
 ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
 
 memo
 ?next=URL(/pve_comp/upload/)でURLにリダイレクトされるらしい
 
-user(allauth)
-ーーーーーーー 
-.
-.
-.
-.
 
-chapter
------------
-.number
-
-stage
-------------
-.number
-
+relic_calculator
+relic
+-----------------
+id
+name
+total_cost
+required_cost

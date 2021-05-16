@@ -1,3 +1,4 @@
+from googleapiclient import model
 from accounts.models import User
 from django.db import models
 import uuid

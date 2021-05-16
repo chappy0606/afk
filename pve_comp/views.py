@@ -57,3 +57,4 @@ class StageViewSet(viewsets.ModelViewSet):
 class ChapterStageViewSet(viewsets.ModelViewSet):
     queryset = ChapterStage.objects.all()
     serializer_class = ChapterStageSerializer
+    

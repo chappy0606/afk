@@ -97,7 +97,7 @@
 my_relic = {'勇気の心': 4, '勇気のコア': 1 }
 need = 156000
 
-print(勇気の心)
+print()
 print(勇気の星材料)
 
 # for name, cost in 勇気の星材料.items():
