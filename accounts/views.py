@@ -7,13 +7,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from rest_framework import viewsets
 from accounts.serializers import UserSerializer
 
-
-class CustomAllAuthLogoutView(AllAuthLogoutView):
-
-    def get(self, *args, **kwargs):
-        return redirect('index')
-
-
 class UserDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = User
     slug_field = 'username'

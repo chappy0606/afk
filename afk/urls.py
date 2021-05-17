@@ -7,12 +7,12 @@ from accounts.urls import router as user_router
 from pve_comp.urls import router as pve_comp_router
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='index/index.html'), name='index'),
-    path('pve_comp/', include('pve_comp.urls')),
-    path('accounts/', include('accounts.urls')),
-    path('accounts/', include('allauth.urls')),
-    path('api/', include(user_router.urls)),
-    path('api/', include(pve_comp_router.urls)),
+    # path('accounts/', include('accounts.urls')),
+    # path('accounts/', include('allauth.urls')),
+    path('rest-auth/', include('rest_auth.urls')),
+    path('rest-auth/registration/', include('rest_auth.registration.urls')),
+    path('api/v1/', include(user_router.urls)),
+    path('api/v1/', include(pve_comp_router.urls)),
     path('admin/', admin.site.urls),
 ]
 

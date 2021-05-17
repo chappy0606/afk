@@ -49,6 +49,10 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'rest_auth',
+    'rest_framework.authtoken',
+    'rest_auth.registration',
+    'corsheaders',
     'accounts.apps.AccountsConfig',
     'pve_comp.apps.PveCompConfig',
     'django_cleanup.apps.CleanupConfig',
@@ -62,6 +66,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+]
+
+CORS_ORIGIN_WHITELIST = [
+    'http://127.0.0.1:8080',
+    'http://localhost:8080',
 ]
 
 ROOT_URLCONF = 'afk.urls'
