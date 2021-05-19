@@ -1,39 +1,35 @@
 <template>
-  <div id="app">
-    <Header/>
-    <Footer/>
-  </div>
+    <div id="app">
+        <TopPage />
+    </div>
 </template>
 
 <script lang="ts">
-
-import { defineComponent } from 'vue';
-import Footer from './components/modules/Footer.vue';
-import Header from './components/modules/Header.vue';
+import { defineComponent } from "vue";
+import TopPage from "./components/pages/TopPage.vue";
 
 export default defineComponent({
-  name: 'App',
-  components: {Footer,Header},
+    name: "App",
+    components: { TopPage }
 });
 </script>
 
 <style>
-
 * {
-	margin: 0px;
-	padding: 0px;
+    margin: 0px;
+    padding: 0px;
 }
 
-html,body {
-	height: 100%;
+html,
+body {
+    height: 100%;
 }
 
 body {
-	background-color: rgb(82, 82, 82);
-	font-family:"ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo, Osaka, 
-  "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
-	-webkit-text-size-adjust: none;
-	width: 100%;
+    background-color: rgb(82, 82, 82);
+    font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ",
+        Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+    -webkit-text-size-adjust: none;
+    width: 100%;
 }
-
 </style>
