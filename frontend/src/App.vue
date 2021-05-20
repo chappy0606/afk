@@ -1,16 +1,20 @@
 <template>
     <div id="app">
-        <TopPage />
+        <div class="footer-fixed">
+            <Header />
+            <router-view />
+            <Footer />
+        </div>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import TopPage from "./components/pages/TopPage.vue";
+import Header from "./components/modules/Header.vue";
+import Footer from "./components/modules/Footer.vue";
 
 export default defineComponent({
-    name: "App",
-    components: { TopPage }
+    components: { Header, Footer }
 });
 </script>
 
@@ -32,4 +36,12 @@ body {
     -webkit-text-size-adjust: none;
     width: 100%;
 }
+
+.footer-fixed {
+    min-height: 100vh;
+    position: relative;
+    padding-bottom: 30%;
+    box-sizing: border-box;
+}
+
 </style>

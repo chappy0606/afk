@@ -12,8 +12,6 @@
     </header>
 </template>
 
-<script lang="ts"></script>
-
 <style>
 header {
     font-size: 20px;

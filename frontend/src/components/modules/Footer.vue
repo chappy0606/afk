@@ -33,24 +33,10 @@
     </footer>
 </template>
 
-<script lang="ts">
-export default {
-    name: "site-footer"
-};
-</script>
-
 <style>
-.footer-fixed {
-    position: relative;
-    width: 100%;
-    height: auto !important;
-    height: 100%;
-    min-height: 100%;
-    padding-bottom: 30%;
-}
 
 footer {
-    position: relative;
+    position: absolute;
     bottom: 0;
     width: 100%;
     padding-bottom: 15%;
@@ -140,4 +126,5 @@ footer {
 .youtube:hover {
     background: linear-gradient(135deg, #f5515f 0%, #c9293c 100%);
 }
+
 </style>

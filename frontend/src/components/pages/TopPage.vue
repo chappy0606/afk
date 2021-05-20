@@ -1,13 +1,14 @@
 <template>
+
 <div class="top-page">
-	<Header/>
+
     <h1 class="logo">
 		<a href="#"><img src="@/assets/logo.png" alt="AFK"/></a>
     </h1>
 
     <nav class="menubar">
 		<ul>
-			<li><a href="#">pve comp</a></li>
+			<li><router-link to="/pve_comp">pve_comp</router-link></li>
 			<li><a href="#">transelate</a></li>
 			<li><a href="#">mythic manage</a></li>
 		</ul>
@@ -24,21 +25,10 @@
         allowfullscreen>
 		</iframe>
     </div>
-	<Footer/>
+
 </div>
 
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue';
-import Header from '../modules/Header.vue';
-import Footer from '../modules/Footer.vue';
-
-export default defineComponent({
-	name: 'TopPage',
-	components: {Header,Footer},
-});
-</script>
 
 <style>
 @keyframes opa1 {
