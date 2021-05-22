@@ -28,6 +28,9 @@ Dockerで環境構築（dockerはどこっかーらやるか...)
 
 forms.pyのAPI版がserializers.py
 
+django-rest-auth : API ENDPOINT
+django-rest-framework-jwt : JWT
+django-allauth : user登録
 
 ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
 
