@@ -9,16 +9,20 @@
 </template>
 
 <script lang="ts">
+
 import { defineComponent } from "vue";
 import Header from "./components/modules/Header.vue";
 import Footer from "./components/modules/Footer.vue";
 
 export default defineComponent({
-    components: { Header, Footer }
-});
+    components: { Header, Footer },
+    
+})
+
 </script>
 
 <style>
+
 * {
     margin: 0px;
     padding: 0px;
