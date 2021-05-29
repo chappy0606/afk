@@ -1,33 +1,38 @@
 <template>
+
     <div>
-        {{ getChapter() }}
-        <p>{{ state }}}</p>
+        <select v-model="selectedChapter">
+            <option disabled value="">chapter</option>
+            <option v-for="chapter in state.chpaterList" :key="chapter.id">
+                {{ chapter.id }}
+            </option>
+        </select>
     </div>
+
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive} from "vue";
-import axios from "axios";
+import { defineComponent, reactive, } from 'vue'
+import axios from 'axios'
 
 interface Chapter {
-    chpaterList: number;
+    chpaterList: number
 }
 
 export default defineComponent({
     setup() {
+
         const state = reactive<Chapter>({
             chpaterList: 0
-        });
-        const getChapter = () => {
-            axios
-                .get("http://127.0.0.1:8000/api/v1/chapter/")
-                .then(response => (state.chpaterList = response.data))
-                .catch(error => console.log(error));
-        };
+        })
+
+        axios
+            .get('http://127.0.0.1:8000/api/v1/chapter/')
+            .then(response => (state.chpaterList = response.data))
+
         return {
-            getChapter,
             state
-        };
+        }
     }
-});
+})
 </script>
