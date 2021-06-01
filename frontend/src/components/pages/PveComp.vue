@@ -44,8 +44,6 @@ export default defineComponent({
 
         getChapterStage()
 
-        console.log(state.chpaterList)
-
         return {
             state,
             selectChapterStage
