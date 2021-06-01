@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ChapterStage
+from .models import Post
 from .models import Chapter
 from .models import Stage
 
@@ -12,6 +12,6 @@ class ChapterAdmin(admin.ModelAdmin):
 class StageAdmin(admin.ModelAdmin):
     list_display = ('id',)
 
-admin.site.register(ChapterStage, ChapterStageAdmin)
+admin.site.register(Post, ChapterStageAdmin)
 admin.site.register(Chapter, ChapterAdmin)
 admin.site.register(Stage, StageAdmin)

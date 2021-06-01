@@ -1,9 +1,8 @@
-from pve_comp.serializers import ChapterSerializer, ChapterStageSerializer, StageSerializer
+from pve_comp.serializers import ChapterSerializer, PostSerializer, StageSerializer
 from django.views.generic import TemplateView, CreateView, ListView
 from django.contrib import messages
-from .models import ChapterStage, Chapter, Stage
+from .models import Post, Chapter, Stage
 from django.urls import reverse_lazy
-from .forms import UploadForm, SelectForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from rest_framework import viewsets
 
@@ -54,7 +53,6 @@ class StageViewSet(viewsets.ModelViewSet):
     serializer_class = StageSerializer
 
 
-class ChapterStageViewSet(viewsets.ModelViewSet):
-    queryset = ChapterStage.objects.all()
-    serializer_class = ChapterStageSerializer
-    
+class PostViewSet(viewsets.ModelViewSet):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer

@@ -1,4 +1,3 @@
-from googleapiclient import model
 from accounts.models import User
 from django.db import models
 import uuid
@@ -22,7 +21,7 @@ def rename_to_uuid(self, filename):
     prefix = 'comp/'
     return prefix + str(uuid.uuid4()).replace('-', '') + ".png"
 
-class ChapterStage(models.Model):
+class Post(models.Model):
     chapter_id = models.ForeignKey(Chapter, on_delete=models.CASCADE)
     stage_id = models.ForeignKey(Stage, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)

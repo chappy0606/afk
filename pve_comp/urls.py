@@ -8,4 +8,4 @@ app_name = 'pve_comp'
 router = routers.DefaultRouter()
 router.register('chapter', views.ChapterViewSet)
 router.register('stage', views.StageViewSet)
-router.register('chapter_stage', views.ChapterStageViewSet)
+router.register('chapter_stage', views.PostViewSet)

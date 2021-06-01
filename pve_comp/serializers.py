@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Chapter, Stage, ChapterStage
+from .models import Chapter, Stage, Post
 
 
 class ChapterSerializer(serializers.ModelSerializer):
@@ -14,9 +14,9 @@ class StageSerializer(serializers.ModelSerializer):
         fields = ('id',)
 
 
-class ChapterStageSerializer(serializers.ModelSerializer):
+class PostSerializer(serializers.ModelSerializer):
     user = serializers.StringRelatedField()
     class Meta:
-        model = ChapterStage
+        model = Post
         fields = ('id', 'chapter_id', 'stage_id', 'user',
                 'uploaded_image', 'uploaded_at',)
