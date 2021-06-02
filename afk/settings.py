@@ -37,6 +37,11 @@ SITE_ID = 1
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'index'
 
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
+}
+
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -56,6 +61,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'pve_comp.apps.PveCompConfig',
     'django_cleanup.apps.CleanupConfig',
+    'django_filters',
 ]
 
 MIDDLEWARE = [

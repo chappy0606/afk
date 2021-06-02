@@ -35,10 +35,10 @@ export default defineComponent({
 
         const getChapterStage = (): void => {
             axios
-                .get('http://127.0.0.1:8000/api/v1/chapter/')
+                .get('http://127.0.0.1:8000/api/v1/campaign/chapter/')
                 .then(response => (state.chpaterList = response.data)),
             axios
-                .get('http://127.0.0.1:8000/api/v1/stage/')
+                .get('http://127.0.0.1:8000/api/v1/campaign/stage/')
                 .then(response => (state.stageList = response.data))
         }
 
