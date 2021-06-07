@@ -49,13 +49,22 @@ export default defineComponent({
             .get('http://127.0.0.1:8000/api/v1/campaign/stage/')
             .then(response => (state.stageList = response.data))
 
+        let chapter_id: string = ''
+        let stage_id: string = ''
+
         const getChapterStage = (event: { target: HTMLButtonElement }) => {
             if (event.target.value.includes('chapter')) {
-                const chapter: string = event.target.value.replace(/[^0-9]/g,'')
-                console.log(chapter)
+                chapter_id = event.target.value.replace(/[^0-9]/g, '')
             } else if (event.target.value.includes('stage')) {
-                const stage: string = event.target.value.replace(/[^0-9]/g, '')
-                console.log(stage)
+                stage_id = event.target.value.replace(/[^0-9]/g, '')
+            }
+
+            if (chapter_id && stage_id) {
+                console.log(chapter_id)
+                console.log(stage_id)
+                axios
+                    .get('http://127.0.0.1:8000/api/v1/campaign/posts/?chapter_id=' + chapter_id + '&stage_id=' + stage_id)
+                    .then(response => console.log(response))
             }
         }
 
