@@ -24,8 +24,7 @@
             </option>
         </datalist>
         <li v-for=" path in state.items" :key=path.id>
-        {{path.uploaded_image}}
-        <img src="'127.0.0.1:8000/static/'+'{{path.uploaded_image}}'">
+        <img :src="path.uploaded_image">
         </li>
     </div>
 </template>
