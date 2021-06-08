@@ -23,6 +23,10 @@
                 stage{{ stage.id }}
             </option>
         </datalist>
+        <li v-for=" path in state.items" :key=path.id>
+        {{path.uploaded_image}}
+        <img src="'127.0.0.1:8000/static/'+'{{path.uploaded_image}}'">
+        </li>
     </div>
 </template>
 
@@ -33,13 +37,15 @@ import axios from 'axios'
 interface State {
     chpaterList: string
     stageList: string
+    items: string
 }
 
 export default defineComponent({
     setup() {
         const state: State = reactive({
             chpaterList: '',
-            stageList: ''
+            stageList: '',
+            items: ''
         })
 
         axios
@@ -49,8 +55,8 @@ export default defineComponent({
             .get('http://127.0.0.1:8000/api/v1/campaign/stage/')
             .then(response => (state.stageList = response.data))
 
-        let chapter_id: string = ''
-        let stage_id: string = ''
+        let chapter_id = ''
+        let stage_id  = ''
 
         const getChapterStage = (event: { target: HTMLButtonElement }) => {
             if (event.target.value.includes('chapter')) {
@@ -60,11 +66,9 @@ export default defineComponent({
             }
 
             if (chapter_id && stage_id) {
-                console.log(chapter_id)
-                console.log(stage_id)
                 axios
                     .get('http://127.0.0.1:8000/api/v1/campaign/posts/?chapter_id=' + chapter_id + '&stage_id=' + stage_id)
-                    .then(response => console.log(response))
+                    .then(response => state.items = response.data)
             }
         }
 
