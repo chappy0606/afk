@@ -23,8 +23,10 @@
                 stage{{ stage.id }}
             </option>
         </datalist>
-        <li v-for=" path in state.items" :key=path.id>
-        <img :src="path.uploaded_image">
+        <li v-for="path in state.items" :key="path.id">
+            <div id="postedImage">
+            <img :src="path.uploaded_image" />
+            </div>
         </li>
     </div>
 </template>
@@ -55,7 +57,7 @@ export default defineComponent({
             .then(response => (state.stageList = response.data))
 
         let chapter_id = ''
-        let stage_id  = ''
+        let stage_id = ''
 
         const getChapterStage = (event: { target: HTMLButtonElement }) => {
             if (event.target.value.includes('chapter')) {
@@ -66,8 +68,10 @@ export default defineComponent({
 
             if (chapter_id && stage_id) {
                 axios
-                    .get('http://127.0.0.1:8000/api/v1/campaign/posts/?chapter_id=' + chapter_id + '&stage_id=' + stage_id)
-                    .then(response => state.items = response.data)
+                    .get(
+                        'http://127.0.0.1:8000/api/v1/campaign/posts/?chapter_id=' +
+                            chapter_id + '&stage_id=' + stage_id)
+                    .then(response => (state.items = response.data))
             }
         }
 
