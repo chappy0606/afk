@@ -1,5 +1,6 @@
 <template>
     <div>
+        <vue-select>
         <input
             type="text"
             placeholder="chapter..."
@@ -32,7 +33,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive} from 'vue'
+import vSelect from 'vue-select'
+
 import axios from 'axios'
 
 interface State {

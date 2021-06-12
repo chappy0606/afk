@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
-    "prettier": {
+  "prettier": {
     "singleQuote": true,
     "semi": false,
     "tabWidth": 4
@@ -21,6 +21,7 @@
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
+    "@types/vue-select": "^3.11.1",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.18.0",
     "@vue/cli-plugin-babel": "~4.5.0",
