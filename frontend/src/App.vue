@@ -14,6 +14,7 @@ import { defineComponent } from "vue";
 import Header from "./components/modules/Header.vue";
 import Footer from "./components/modules/Footer.vue";
 
+
 export default defineComponent({
     components: { Header, Footer },
     

@@ -1,6 +1,5 @@
 <template>
     <div>
-        <vue-select>
         <input
             type="text"
             placeholder="chapter..."
@@ -26,16 +25,14 @@
         </datalist>
         <li v-for="path in state.items" :key="path.id">
             <div id="postedImage">
-            <img :src="path.uploaded_image" />
+                <img :src="path.uploaded_image" />
             </div>
         </li>
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive} from 'vue'
-import vSelect from 'vue-select'
-
+<script lang='ts'>
+import { defineComponent, reactive } from 'vue'
 import axios from 'axios'
 
 interface State {
@@ -45,6 +42,7 @@ interface State {
 }
 
 export default defineComponent({
+    
     setup() {
         const state: State = reactive({
             chpaterList: '',
@@ -73,14 +71,17 @@ export default defineComponent({
                 axios
                     .get(
                         'http://127.0.0.1:8000/api/v1/campaign/posts/?chapter_id=' +
-                            chapter_id + '&stage_id=' + stage_id)
+                            chapter_id +
+                            '&stage_id=' +
+                            stage_id
+                    )
                     .then(response => (state.items = response.data))
             }
         }
 
         return {
             state,
-            getChapterStage
+            getChapterStage,
         }
     }
 })
