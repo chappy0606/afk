@@ -48,5 +48,4 @@ body {
     padding-bottom: 30%;
     box-sizing: border-box;
 }
-
 </style>

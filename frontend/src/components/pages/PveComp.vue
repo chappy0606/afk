@@ -1,5 +1,6 @@
 <template>
     <div>
+        <VueSelect v-model="selectedOptions" :options="options" close-on-select></VueSelect>
         <input
             type="text"
             placeholder="chapter..."
@@ -31,9 +32,11 @@
     </div>
 </template>
 
-<script lang='ts'>
+<script lang="ts">
 import { defineComponent, reactive } from 'vue'
 import axios from 'axios'
+import VueSelect from 'vue-next-select'
+import 'vue-next-select/dist/index.min.css'
 
 interface State {
     chpaterList: string
@@ -42,8 +45,12 @@ interface State {
 }
 
 export default defineComponent({
-    
+    components: {
+        VueSelect
+    },
     setup() {
+        const selectedOptions = ('I')
+        const options = ['I', 'Love', 'Vue']
         const state: State = reactive({
             chpaterList: '',
             stageList: '',
@@ -82,7 +89,11 @@ export default defineComponent({
         return {
             state,
             getChapterStage,
+            selectedOptions,
+            options,
         }
     }
 })
 </script>
+<style>
+</style>
