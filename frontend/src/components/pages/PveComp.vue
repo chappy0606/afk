@@ -1,7 +1,16 @@
 <template>
     <div>
-        <VueSelect v-model="selectedOptions" :options="options" close-on-select></VueSelect>
-        <input
+        <select v-model="state.selectedChapter" @change="getChapterStage">
+            <option v-for="chapter in state.chpaterList" :key="chapter.id">
+                chapter{{ chapter.id }}
+            </option>
+        </select>
+        <select v-model="state.selectedStage" @change="getChapterStage">
+            <option v-for="stage in state.stageList" :key="stage.id">
+                stage{{ stage.id }}
+            </option>
+        </select>
+        <!-- <input
             type="text"
             placeholder="chapter..."
             list="chapter"
@@ -23,8 +32,8 @@
             <option v-for="stage in state.stageList" :key="stage.id">
                 stage{{ stage.id }}
             </option>
-        </datalist>
-        <li v-for="path in state.items" :key="path.id">
+        </datalist> -->
+        <li v-for="path in state.items" :key="path">
             <div id="postedImage">
                 <img :src="path.uploaded_image" />
             </div>
@@ -35,25 +44,22 @@
 <script lang="ts">
 import { defineComponent, reactive } from 'vue'
 import axios from 'axios'
-import VueSelect from 'vue-next-select'
-import 'vue-next-select/dist/index.min.css'
 
 interface State {
     chpaterList: string
     stageList: string
+    selectedChapter: string
+    selectedStage: string
     items: string
 }
 
 export default defineComponent({
-    components: {
-        VueSelect
-    },
     setup() {
-        const selectedOptions = ('I')
-        const options = ['I', 'Love', 'Vue']
         const state: State = reactive({
             chpaterList: '',
             stageList: '',
+            selectedChapter: '',
+            selectedStage: '',
             items: ''
         })
 
@@ -82,18 +88,21 @@ export default defineComponent({
                             '&stage_id=' +
                             stage_id
                     )
-                    .then(response => (state.items = response.data))
+                    .then(response => {
+                        // 1件もレコードがない時空を渡す
+                        if (response.data.length == 0){
+                        console.log(state.items = '')
+                        }
+                        else{
+                            console.log(state.items = response.data)
+                        }
+                    })
             }
         }
-
         return {
             state,
-            getChapterStage,
-            selectedOptions,
-            options,
+            getChapterStage
         }
     }
 })
 </script>
-<style>
-</style>
