@@ -13,6 +13,7 @@
     "tabWidth": 4
   },
   "dependencies": {
+    "@types/vue-router": "^2.0.0",
     "axios": "^0.21.1",
     "core-js": "^3.14.0",
     "vue": "^3.0.0",

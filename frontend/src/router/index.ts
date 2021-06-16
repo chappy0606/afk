@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
 import TopPage from '@/components/pages/TopPage.vue'
 import PveComp from '@/components/pages/PveComp.vue'
 

@@ -1,11 +1,11 @@
 <template>
     <div>
-        <select v-model="state.selectedChapter" @change="getChapterStage">
+        <select v-model="state.selectedChapter" @change="selectChapterStage">
             <option v-for="chapter in state.chpaterList" :key="chapter.id">
                 chapter{{ chapter.id }}
             </option>
         </select>
-        <select v-model="state.selectedStage" @change="getChapterStage">
+        <select v-model="state.selectedStage" @change="selectChapterStage">
             <option v-for="stage in state.stageList" :key="stage.id">
                 stage{{ stage.id }}
             </option>
@@ -23,7 +23,7 @@
 import { defineComponent, reactive } from 'vue'
 import axios from 'axios'
 import router from '@/router'
-import store from '@/store'
+import { useRoute } from 'vue-router'
 
 interface State {
     chpaterList: string
@@ -43,6 +43,12 @@ export default defineComponent({
             items: ''
         })
 
+        let chapterId: string
+        let stageId: string
+
+        const route = useRoute()
+
+        // get時chapterとstage取得
         axios
             .get('http://127.0.0.1:8000/api/v1/campaign/chapter/')
             .then(response => (state.chpaterList = response.data))
@@ -50,42 +56,59 @@ export default defineComponent({
             .get('http://127.0.0.1:8000/api/v1/campaign/stage/')
             .then(response => (state.stageList = response.data))
 
-        let chapter_id = ''
-        let stage_id = ''
-        let aaa = ''
-        let bbb = ''
+        //  onChange
+        const selectChapterStage = (event: {target: HTMLButtonElement}): void => {
 
-        const getChapterStage = (event: { target: HTMLButtonElement }) => {
             if (event.target.value.includes('chapter')) {
-                chapter_id = event.target.value.replace(/[^0-9]/g, '')
-                aaa = event.target.value
-            } else if (event.target.value.includes('stage')) {
-                stage_id = event.target.value.replace(/[^0-9]/g, '')
-                bbb = event.target.value
+                chapterId = event.target.value.replace(/[^0-9]/g, '')
+            } 
+            else if (event.target.value.includes('stage')) {
+                stageId = event.target.value.replace(/[^0-9]/g, '')
             }
-            store.state
-            if (chapter_id && stage_id) {
-                axios
-                    .get(
-                        'http://127.0.0.1:8000/api/v1/campaign/posts/?chapter_id=' +
-                            chapter_id +
-                            '&stage_id=' +
-                            stage_id
-                    )
-                    .then(response => {
-                        router.push({path:'/pve_comp/', query: {chapter:aaa,stage:bbb}})
-                        // 1件もレコードがない時、空を渡す
-                        if (response.data.length == 0) {
-                            state.items = ''
-                        } else {
-                            state.items = response.data
-                        }
-                    })
+
+            if (chapterId && stageId) {
+                getPosts(chapterId, stageId)
             }
         }
+
+        const getPosts = (chapterId :string, stageId :string): void => {
+            axios
+                .get(
+                    'http://127.0.0.1:8000/api/v1/campaign/posts/?chapter_id=' +
+                        chapterId +
+                        '&stage_id=' +
+                        stageId
+                )
+                .then(response => {
+                    router.push({
+                        path: '/pve_comp/',
+                        query: {
+                            chapter_id: chapterId,
+                            stage_id: stageId
+                        }
+                    })
+                    // 1件もレコードがない時、空を渡す
+                    if (response.data.length == 0) {
+                        state.items = ''
+                    } else {
+                        state.items = response.data
+                    }
+                })
+        }
+
+        // 直接URLにクエリsetされた時の処理
+        if (route.query.chapter_id && route.query.stage_id) {
+            chapterId = route.query.chapter_id.toString()
+            stageId = route.query.stage_id.toString()
+            // selectタグの表示する値の更新
+            state.selectedChapter = 'chapter' + chapterId
+            state.selectedStage = 'stage' + stageId
+            getPosts(chapterId, stageId)
+        }
+
         return {
             state,
-            getChapterStage
+            selectChapterStage
         }
     }
 })
