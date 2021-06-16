@@ -16,6 +16,12 @@ const routes: Array<RouteRecordRaw> = [
     component: PveComp,
   },
 
+    {
+    path: '/pve_comp/:id',
+    name: 'ChapterStsage',
+    component: PveComp,
+  },
+
 ];
 
 const router = createRouter({

@@ -10,29 +10,7 @@
                 stage{{ stage.id }}
             </option>
         </select>
-        <!-- <input
-            type="text"
-            placeholder="chapter..."
-            list="chapter"
-            v-on:change="getChapterStage"
-        />
-        <datalist id="chapter">
-            <option v-for="chapter in state.chpaterList" :key="chapter.id">
-                chapter{{ chapter.id }}
-            </option>
-        </datalist>
 
-        <input
-            type="text"
-            placeholder="stage..."
-            list="stage"
-            v-on:change="getChapterStage"
-        />
-        <datalist id="stage">
-            <option v-for="stage in state.stageList" :key="stage.id">
-                stage{{ stage.id }}
-            </option>
-        </datalist> -->
         <li v-for="path in state.items" :key="path">
             <div id="postedImage">
                 <img :src="path.uploaded_image" />
@@ -44,6 +22,8 @@
 <script lang="ts">
 import { defineComponent, reactive } from 'vue'
 import axios from 'axios'
+import router from '@/router'
+import store from '@/store'
 
 interface State {
     chpaterList: string
@@ -72,14 +52,18 @@ export default defineComponent({
 
         let chapter_id = ''
         let stage_id = ''
+        let aaa = ''
+        let bbb = ''
 
         const getChapterStage = (event: { target: HTMLButtonElement }) => {
             if (event.target.value.includes('chapter')) {
                 chapter_id = event.target.value.replace(/[^0-9]/g, '')
+                aaa = event.target.value
             } else if (event.target.value.includes('stage')) {
                 stage_id = event.target.value.replace(/[^0-9]/g, '')
+                bbb = event.target.value
             }
-
+            store.state
             if (chapter_id && stage_id) {
                 axios
                     .get(
@@ -89,12 +73,12 @@ export default defineComponent({
                             stage_id
                     )
                     .then(response => {
-                        // 1件もレコードがない時空を渡す
-                        if (response.data.length == 0){
-                        console.log(state.items = '')
-                        }
-                        else{
-                            console.log(state.items = response.data)
+                        router.push({path:'/pve_comp/', query: {chapter:aaa,stage:bbb}})
+                        // 1件もレコードがない時、空を渡す
+                        if (response.data.length == 0) {
+                            state.items = ''
+                        } else {
+                            state.items = response.data
                         }
                     })
             }
