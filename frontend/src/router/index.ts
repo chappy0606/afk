@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
 import TopPage from '@/components/pages/TopPage.vue'
 import PveComp from '@/components/pages/PveComp.vue'
+import UploadPage from '@/components/pages/UploadPage.vue'
 
 const routes: Array<RouteRecordRaw> = [
   
@@ -16,10 +17,15 @@ const routes: Array<RouteRecordRaw> = [
     component: PveComp,
   },
 
-    {
+  {
     path: '/pve_comp/:id',
     name: 'ChapterStsage',
     component: PveComp,
+  },
+  {
+    path: '/pve_comp/upload',
+    name: 'Upload',
+    component: UploadPage,
   },
 
 ];

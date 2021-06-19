@@ -1,5 +1,6 @@
 <template>
     <div>
+        <router-link to="/pve_comp/upload">投稿ページ</router-link>
         <select v-model="state.selectedChapter" @change="selectChapterStage">
             <option v-for="chapter in state.chpaterList" :key="chapter.id">
                 chapter{{ chapter.id }}
@@ -46,6 +47,7 @@ export default defineComponent({
         let chapterId: string
         let stageId: string
 
+
         const route = useRoute()
 
         // get時chapterとstage取得
@@ -86,13 +88,26 @@ export default defineComponent({
                             chapter_id: chapterId,
                             stage_id: stageId
                         }
+                        
                     })
+
                     // 1件もレコードがない時、空を渡す
                     if (response.data.length == 0) {
                         state.items = ''
                     } else {
                         state.items = response.data
+                        // onChange以外の場合、sekectの更新
+                        state.selectedChapter = 'chapter' + chapterId
+                        state.selectedStage = 'stage' + stageId
                     }
+                })
+
+                .catch(error  => {
+                    const {status, statusText}:{
+                        status :string,
+                        statusText: string
+                        } = error.response
+                console.log('Error! HTTP Status:'+ status + statusText)
                 })
         }
 
@@ -100,9 +115,6 @@ export default defineComponent({
         if (route.query.chapter_id && route.query.stage_id) {
             chapterId = route.query.chapter_id.toString()
             stageId = route.query.stage_id.toString()
-            // selectタグの表示する値の更新
-            state.selectedChapter = 'chapter' + chapterId
-            state.selectedStage = 'stage' + stageId
             getPosts(chapterId, stageId)
         }
 
