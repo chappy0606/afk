@@ -23,7 +23,8 @@
 <script lang="ts">
 import { defineComponent, reactive } from 'vue'
 import axios from 'axios'
-import router from '@/router'
+import router from '../../router/index'
+// import router from '@/router afkからvscode開くとエラー(pathの問題)'
 import { useRoute } from 'vue-router'
 
 interface State {
