@@ -49,10 +49,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     username = models.CharField(
         _('username'),
-        max_length=150,
+        max_length=20,
         unique=True,
         help_text=_(
-            'Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'),
+            'この項目は必須です。全角文字、半角英数字、@/./+/-/_ で20文字以下にしてください。'),
         validators=[username_validator],
         error_messages={
             'unique': _("A user with that username already exists."),
