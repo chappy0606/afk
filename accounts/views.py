@@ -1,11 +1,8 @@
-from django.shortcuts import redirect
-from allauth.account.views import LogoutView as AllAuthLogoutView
-from django.views.generic import DetailView
 from . models import User
-from pve_comp.models import Post
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from rest_framework import viewsets
 from accounts.serializers import UserSerializer
+from rest_framework.permissions import IsAuthenticated
+
 
 # class UserDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
 #     model = User
@@ -31,3 +28,4 @@ from accounts.serializers import UserSerializer
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = (IsAuthenticated,)
