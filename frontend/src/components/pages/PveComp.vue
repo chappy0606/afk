@@ -48,7 +48,6 @@ export default defineComponent({
         let chapterId: string
         let stageId: string
 
-
         const route = useRoute()
 
         // get時chapterとstage取得
@@ -60,12 +59,12 @@ export default defineComponent({
             .then(response => (state.stageList = response.data))
 
         //  onChange
-        const selectChapterStage = (event: {target: HTMLButtonElement}): void => {
-
+        const selectChapterStage = (event: {
+            target: HTMLButtonElement
+        }): void => {
             if (event.target.value.includes('chapter')) {
                 chapterId = event.target.value.replace(/[^0-9]/g, '')
-            } 
-            else if (event.target.value.includes('stage')) {
+            } else if (event.target.value.includes('stage')) {
                 stageId = event.target.value.replace(/[^0-9]/g, '')
             }
 
@@ -74,7 +73,7 @@ export default defineComponent({
             }
         }
 
-        const getPosts = (chapterId :string, stageId :string): void => {
+        const getPosts = (chapterId: string, stageId: string): void => {
             axios
                 .get(
                     'http://127.0.0.1:8000/api/v1/campaign/posts/?chapter_id=' +
@@ -89,7 +88,6 @@ export default defineComponent({
                             chapter_id: chapterId,
                             stage_id: stageId
                         }
-                        
                     })
 
                     // 1件もレコードがない時、空を渡す
@@ -103,12 +101,15 @@ export default defineComponent({
                     }
                 })
 
-                .catch(error  => {
-                    const {status, statusText}:{
-                        status :string,
+                .catch(error => {
+                    const {
+                        status,
+                        statusText
+                    }: {
+                        status: string
                         statusText: string
-                        } = error.response
-                console.log('Error! HTTP Status:'+ status + statusText)
+                    } = error.response
+                    console.log('Error! HTTP Status:' + status + statusText)
                 })
         }
 

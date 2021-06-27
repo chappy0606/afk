@@ -1,5 +1,4 @@
 <template>
-
 <div class="top-page">
 
     <h1 class="logo">
@@ -27,7 +26,6 @@
     </div>
 
 </div>
-
 </template>
 
 <style>

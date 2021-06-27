@@ -23,25 +23,22 @@ export default defineComponent({
             let jwtToken: string
 
             axios
-                .post('http://127.0.0.1:8000/api/v1/token/', {
+                .post('http://127.0.0.1:8000/api/v1/auth/jwt/create', {
                     username: userName.value,
                     password: passWord.value
                 })
-                .then(response => {
-                    jwtToken = response.data.token
-                })
-            axios
-                .post('http://127.0.0.1:8000/api/v1/rest-auth/login/', {
-                    username: userName.value,
-                    password: passWord.value,
-                    headers: {
-                        Authorization: 'JWT ' + jwtToken
-                    }
-                })
-                .then(response => {
-                    console.log(response.data)
+                .then(r => {
+                    console.log((jwtToken = r.data.access))
+                    axios
+                        .get('http://127.0.0.1:8000/api/v1/account/user/', {
+                            headers: {
+                                Authorization: 'JWT ' + jwtToken
+                            }
+                        })
+                        .then(r => console.log(r.data))
                 })
         }
+
         return {
             login,
             userName,
@@ -50,3 +47,7 @@ export default defineComponent({
     }
 })
 </script>
+
+// curl \ // -X POST \ // -H "Content-Type: application/json" \ // -d
+'{"username": "master", "password": "chappy0606"}' \ //
+http://localhost:8000/api/v1/token/

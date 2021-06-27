@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
-import datetime
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +27,8 @@ SECRET_KEY = 'ttzu-^*^w*+p%*=!^jp3$szu_e)%pfh)y!k06+zccf1b(ou$bi'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+]
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
@@ -42,26 +43,40 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
     ),
 }
+AUTH_USER_MODEL = 'accounts.User'
+REST_USE_JWT = True
+REST_SESSION_LOGIN = False
+JWT_AUTH_COOKIE = 'jwt-access-token'
+JWT_AUTH_REFRESH_COOKIE = 'jwt-refresh-token'
+JWT_AUTH_SECURE = True
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = [
+    'http://127.0.0.1:8080',
+    'http://localhost:8080',
+]
 
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'accounts.serializers.UserSerializer',
 }
 
-JWT_AUTH = {
-    'JWT_SECRET_KEY': SECRET_KEY,
-    'JWT_ALGORITHM': 'HS256',
-    'JWT_ALLOW_REFRESH': True,
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
-    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=30),
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('JWT',),
+    'AUTH_COOKIE_HTTP_ONLY': True,
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60)
 }
 
-AUTH_USER_MODEL = 'accounts.User'
-REST_USE_JWT = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = False
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 
 INSTALLED_APPS = [
@@ -72,18 +87,25 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django_cleanup.apps.CleanupConfig',
+
+    'django_filters',
+    'corsheaders',
+    'sslserver',
+
     'rest_framework',
+    'rest_framework.authtoken',
+    'rest_framework_simplejwt',
+    'djoser',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'rest_auth',
-    'rest_framework.authtoken',
-    'rest_auth.registration',
-    'corsheaders',
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
+    # 'sslserver',
+    
     'accounts.apps.AccountsConfig',
     'pve_comp.apps.PveCompConfig',
-    'django_cleanup.apps.CleanupConfig',
-    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -95,11 +117,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-]
-
-CORS_ORIGIN_WHITELIST = [
-    'http://127.0.0.1:8080',
-    'http://localhost:8080',
 ]
 
 ROOT_URLCONF = 'afk.urls'

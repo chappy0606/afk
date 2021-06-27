@@ -1,7 +1,6 @@
 from django_filters import rest_framework as filters
 from pve_comp.serializers import ChapterSerializer, PostSerializer, StageSerializer
 from .models import Post, Chapter, Stage
-from accounts.models import User
 from rest_framework import viewsets
 
 
