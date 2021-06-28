@@ -52,10 +52,10 @@ export default defineComponent({
 
         // get時chapterとstage取得
         axios
-            .get('http://127.0.0.1:8000/api/v1/campaign/chapter/')
+            .get('https://localhost:8000/api/v1/campaign/chapter/')
             .then(response => (state.chpaterList = response.data))
         axios
-            .get('http://127.0.0.1:8000/api/v1/campaign/stage/')
+            .get('https://localhost:8000/api/v1/campaign/stage/')
             .then(response => (state.stageList = response.data))
 
         //  onChange

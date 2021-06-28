@@ -23,14 +23,14 @@ export default defineComponent({
             let jwtToken: string
 
             axios
-                .post('http://127.0.0.1:8000/api/v1/auth/jwt/create', {
+                .post('https://localhost:8000/api/v1/auth/jwt/create', {
                     username: userName.value,
                     password: passWord.value
                 })
                 .then(r => {
                     console.log((jwtToken = r.data.access))
                     axios
-                        .get('http://127.0.0.1:8000/api/v1/account/user/', {
+                        .get('https://localhost:8000/api/v1/account/user/', {
                             headers: {
                                 Authorization: 'JWT ' + jwtToken
                             }

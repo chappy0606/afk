@@ -148,3 +148,8 @@ poetry.toml
 pyproject.toml
 
 thinking_memo.txt
+
+san.txt
+server.crt
+server.csr
+server.key

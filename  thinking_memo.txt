@@ -37,11 +37,8 @@ django-allauth : user登録
 memo
 ?next=URL(/pve_comp/upload/)でURLにリダイレクトされるらしい
 
+秘密鍵の生成
+openssl genrsa
 
-relic_calculator
-relic
------------------
-id
-name
-total_cost
-required_cost
+証明書発行要求
+openssl req

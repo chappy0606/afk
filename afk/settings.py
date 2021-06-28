@@ -28,6 +28,8 @@ SECRET_KEY = 'ttzu-^*^w*+p%*=!^jp3$szu_e)%pfh)y!k06+zccf1b(ou$bi'
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost'
 ]
 
 AUTHENTICATION_BACKENDS = [
