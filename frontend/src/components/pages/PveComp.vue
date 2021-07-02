@@ -76,7 +76,7 @@ export default defineComponent({
         const getPosts = (chapterId: string, stageId: string): void => {
             axios
                 .get(
-                    'http://127.0.0.1:8000/api/v1/campaign/posts/?chapter_id=' +
+                    'https://127.0.0.1:8000/api/v1/campaign/posts/?chapter_id=' +
                         chapterId +
                         '&stage_id=' +
                         stageId
@@ -95,7 +95,7 @@ export default defineComponent({
                         state.items = ''
                     } else {
                         state.items = response.data
-                        // onChange以外の場合、sekectの更新
+                        // onChange以外の場合、selectの更新
                         state.selectedChapter = 'chapter' + chapterId
                         state.selectedStage = 'stage' + stageId
                     }

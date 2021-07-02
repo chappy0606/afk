@@ -1,5 +1,5 @@
 from . models import User
-from rest_framework import viewsets
+from rest_framework import serializers, viewsets
 from django_filters import rest_framework as filters
 from accounts.serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated
@@ -36,5 +36,8 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     filter_class = UserFilter
-    # permission_classes = [IsAuthenticated]
-    
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = User.objects.filter(username = self.request.user)
+        return queryset

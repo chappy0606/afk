@@ -12,7 +12,6 @@
     </header>
 </template>
 <script lang="ts">
-import router from '../../router/index'
 import {defineComponent} from 'vue'
 export default defineComponent({
     
