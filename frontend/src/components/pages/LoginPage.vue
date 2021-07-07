@@ -1,5 +1,6 @@
 <template>
     <div>
+        {{user}}
         <input v-model="userName" type="text" placeholder="ユーザー名" />
         <input
             v-model="passWord"

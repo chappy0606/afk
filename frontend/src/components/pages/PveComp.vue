@@ -50,7 +50,6 @@ export default defineComponent({
 
         const route = useRoute()
 
-        // get時chapterとstage取得
         axios
             .get('https://localhost:8000/api/v1/campaign/chapter/')
             .then(response => (state.chpaterList = response.data))
@@ -58,7 +57,6 @@ export default defineComponent({
             .get('https://localhost:8000/api/v1/campaign/stage/')
             .then(response => (state.stageList = response.data))
 
-        //  onChange
         const selectChapterStage = (event: {
             target: HTMLButtonElement
         }): void => {
@@ -113,7 +111,6 @@ export default defineComponent({
                 })
         }
 
-        // 直接URLにクエリsetされた時の処理
         if (route.query.chapter_id && route.query.stage_id) {
             chapterId = route.query.chapter_id.toString()
             stageId = route.query.stage_id.toString()
