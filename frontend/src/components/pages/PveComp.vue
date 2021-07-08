@@ -2,12 +2,12 @@
     <div>
         <router-link to="/pve_comp/upload">投稿ページ</router-link>
         <select v-model="state.selectedChapter" @change="selectChapterStage">
-            <option v-for="chapter in state.chpaterList" :key="chapter.id">
+            <option v-for="chapter in state.chpaters" :key="chapter.id">
                 chapter{{ chapter.id }}
             </option>
         </select>
         <select v-model="state.selectedStage" @change="selectChapterStage">
-            <option v-for="stage in state.stageList" :key="stage.id">
+            <option v-for="stage in state.stages" :key="stage.id">
                 stage{{ stage.id }}
             </option>
         </select>
@@ -28,8 +28,8 @@ import router from '../../router/index'
 import { useRoute } from 'vue-router'
 
 interface State {
-    chpaterList: string
-    stageList: string
+    chpaters: string
+    stages: string
     selectedChapter: string
     selectedStage: string
     items: string
@@ -37,25 +37,25 @@ interface State {
 
 export default defineComponent({
     setup() {
-        const state: State = reactive({
-            chpaterList: '',
-            stageList: '',
-            selectedChapter: '',
-            selectedStage: '',
-            items: ''
-        })
-
         let chapterId: string
         let stageId: string
 
         const route = useRoute()
 
+        const state: State = reactive({
+            chpaters: '',
+            stages: '',
+            selectedChapter: '',
+            selectedStage: '',
+            items: ''
+        })
+
         axios
             .get('https://localhost:8000/api/v1/campaign/chapter/')
-            .then(response => (state.chpaterList = response.data))
+            .then(response => (state.chpaters = response.data))
         axios
             .get('https://localhost:8000/api/v1/campaign/stage/')
-            .then(response => (state.stageList = response.data))
+            .then(response => (state.stages = response.data))
 
         const selectChapterStage = (event: {
             target: HTMLButtonElement
@@ -88,14 +88,10 @@ export default defineComponent({
                         }
                     })
 
-                    // 1件もレコードがない時、空を渡す
                     if (response.data.length == 0) {
                         state.items = ''
                     } else {
                         state.items = response.data
-                        // onChange以外の場合、selectの更新
-                        state.selectedChapter = 'chapter' + chapterId
-                        state.selectedStage = 'stage' + stageId
                     }
                 })
 
@@ -111,9 +107,14 @@ export default defineComponent({
                 })
         }
 
+        // URL直叩きの場合の処理
         if (route.query.chapter_id && route.query.stage_id) {
             chapterId = route.query.chapter_id.toString()
             stageId = route.query.stage_id.toString()
+
+            state.selectedChapter = 'chapter' + chapterId
+            state.selectedStage = 'stage' + stageId
+
             getPosts(chapterId, stageId)
         }
 

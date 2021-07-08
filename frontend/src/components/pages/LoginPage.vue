@@ -1,6 +1,8 @@
 <template>
     <div>
-        {{user}}
+        <p v-for="name in user" :key="name">
+            {{name.username}}
+        </p>
         <input v-model="userName" type="text" placeholder="ユーザー名" />
         <input
             v-model="passWord"
@@ -13,6 +15,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
+import{useStore} from 'vuex'
 import axios from 'axios'
 
 export default defineComponent({
@@ -31,7 +34,8 @@ export default defineComponent({
                     password: passWord.value
                 })
                 .then(response => {
-                    console.log((jwtToken = response.data.access))
+                    console.log(response.data)
+                    jwtToken = response.data.access
                     axios
                         .get('https://localhost:8000/api/v1/account/user/', {
                             headers: {

@@ -69,7 +69,7 @@ REST_AUTH_SERIALIZERS = {
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('JWT',),
     'AUTH_COOKIE_HTTP_ONLY': True,
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60)
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5)
 }
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -101,7 +101,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'dj_rest_auth',
     'dj_rest_auth.registration',
-    # 'sslserver',
     
     'accounts.apps.AccountsConfig',
     'pve_comp.apps.PveCompConfig',
