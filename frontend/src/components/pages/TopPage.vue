@@ -13,7 +13,7 @@
 		</ul>
     </nav>
 
-    <div class="iframe-wrraper">
+    <!-- <div class="iframe-wrraper">
 		<iframe
         width="800"
         height="450"
@@ -23,7 +23,7 @@
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen>
 		</iframe>
-    </div>
+    </div> -->
 
 </div>
 </template>
@@ -82,7 +82,7 @@ header {
 	letter-spacing: 0.1em;
 }
 
-.iframe-wrraper {
+/* .iframe-wrraper {
 	position: relative;
 	width: 100%;
 	padding-bottom: 56.25%;
@@ -99,5 +99,5 @@ header {
 	transform: translate(-50%, -50%);
 	max-width: 800px;
 	max-height: 450px;
-}
+} */
 </style>

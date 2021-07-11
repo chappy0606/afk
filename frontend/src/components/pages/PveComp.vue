@@ -37,6 +37,7 @@ interface State {
 
 export default defineComponent({
     setup() {
+
         let chapterId: string
         let stageId: string
 
@@ -120,7 +121,7 @@ export default defineComponent({
 
         return {
             state,
-            selectChapterStage
+            selectChapterStage,
         }
     }
 })

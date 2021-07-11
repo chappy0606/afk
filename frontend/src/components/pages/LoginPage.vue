@@ -15,11 +15,15 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import{useStore} from 'vuex'
+import{ useStore } from '../../store'
 import axios from 'axios'
 
 export default defineComponent({
     setup() {
+
+        const store = useStore()
+        console.log(store.state)
+        
 
         const userName = ref<string>('master')
         const passWord = ref<string>('chappy0606')
@@ -52,7 +56,8 @@ export default defineComponent({
             login,
             userName,
             passWord,
-            user
+            user,
+            store
         }
     }
 })
