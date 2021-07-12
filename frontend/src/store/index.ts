@@ -1,23 +1,26 @@
 import { createStore, Store, useStore as baseUseStore } from 'vuex'
 import { InjectionKey } from 'vue'
+import { Token } from './modules/Token'
 
-
-export interface token {
-    accsesToken: string
-    refreshToken: string
-    counter: number
+export interface ChapterStageList {
+    chapters: string
+    stages: string
+}
+export interface State {
+    token: Token
 }
 
-export const key: InjectionKey<Store<token>> = Symbol()
+export const key: InjectionKey<Store<State>> = Symbol()
 
-export const store = createStore<token>({
+export const store = createStore<State>({
     state: {
-        accsesToken: '',
-        refreshToken: '',
-        counter: 0
+        token: {
+            accsesToken: '',
+            refreshToken: ''
+        }
     }
 })
 
-export const useStore = (): Store<token> => {
+export const useStore = (): Store<State> => {
     return baseUseStore(key)
 }
