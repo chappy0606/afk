@@ -26,6 +26,7 @@ import axios from 'axios'
 import router from '../../router/index'
 // import router from '@/router afkからvscode開くとエラー(pathの問題)'
 import { useRoute } from 'vue-router'
+import{ useStore } from '../../store'
 
 interface State {
     chpaters: string
@@ -37,6 +38,10 @@ interface State {
 
 export default defineComponent({
     setup() {
+
+        const store = useStore()
+        console.log(store.state.counter)
+        store.commit('test', store.state.counter)
 
         let chapterId: string
         let stageId: string
