@@ -1,35 +1,32 @@
-import { createStore, Store, useStore as baseUseStore } from 'vuex'
+import { createStore, Payload, Store, useStore as baseUseStore } from 'vuex'
 import { InjectionKey } from 'vue'
-import { Token } from './modules/Token'
-import { ChapterStageList } from './modules/ChapterStage'
+import { User } from './modules/User'
 
 interface State {
-    token: Token
-    chpaterStage: ChapterStageList
-    counter: number
+    user: User
 }
 
 export const key: InjectionKey<Store<State>> = Symbol()
 
 export const store = createStore<State>({
     state: {
-        token: {
-            accessToken: '',
-            refreshToken: ''
-        },
-        chpaterStage: {
-            chapters: '',
-            stages: ''
-        },
-        counter: 0
+        user: {
+            id: null,
+            username: '',
+            password: '',
+            email: '',
+            is_staff: false,
+            is_active: true,
+            date_joined: '',
+            token: {
+                accessToken: '',
+                refreshToken: ''
+            }
+        }
     },
     mutations: {
-        setToken(state, token: Token) {
-            state.token.accessToken = token.accessToken
-            state.token.refreshToken = token.refreshToken
-        },
-        test(counter){
-            counter.counter = counter.counter + 1
+        setAuthUser(state: State, user: User) {
+            console.log(user)
         }
     }
 })

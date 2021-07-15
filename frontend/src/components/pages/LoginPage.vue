@@ -12,39 +12,49 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import{ useStore } from '../../store'
+import { useStore } from '../../store'
 import axios from 'axios'
 
+// interface IUser {
+//         id: number
+//         username: string
+//         password: string
+//         email: string
+//         is_staff: boolean
+//         is_active: boolean
+//         date_joined: string
+// }
 export default defineComponent({
     setup() {
-
         const store = useStore()
-        console.log(store.state.counter)
-        
+
         const userName = ref<string>('master')
         const passWord = ref<string>('chappy0606')
-        let user = ref<string>()
-        
+
         const login = (): void => {
-    
             axios
                 .post('https://localhost:8000/api/v1/auth/jwt/create', {
                     username: userName.value,
                     password: passWord.value
                 })
                 .then(response => {
-                    const accessToken: string = response.data.access
-                    const refreshToken: string = response.data.refresh
-                    store.commit('setToken', {accessToken, refreshToken})
-                    console.log(store.state.token)
+                    const accessToken = response.data.access
+                    const refreshToken = response.data.refresh
                     axios
-                        .get('https://localhost:8000/api/v1/account/user/', {
-                            headers: {
-                                Authorization: 'JWT ' + accessToken
+                        .get(
+                            'https://localhost:8000/api/v1/account/user/',
+                            {
+                                headers: {
+                                    Authorization: 'JWT ' + accessToken
+                                }
                             }
-                        })
+                        )
                         .then(response => {
-                            user.value = response.data
+                            const user = response.data[0]
+                            console.log(user)
+                            store.commit('setAuthUser', {
+                                token: {user, accessToken, refreshToken }
+                            })
                         })
                 })
         }
@@ -53,7 +63,6 @@ export default defineComponent({
             login,
             userName,
             passWord,
-            user,
             store
         }
     }
