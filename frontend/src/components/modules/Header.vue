@@ -1,5 +1,8 @@
 <template>
     <header>
+        <template v-for="user in store.state">
+            <span v-if="user.username" :key="user.id">{{user.username}}さん</span>
+        </template>
         <nav class="header-menu">
             <ul>
                 <form name="logout" method="POST" action="#">
@@ -13,8 +16,15 @@
 </template>
 <script lang="ts">
 import {defineComponent} from 'vue'
+import { useStore } from '../../store'
 export default defineComponent({
-    
+    setup(){
+        const store = useStore()
+
+        return {
+            store
+        }
+    }
 })
 </script>
 <style>

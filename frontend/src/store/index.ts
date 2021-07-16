@@ -1,4 +1,4 @@
-import { createStore, Payload, Store, useStore as baseUseStore } from 'vuex'
+import { createStore, Store, useStore as baseUseStore } from 'vuex'
 import { InjectionKey } from 'vue'
 import { User } from './modules/User'
 
@@ -25,8 +25,8 @@ export const store = createStore<State>({
         }
     },
     mutations: {
-        setAuthUser(state: State, user: User) {
-            console.log(user)
+        setAuthUser(state, user) {
+            state.user = user
         }
     }
 })

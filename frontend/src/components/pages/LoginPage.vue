@@ -15,15 +15,6 @@ import { defineComponent, ref } from 'vue'
 import { useStore } from '../../store'
 import axios from 'axios'
 
-// interface IUser {
-//         id: number
-//         username: string
-//         password: string
-//         email: string
-//         is_staff: boolean
-//         is_active: boolean
-//         date_joined: string
-// }
 export default defineComponent({
     setup() {
         const store = useStore()
@@ -51,10 +42,10 @@ export default defineComponent({
                         )
                         .then(response => {
                             const user = response.data[0]
-                            console.log(user)
-                            store.commit('setAuthUser', {
-                                token: {user, accessToken, refreshToken }
-                            })
+                            user.token = {accessToken, refreshToken}
+                            store.commit('setAuthUser',
+                                user
+                            )
                         })
                 })
         }
@@ -63,7 +54,6 @@ export default defineComponent({
             login,
             userName,
             passWord,
-            store
         }
     }
 })
