@@ -11,22 +11,23 @@ export const key: InjectionKey<Store<State>> = Symbol()
 export const store = createStore<State>({
     state: {
         user: {
-            id: null,
-            username: '',
-            password: '',
-            email: '',
-            is_staff: false,
-            is_active: true,
-            date_joined: '',
-            token: {
-                accessToken: '',
-                refreshToken: ''
-            }
+            userInfo: {
+                id: null,
+                username: '',
+                password: '',
+                email: '',
+                is_staff: false,
+                is_active: true,
+                date_joined: ''
+            },
+            accessToken: '',
+            refreshToken: ''
         }
     },
     mutations: {
         setAuthUser(state, user) {
             state.user = user
+            console.log(state.user)
         }
     }
 })

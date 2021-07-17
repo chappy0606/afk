@@ -1,7 +1,9 @@
 <template>
     <header>
-        <template v-for="user in store.state">
-            <span v-if="user.username" :key="user.id">{{user.username}}さん</span>
+        <template v-for="user in store.state.user">
+            <span v-if="user.username" :key="user">
+                {{ user.username }}さん
+            </span>
         </template>
         <nav class="header-menu">
             <ul>
@@ -15,10 +17,10 @@
     </header>
 </template>
 <script lang="ts">
-import {defineComponent} from 'vue'
+import { defineComponent } from 'vue'
 import { useStore } from '../../store'
 export default defineComponent({
-    setup(){
+    setup() {
         const store = useStore()
 
         return {

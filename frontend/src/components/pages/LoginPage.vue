@@ -24,29 +24,14 @@ export default defineComponent({
 
         const login = (): void => {
             axios
-                .post('https://localhost:8000/api/v1/auth/jwt/create', {
+                .post('https://127.0.0.1:8000/api/v1/auth/login/', {
                     username: userName.value,
                     password: passWord.value
                 })
                 .then(response => {
-                    const accessToken = response.data.access
-                    const refreshToken = response.data.refresh
-                    axios
-                        .get(
-                            'https://localhost:8000/api/v1/account/user/',
-                            {
-                                headers: {
-                                    Authorization: 'JWT ' + accessToken
-                                }
-                            }
-                        )
-                        .then(response => {
-                            const user = response.data[0]
-                            user.token = {accessToken, refreshToken}
-                            store.commit('setAuthUser',
-                                user
-                            )
-                        })
+                    const user = response.data
+                    console.log(response.data)
+                    store.commit('setAuthUser',user)
                 })
         }
 

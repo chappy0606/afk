@@ -54,10 +54,10 @@ export default defineComponent({
         })
 
         axios
-            .get('https://localhost:8000/api/v1/campaign/chapter/')
+            .get('https://localhost:8000/api/v1/campaign/chapters/')
             .then(response => (state.chpaters = response.data))
         axios
-            .get('https://localhost:8000/api/v1/campaign/stage/')
+            .get('https://localhost:8000/api/v1/campaign/stages/')
             .then(response => (state.stages = response.data))
 
         const selectChapterStage = (event: {
