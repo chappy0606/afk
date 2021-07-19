@@ -23,16 +23,16 @@ export default defineComponent({
         const passWord = ref<string>('chappy0606')
 
         const login = (): void => {
-            axios
-                .post('https://127.0.0.1:8000/api/v1/auth/login/', {
-                    username: userName.value,
-                    password: passWord.value
-                })
-                .then(response => {
-                    const user = response.data
-                    console.log(response.data)
-                    store.commit('setAuthUser',user)
-                })
+            store.dispatch('authLogin',{userName,passWord})
+            // axios
+            //     .post('https://127.0.0.1:8000/api/v1/auth/login/', {
+            //         username: userName.value,
+            //         password: passWord.value
+            //     })
+            //     .then(response => {
+            //         const user = response.data
+            //         store.commit('setAuthUser',user)
+            //     })
         }
 
         return {

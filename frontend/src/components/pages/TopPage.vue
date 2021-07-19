@@ -12,19 +12,6 @@
 			<li><a href="#">mythic manage</a></li>
 		</ul>
     </nav>
-
-    <!-- <div class="iframe-wrraper">
-		<iframe
-        width="800"
-        height="450"
-        src="https://www.youtube.com/embed/?list=UUih6MT0eHkyT23VZVcdgBxA"
-        title="YouTube video player"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-		</iframe>
-    </div> -->
-
 </div>
 </template>
 
@@ -81,23 +68,4 @@ header {
 	border-bottom: 2px solid #fff;
 	letter-spacing: 0.1em;
 }
-
-/* .iframe-wrraper {
-	position: relative;
-	width: 100%;
-	padding-bottom: 56.25%;
-}
-
-.iframe-wrraper iframe {
-	position: absolute;
-	display: block;
-	padding-bottom: 10%;
-	width: 100%;
-	height: 100%;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	max-width: 800px;
-	max-height: 450px;
-} */
 </style>

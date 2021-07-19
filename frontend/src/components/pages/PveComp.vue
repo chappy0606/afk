@@ -11,12 +11,13 @@
                 stage{{ stage.id }}
             </option>
         </select>
-
-        <li v-for="path in state.items" :key="path">
-            <div id="postedImage">
-                <img :src="path.uploaded_image" />
-            </div>
-        </li>
+        <template v-if="state.items != ''">
+            <li v-for="path in state.items" :key="path">
+                <div id="postedImage">
+                    <img :src="path.uploaded_image" />
+                </div>
+            </li>
+        </template>
     </div>
 </template>
 
@@ -24,9 +25,7 @@
 import { defineComponent, reactive } from 'vue'
 import axios from 'axios'
 import router from '../../router/index'
-// import router from '@/router afkからvscode開くとエラー(pathの問題)'
 import { useRoute } from 'vue-router'
-// import{ useStore } from '../../store'
 
 interface State {
     chpaters: string
@@ -38,8 +37,6 @@ interface State {
 
 export default defineComponent({
     setup() {
-        // const store = useStore()
-
         let chapterId: string
         let stageId: string
 
@@ -91,9 +88,7 @@ export default defineComponent({
                         }
                     })
 
-                    if (response.data.length == 0) {
-                        state.items = ''
-                    } else {
+                    if (response.data.length != 0) {
                         state.items = response.data
                     }
                 })
@@ -123,7 +118,7 @@ export default defineComponent({
 
         return {
             state,
-            selectChapterStage,
+            selectChapterStage
         }
     }
 })

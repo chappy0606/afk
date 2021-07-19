@@ -11,3 +11,7 @@ export interface User {
     accessToken: string
     refreshToken: string
 }
+
+export interface AuthUser {
+    authUser: boolean | null
+}
