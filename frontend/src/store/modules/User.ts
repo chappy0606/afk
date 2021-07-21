@@ -1,17 +1,17 @@
 export interface User {
-    userInfo: {
+    user: {
         id: number | null
-        username: string
+        is_active: boolean | null
+        is_staff: boolean | null
         password: string
-        email: string
-        is_staff: boolean
-        is_active: boolean
+        username: string
         date_joined: string
+        email: string
     }
-    accessToken: string
-    refreshToken: string
+    access_token: string
+    refresh_token: string
 }
 
-export interface AuthUser {
-    authUser: boolean | null
+export interface Auth {
+    isAuth: boolean | null
 }
