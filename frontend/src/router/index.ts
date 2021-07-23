@@ -15,7 +15,7 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/login',
         name: 'login',
-        component: LoginPage
+        component: LoginPage,
     },
 
     {
@@ -46,6 +46,7 @@ router.beforeEach((to, from, next) => {
         if (store.state.auth.isAuth) {
             next()
         } else {
+            store.commit('setCurrentPath', { currentPath: to.path })
             next('/login')
         }
     } else {

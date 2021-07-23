@@ -15,3 +15,7 @@ export interface User {
 export interface Auth {
     isAuth: boolean | null
 }
+
+export interface Path {
+    currentPath: string
+}

@@ -11,18 +11,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent} from 'vue'
+import { defineComponent, ref} from 'vue'
+import { useRouter } from 'vue-router'
 import { useStore } from '../../store'
 
 export default defineComponent({
     setup() {
         const store = useStore()
 
-        const userName = 'master'
-        const passWord = 'chappy0606'
+        const userName = ref('master')
+        const passWord = ref('chappy0606')
 
         const login = (): void => {
-            store.dispatch('authLogin', { username: userName, password: passWord })
+            store.dispatch('authLogin', { username: userName.value, password: passWord.value })
         }
 
         return {

@@ -1,11 +1,13 @@
 import { createStore, Store, useStore as baseUseStore } from 'vuex'
 import { InjectionKey } from 'vue'
-import { User, Auth } from './modules/User'
+import { User, Auth, Path } from './modules/Types'
 import axios from 'axios'
+import router from '@/router'
 
 interface State {
     authUser: User
     auth: Auth
+    path: Path
 }
 
 export const key: InjectionKey<Store<State>> = Symbol()
@@ -28,6 +30,9 @@ export const store = createStore<State>({
 
         auth: {
             isAuth: null
+        },
+        path: {
+            currentPath: ''
         }
     },
 
@@ -35,9 +40,21 @@ export const store = createStore<State>({
         setAuthUser: (state, user: User): void => {
             state.authUser = user
         },
+
         isAuth: (state, auth): void => {
             state.auth.isAuth = auth
+
+            if (state.auth.isAuth && state.path.currentPath == '') {
+                router.push({ path: '/' })
+            } else {
+                router.push({ path: store.state.path.currentPath })
+            }
+        },
+
+        setCurrentPath: (state, path: Path): void => {
+            state.path.currentPath = path.currentPath
         }
+        
     },
 
     actions: {
