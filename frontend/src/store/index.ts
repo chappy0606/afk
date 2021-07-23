@@ -43,18 +43,12 @@ export const store = createStore<State>({
 
         isAuth: (state, auth): void => {
             state.auth.isAuth = auth
-
-            if (state.auth.isAuth && state.path.currentPath == '') {
-                router.push({ path: '/' })
-            } else {
-                router.push({ path: store.state.path.currentPath })
-            }
         },
 
         setCurrentPath: (state, path: Path): void => {
             state.path.currentPath = path.currentPath
         }
-        
+
     },
 
     actions: {
@@ -64,6 +58,11 @@ export const store = createStore<State>({
                 .then(response => {
                     commit('setAuthUser', response.data)
                     commit('isAuth', true)
+                    if (store.state.path.currentPath) {
+                        router.push({ path: store.state.path.currentPath })
+                    } else {
+                        router.push({path:'/'})
+                    }
                 })
                 .catch(error => {
                     console.log(error.response)

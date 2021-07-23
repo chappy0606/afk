@@ -9,25 +9,29 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/',
         name: 'TopPage',
-        component: TopPage
+        component: TopPage,
+        meta: { isAuth: false }
     },
 
     {
         path: '/login',
         name: 'login',
         component: LoginPage,
+        meta: { isAuth: false }
     },
 
     {
         path: '/pve_comp',
         name: 'PveComp',
-        component: PveComp
+        component: PveComp,
+        meta: { isAuth: false }
     },
 
     {
         path: '/pve_comp/:id',
         name: 'ChapterStsage',
-        component: PveComp
+        component: PveComp,
+        meta: { isAuth: false }
     },
     {
         path: '/pve_comp/upload',
@@ -42,11 +46,14 @@ const router = createRouter({
     routes
 })
 router.beforeEach((to, from, next) => {
+    if (to.path === '/login' && store.state.auth.isAuth) {
+        router.push({ path: '/' })
+    }
     if (to.matched.some(record => record.meta.isAuth)) {
+        store.commit('setCurrentPath', { currentPath: to.path })
         if (store.state.auth.isAuth) {
             next()
         } else {
-            store.commit('setCurrentPath', { currentPath: to.path })
             next('/login')
         }
     } else {
