@@ -1,17 +1,15 @@
 <template>
     <header>
-        <span v-if="store.state.authUser.user.username">
+        <span v-if="store.state.auth.isAuth">
             {{ store.state.authUser.user.username }}さん
         </span>
         <nav class="header-menu">
             <ul>
-                <form name="logout" method="POST" action="#">
-                    <li><a href="javascript:logout.submit()">ログアウト</a></li>
-                </form>
                 <li><router-link to="/login">ログイン</router-link></li>
                 <router-link to="/">トップページ</router-link>
                 <li><a href="#">ユーザー登録</a></li>
             </ul>
+            <button @click="logout">ログアウト</button>
         </nav>
     </header>
 </template>
@@ -22,8 +20,13 @@ export default defineComponent({
     setup() {
         const store = useStore()
 
+        const logout = (): void => {
+            store.dispatch('authLogout')
+        }
+
         return {
-            store
+            store,
+            logout
         }
     }
 })
