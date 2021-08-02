@@ -55,7 +55,6 @@ export const store = createStore<State>({
     mutations: {
         setAuthUser: (state, user: User): void => {
             state.authUser = user
-            console.log(state.authUser)
         },
 
         isAuth: (state, auth): void => {
@@ -85,15 +84,17 @@ export const store = createStore<State>({
                     commit('isAuth', false)
                 })
         },
-        authLogout: store => {
-            axios
-                .post('https://127.0.0.1:8000/api/v1/auth/logout/')
-                .then(response => {
-                    console.log(response)
-                    store.commit('isAuth', null)
-                    const state = initialState()
-                    store.commit('setAuthUser', state)
-                })
+        authLogout: ({ commit }) => {
+            if (confirm('本当にログアウトしますか？')) {
+                axios
+                    .post('https://127.0.0.1:8000/api/v1/auth/logout/')
+                    .then(response => {
+                        console.log(response.data.detail)
+                        commit('isAuth', null)
+                        commit('setAuthUser', initialState())
+                        router.push('/')
+                    })
+            }
         }
     }
 })

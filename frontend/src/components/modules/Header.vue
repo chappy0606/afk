@@ -5,11 +5,13 @@
         </span>
         <nav class="header-menu">
             <ul>
-                <li><router-link to="/login">ログイン</router-link></li>
-                <router-link to="/">トップページ</router-link>
+                <button v-if="store.state.auth.isAuth" @click="logout">
+                    ログアウト
+                </button>
+                <li v-else><router-link to="/login">ログイン</router-link></li>
+                <li><router-link to="/">トップページ</router-link></li>
                 <li><a href="#">ユーザー登録</a></li>
             </ul>
-            <button @click="logout">ログアウト</button>
         </nav>
     </header>
 </template>

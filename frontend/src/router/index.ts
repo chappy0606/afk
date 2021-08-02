@@ -10,28 +10,28 @@ const routes: Array<RouteRecordRaw> = [
         path: '/',
         name: 'TopPage',
         component: TopPage,
-        meta: { isAuth: false }
+        // meta: { isAuth: false }
     },
 
     {
         path: '/login',
         name: 'login',
         component: LoginPage,
-        meta: { isAuth: false }
+        // meta: { isAuth: false }
     },
 
     {
         path: '/pve_comp',
         name: 'PveComp',
         component: PveComp,
-        meta: { isAuth: false }
+        // meta: { isAuth: false }
     },
 
     {
         path: '/pve_comp/:id',
         name: 'ChapterStsage',
         component: PveComp,
-        meta: { isAuth: false }
+        // meta: { isAuth: false }
     },
     {
         path: '/pve_comp/upload',
