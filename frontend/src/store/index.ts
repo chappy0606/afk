@@ -3,6 +3,8 @@ import { InjectionKey } from 'vue'
 import { User, Auth, Path } from './modules/Types'
 import axios from 'axios'
 import router from '@/router'
+import createPersistedState from 'vuex-persistedstate'
+import Cookies from 'js-cookie'
 
 interface State {
     authUser: User
@@ -51,6 +53,21 @@ export const store = createStore<State>({
             currentPath: ''
         }
     },
+    plugins: [
+        createPersistedState({
+            key: 'testKey',
+            storage: {
+                getItem: key => Cookies.get(key),
+                setItem: (key, value) =>
+                    Cookies.set(key, value, {
+                        expires: 3,
+                        secure: true
+                    }),
+                removeItem: key => Cookies.remove(key)
+            },
+            paths: ['authUser.user.username', 'auth.isAuth']
+        })
+    ],
 
     mutations: {
         setAuthUser: (state, user: User): void => {
@@ -74,7 +91,9 @@ export const store = createStore<State>({
                     commit('setAuthUser', response.data)
                     commit('isAuth', true)
                     if (store.state.path.currentPath) {
-                        router.push({ path: store.state.path.currentPath })
+                        router.push({
+                            path: store.state.path.currentPath
+                        })
                     } else {
                         router.push({ path: '/' })
                     }
