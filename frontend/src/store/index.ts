@@ -60,12 +60,17 @@ export const store = createStore<State>({
                 getItem: key => Cookies.get(key),
                 setItem: (key, value) =>
                     Cookies.set(key, value, {
-                        expires: 3,
+                        expires: 7,
                         secure: true
                     }),
                 removeItem: key => Cookies.remove(key)
             },
-            paths: ['authUser.user.username', 'auth.isAuth']
+            paths: [
+                'authUser.user.username',
+                'auth.isAuth',
+                'authUser.access_token',
+                'authUser.refresh_token',
+            ]
         })
     ],
 
@@ -88,6 +93,7 @@ export const store = createStore<State>({
             axios
                 .post('https://127.0.0.1:8000/api/v1/auth/login/', payload)
                 .then(response => {
+                    console.log(response.data)
                     commit('setAuthUser', response.data)
                     commit('isAuth', true)
                     if (store.state.path.currentPath) {

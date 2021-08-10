@@ -1,3 +1,4 @@
+from accounts import views
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
@@ -11,7 +12,9 @@ urlpatterns = [
     path('api/v1/auth/', include('djoser.urls')),
     path('api/v1/auth/', include('djoser.urls.jwt')),
     path('api/v1/account/', include(user_router.urls)),
+    path('api/v1/test/', views.TestView.as_view()),
 
+    path('api/v1/auth/login/', views.CustomLoginView.as_view()),
     path('api/v1/auth/', include('dj_rest_auth.urls')),
     path('api/v1/auth/registration/', include('dj_rest_auth.registration.urls')),
     

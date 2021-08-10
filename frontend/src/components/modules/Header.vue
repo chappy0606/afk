@@ -13,7 +13,7 @@
                 <li><a href="#">ユーザー登録</a></li>
             </ul>
         </nav>
-        <button @click="test">jwtテスト</button>
+        <button @click="test">認証テスト</button>
     </header>
 </template>
 <script lang="ts">
@@ -29,16 +29,18 @@ export default defineComponent({
         }
 
         const test = (): void => {
-            console.log('test')
             console.log(store.state.authUser.access_token)
             axios
-                .get('https://127.0.0.1:8000/api/v1/account/user/', {
+                .get('https://127.0.0.1:8000/api/v1/test/', {
                     headers: {
                         Authorization: 'JWT ' + store.state.authUser.access_token
                     }
                 })
                 .then(res => {
-                    console.log(res.data)
+                    console.log(res.request);
+                })
+                .catch(error => {
+                    console.log(error)
                 })
         }
 
