@@ -51,10 +51,10 @@ export default defineComponent({
         })
 
         axios
-            .get('https://localhost:8000/api/v1/campaign/chapters/')
+            .get('https://127.0.0.1:8000/api/v1/campaign/chapters/')
             .then(response => (state.chpaters = response.data))
         axios
-            .get('https://localhost:8000/api/v1/campaign/stages/')
+            .get('https://127.0.0.1:8000/api/v1/campaign/stages/')
             .then(response => (state.stages = response.data))
 
         const selectChapterStage = (event: {

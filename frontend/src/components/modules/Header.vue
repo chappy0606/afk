@@ -13,11 +13,13 @@
                 <li><a href="#">ユーザー登録</a></li>
             </ul>
         </nav>
+        <button @click="test">jwtテスト</button>
     </header>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { useStore } from '../../store'
+import axios from 'axios'
 export default defineComponent({
     setup() {
         const store = useStore()
@@ -26,9 +28,24 @@ export default defineComponent({
             store.dispatch('authLogout')
         }
 
+        const test = (): void => {
+            console.log('test')
+            console.log(store.state.authUser.access_token)
+            axios
+                .get('https://127.0.0.1:8000/api/v1/account/user/', {
+                    headers: {
+                        Authorization: 'JWT ' + store.state.authUser.access_token
+                    }
+                })
+                .then(res => {
+                    console.log(res.data)
+                })
+        }
+
         return {
             store,
-            logout
+            logout,
+            test
         }
     }
 })

@@ -8,9 +8,9 @@ from pve_comp.urls import router as pve_comp_router
 urlpatterns = [
     
     # 削除候補
-    # path('api/v1/auth/', include('djoser.urls')),
-    # path('api/v1/auth/', include('djoser.urls.jwt')),
-    # path('api/v1/account/', include(user_router.urls)),
+    path('api/v1/auth/', include('djoser.urls')),
+    path('api/v1/auth/', include('djoser.urls.jwt')),
+    path('api/v1/account/', include(user_router.urls)),
 
     path('api/v1/auth/', include('dj_rest_auth.urls')),
     path('api/v1/auth/registration/', include('dj_rest_auth.registration.urls')),
