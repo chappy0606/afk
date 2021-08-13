@@ -20,6 +20,7 @@ const initialState = (): User => {
             is_staff: null,
             password: '',
             username: '',
+            last_login: '',
             date_joined: '',
             email: ''
         },
@@ -39,6 +40,7 @@ export const store = createStore<State>({
                 is_staff: null,
                 password: '',
                 username: '',
+                last_login: '',
                 date_joined: '',
                 email: ''
             },
@@ -69,7 +71,7 @@ export const store = createStore<State>({
                 'authUser.user.username',
                 'auth.isAuth',
                 'authUser.access_token',
-                'authUser.refresh_token',
+                'authUser.refresh_token'
             ]
         })
     ],
@@ -89,11 +91,24 @@ export const store = createStore<State>({
     },
 
     actions: {
+        // リフレッシュトークンが生きてるかの確認
+        tokenValid: () => {
+            axios
+                .post('https://127.0.0.1:8000/api/v1/auth/token/verify/', {
+                    token: store.state.authUser.refresh_token
+                })
+                .then(response => {
+                    console.log(response.data)
+                })
+                .catch(error => {
+                    console.log(error.response)
+                })
+        },
+
         authLogin: ({ commit }, payload: string): void => {
             axios
                 .post('https://127.0.0.1:8000/api/v1/auth/login/', payload)
                 .then(response => {
-                    console.log(response.data)
                     commit('setAuthUser', response.data)
                     commit('isAuth', true)
                     if (store.state.path.currentPath) {

@@ -30,7 +30,6 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
-    '192.168.10.7',
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -61,7 +60,6 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     'https://127.0.0.1:8080',
     'https://localhost:8080',
-    'https://192.168.10.7:8080',
 ]
 
 REST_AUTH_SERIALIZERS = {

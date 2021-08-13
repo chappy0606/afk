@@ -5,5 +5,5 @@ from rest_framework import routers
 
 app_name = 'accounts'
 
-router = routers.DefaultRouter()
-router.register('user', views.UserViewSet)
+# router = routers.DefaultRouter()
+# router.register('user', views.UserViewSet)

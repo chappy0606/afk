@@ -5,6 +5,7 @@ export interface User {
         is_staff: boolean | null
         password: string
         username: string
+        last_login:string
         date_joined: string
         email: string
     }

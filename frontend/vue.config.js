@@ -7,7 +7,6 @@ module.exports = {
         https: {
 　　　key : fs.readFileSync('../server.key'),
 　　　cert: fs.readFileSync('../server.crt'),
-　　// ca : fs.readFileSync(”),
 　　}
 　},
 }
