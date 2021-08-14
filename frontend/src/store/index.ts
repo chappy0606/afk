@@ -81,6 +81,11 @@ export const store = createStore<State>({
             state.authUser = user
         },
 
+        setAccessToken: (state, accsseToken:string): void => {
+            state.authUser.access_token = accsseToken
+            console.log(state.authUser.access_token)
+        },
+
         isAuth: (state, auth): void => {
             state.auth.isAuth = auth
         },
@@ -92,28 +97,43 @@ export const store = createStore<State>({
 
     actions: {
         // リフレッシュトークンが生きてるかの確認
-        tokenValid: () => {
+        accessTokenRefresh: ({ commit, state }) => {
             axios
                 .post('https://127.0.0.1:8000/api/v1/auth/token/verify/', {
-                    token: store.state.authUser.refresh_token
+                    token: state.authUser.refresh_token
                 })
                 .then(response => {
-                    console.log(response.data)
+                    console.log('status_code ' + response.status)
+                    axios
+                        .post(
+                            'https://127.0.0.1:8000/api/v1/auth/token/refresh/',
+                            {
+                                refresh: state.authUser.refresh_token
+                            }
+                        )
+                        .then(response => {
+                            commit('setAccessToken', response.data.access)
+                        })
                 })
                 .catch(error => {
-                    console.log(error.response)
+                    if (error.response.status === 401) {
+                        // リフレッシュトークン期限切れ、強制ログアウト
+                        store.dispatch('authLogout')
+                    } else if (error.response.status === 400) {
+                        console.log('Bad Error!!!')
+                    }
                 })
         },
 
-        authLogin: ({ commit }, payload: string): void => {
+        authLogin: ({ commit, state }, payload: string): void => {
             axios
                 .post('https://127.0.0.1:8000/api/v1/auth/login/', payload)
                 .then(response => {
                     commit('setAuthUser', response.data)
                     commit('isAuth', true)
-                    if (store.state.path.currentPath) {
+                    if (state.path.currentPath) {
                         router.push({
-                            path: store.state.path.currentPath
+                            path: state.path.currentPath
                         })
                     } else {
                         router.push({ path: '/' })
@@ -125,16 +145,14 @@ export const store = createStore<State>({
                 })
         },
         authLogout: ({ commit }) => {
-            if (confirm('本当にログアウトしますか？')) {
-                axios
-                    .post('https://127.0.0.1:8000/api/v1/auth/logout/')
-                    .then(response => {
-                        console.log(response.data.detail)
-                        commit('isAuth', null)
-                        commit('setAuthUser', initialState())
-                        router.push('/')
-                    })
-            }
+            axios
+                .post('https://127.0.0.1:8000/api/v1/auth/logout/')
+                .then(response => {
+                    console.log(response.data.detail)
+                    commit('isAuth', null)
+                    commit('setAuthUser', initialState())
+                    router.push('/')
+                })
         }
     }
 })

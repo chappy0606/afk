@@ -25,7 +25,9 @@ export default defineComponent({
         const store = useStore()
 
         const logout = (): void => {
-            store.dispatch('authLogout')
+            if (confirm('本当にログアウトしますか？')) {
+                store.dispatch('authLogout')
+            }
         }
 
         const test = (): void => {
@@ -37,30 +39,14 @@ export default defineComponent({
                             'JWT ' + store.state.authUser.access_token
                     }
                 })
-                .then(res => {
+                .then(response => {
                     console.log('認証成功！')
-                    console.log(res.request)
+                    console.log(response.request.response)
                 })
                 .catch(error => {
-                    console.log('認証失敗！')
-                    console.log('トークンが有効か確認するよ')
                     if (error.response.status === 401) {
-                        axios
-                            .post(
-                                'https://127.0.0.1:8000/api/v1/auth/token/verify/',
-                                {'token':store.state.authUser.refresh_token},
-                            )
-                            .then(response => {
-                                // 空の時true(refreshtoken生きてる)
-                                if(!Object.keys(response.data).length){
-                                    console.log('true')
-                                }else{
-                                    console.log('false')
-                                }
-                            })
-                            .catch(error => {
-                                console.log(error.response)
-                            })
+                        console.log('アクセストークン更新できるか確認するわ！')
+                        store.dispatch('accessTokenRefresh')
                     }
                 })
         }
