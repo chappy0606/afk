@@ -83,7 +83,6 @@ export const store = createStore<State>({
 
         setAccessToken: (state, accsseToken:string): void => {
             state.authUser.access_token = accsseToken
-            console.log(state.authUser.access_token)
         },
 
         isAuth: (state, auth): void => {

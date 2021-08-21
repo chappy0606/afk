@@ -14,6 +14,7 @@
             </ul>
         </nav>
         <button @click="test">認証テスト</button>
+        <button @click="create">post create</button>
     </header>
 </template>
 <script lang="ts">
@@ -28,6 +29,18 @@ export default defineComponent({
             if (confirm('本当にログアウトしますか？')) {
                 store.dispatch('authLogout')
             }
+        }
+
+        const create = (): void => {
+            axios
+                .post('https://127.0.0.1:8000/api/v1/campaign/posts/', {
+                    chapter_id: 2,
+                    statge_id: 3,
+                    upload_image: 'jfajjlasjla'
+                })
+                .then(response => {
+                    console.log(response)
+                })
         }
 
         const test = (): void => {
@@ -54,7 +67,8 @@ export default defineComponent({
         return {
             store,
             logout,
-            test
+            test,
+            create
         }
     }
 })

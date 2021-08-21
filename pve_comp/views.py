@@ -1,3 +1,4 @@
+from os import confstr, sendfile
 from django_filters import rest_framework as filters
 from rest_framework.decorators import action
 from pve_comp.serializers import ChapterSerializer, PostSerializer, StageSerializer
@@ -30,12 +31,5 @@ class PostViewSet(viewsets.ModelViewSet):
     serializer_class = PostSerializer
     filter_class = PostFilter
 
-    @action(methods=['post'], detail=False)
-    def test(self, request):
-        content = 'postされたよーーー'
-        return Response(content)
-    
-    @action(methods=['get'], detail=False)
-    def test2(self, request):
-        content = 'getされたよーーー'
-        return Response(content)
+    def create(self, request, *args, **kwargs):
+        return super().create(request, *args, **kwargs)
