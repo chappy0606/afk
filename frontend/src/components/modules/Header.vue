@@ -32,12 +32,20 @@ export default defineComponent({
         }
 
         const create = (): void => {
+            console.log(store.state.authUser.access_token)
             axios
-                .post('https://127.0.0.1:8000/api/v1/campaign/posts/', {
-                    chapter_id: 2,
-                    statge_id: 3,
-                    upload_image: 'jfajjlasjla'
-                })
+                .post(
+                    'https://127.0.0.1:8000/api/v1/campaign/posts/',
+                    {
+                        // data
+                    },
+                    {
+                        headers: {
+                            Authorization:
+                                'JWT ' + store.state.authUser.access_token
+                        }
+                    }
+                )
                 .then(response => {
                     console.log(response)
                 })
