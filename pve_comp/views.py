@@ -1,10 +1,8 @@
 from django_filters import rest_framework as filters
 from rest_framework.decorators import action
-from rest_framework.generics import CreateAPIView
 from pve_comp.serializers import ChapterSerializer, PostSerializer, StageSerializer
 from .models import Post, Chapter, Stage
 from rest_framework import viewsets
-from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 
@@ -33,6 +31,3 @@ class PostViewSet(viewsets.ModelViewSet):
     filter_class = PostFilter
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-    def create(self, request, *args, **kwargs):
-        print(self.request.user)
-        return Response('test')

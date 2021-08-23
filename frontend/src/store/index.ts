@@ -68,6 +68,7 @@ export const store = createStore<State>({
                 removeItem: key => Cookies.remove(key)
             },
             paths: [
+                'authUser.user.id',
                 'authUser.user.username',
                 'auth.isAuth',
                 'authUser.access_token',
@@ -81,7 +82,7 @@ export const store = createStore<State>({
             state.authUser = user
         },
 
-        setAccessToken: (state, accsseToken:string): void => {
+        setAccessToken: (state, accsseToken: string): void => {
             state.authUser.access_token = accsseToken
         },
 

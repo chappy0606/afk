@@ -1,6 +1,9 @@
 <template>
     <header>
         <span v-if="store.state.auth.isAuth">
+            ユーザーID{{ store.state.authUser.user.id }}
+        </span>
+        <span v-if="store.state.auth.isAuth">
             {{ store.state.authUser.user.username }}さん
         </span>
         <nav class="header-menu">
@@ -38,6 +41,10 @@ export default defineComponent({
                     'https://127.0.0.1:8000/api/v1/campaign/posts/',
                     {
                         // data
+                        chapter_id: 3,
+                        stage_id: 3,
+                        user: 1,
+                        uploaded_image: test
                     },
                     {
                         headers: {

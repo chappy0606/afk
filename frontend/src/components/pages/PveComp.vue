@@ -91,6 +91,9 @@ export default defineComponent({
                     if (response.data.length != 0) {
                         state.items = response.data
                     }
+                    else{
+                        state.items = ''
+                    }
                 })
 
                 .catch(error => {
