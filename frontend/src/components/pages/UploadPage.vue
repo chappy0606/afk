@@ -22,7 +22,7 @@ export default defineComponent({
 
         const chapter = ref('')
         const stage = ref('')
-        const image_file = ref<File>()
+        const image_file = ref()
 
         const setChapterStage = (value: string): void => {
             if (value.includes('chapter')) {

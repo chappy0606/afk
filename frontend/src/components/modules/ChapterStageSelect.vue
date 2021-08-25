@@ -16,27 +16,36 @@
 <script lang="ts">
 import { defineComponent, reactive } from 'vue'
 import axios from 'axios'
+import { useRoute } from 'vue-router'
 
 interface State {
     chapters: string
     stages: string
-    // selectedChapter: string
-    // selectedStage: string
+    selectedChapter: string
+    selectedStage: string
 }
 
 export default defineComponent({
-props:{
-    'selectedChapter': String,
-    'selectedStage': String
-},
+    props: {
+        selectedChapter: String,
+        selectedStage: String
+    },
 
     setup(props, { emit }) {
         const state: State = reactive({
             chapters: '',
             stages: '',
-            // selectedChapter: '',
-            // selectedStage: ''
+            selectedChapter: '',
+            selectedStage: ''
         })
+
+        const route = useRoute()
+
+        if (route.query.chapter_id && route.query.stage_id) {
+            state.selectedChapter =
+                'chapter' + route.query.chapter_id.toString()
+            state.selectedStage = 'stage' + route.query.stage_id.toString()
+        }
 
         axios
             .get('https://127.0.0.1:8000/api/v1/campaign/chapters/')
