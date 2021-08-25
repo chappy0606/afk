@@ -16,7 +16,9 @@ import { useStore } from '../../store'
 
 export default defineComponent({
     setup() {
+
         const store = useStore()
+        
 
         const userName = ref('master')
         const passWord = ref('chappy0606')
