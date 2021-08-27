@@ -18,23 +18,20 @@ import axios from 'axios'
 import ChapterStageSelect from '../modules/ChapterStageSelect.vue'
 import router from '../../router/index'
 import { useRoute } from 'vue-router'
-
 interface State {
     items: string
 }
-
 export default defineComponent({
     components: { ChapterStageSelect },
-
     setup() {
-        const chapterId = ref('')
-        const stageId = ref('')
-
         const route = useRoute()
 
         const state: State = reactive({
             items: ''
         })
+
+        const chapterId = ref('')
+        const stageId = ref('')
 
         const setChapterStage = (value: string): void => {
             if (value.includes('chapter')) {
@@ -47,7 +44,7 @@ export default defineComponent({
             }
         }
 
-        const fetchPosts = () => {
+        const fetchPosts = (): void => {
             axios
                 .get(
                     'https://127.0.0.1:8000/api/v1/campaign/posts/?chapter_id=' +
@@ -86,7 +83,7 @@ export default defineComponent({
             stageId.value = route.query.stage_id.toString()
             fetchPosts()
         }
-
+        
         return {
             state,
             setChapterStage

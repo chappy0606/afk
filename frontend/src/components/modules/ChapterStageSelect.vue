@@ -26,11 +26,6 @@ interface State {
 }
 
 export default defineComponent({
-    props: {
-        selectedChapter: String,
-        selectedStage: String
-    },
-
     setup(props, { emit }) {
         const state: State = reactive({
             chapters: '',

@@ -96,33 +96,27 @@ export const store = createStore<State>({
     },
 
     actions: {
-        // リフレッシュトークンが生きてるかの確認
         accessTokenRefresh: ({ commit, state }) => {
             axios
-                .post('https://127.0.0.1:8000/api/v1/auth/token/verify/', {
-                    token: state.authUser.refresh_token
-                })
+                .post(
+                    'https://127.0.0.1:8000/api/v1/auth/token/refresh/',
+                    {
+                        refresh: state.authUser.refresh_token
+                    }
+                )
                 .then(response => {
-                    console.log('status_code ' + response.status)
-                    axios
-                        .post(
-                            'https://127.0.0.1:8000/api/v1/auth/token/refresh/',
-                            {
-                                refresh: state.authUser.refresh_token
-                            }
-                        )
-                        .then(response => {
-                            commit('setAccessToken', response.data.access)
-                        })
+                    console.log('更新完了！')
+                    console.log('認証成功やで！！！')
+                    commit('setAccessToken', response.data.access)
                 })
                 .catch(error => {
                     if (error.response.status === 401) {
-                        // リフレッシュトークン期限切れ、強制ログアウト
                         store.dispatch('authLogout')
-                    } else if (error.response.status === 400) {
-                        console.log('Bad Error!!!')
+                    } else {
+                        console.log(error.response.data)
                     }
-                })
+                }
+            )
         },
 
         authLogin: ({ commit, state }, payload: string): void => {

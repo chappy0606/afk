@@ -17,7 +17,6 @@
             </ul>
         </nav>
         <button @click="test">認証テスト</button>
-        <button @click="create">post create</button>
     </header>
 </template>
 <script lang="ts">
@@ -32,30 +31,6 @@ export default defineComponent({
             if (confirm('本当にログアウトしますか？')) {
                 store.dispatch('authLogout')
             }
-        }
-
-        const create = (): void => {
-            console.log(store.state.authUser.access_token)
-            axios
-                .post(
-                    'https://127.0.0.1:8000/api/v1/campaign/posts/',
-                    {
-                        // data
-                        chapter_id: 3,
-                        stage_id: 3,
-                        user: 1,
-                        uploaded_image: test
-                    },
-                    {
-                        headers: {
-                            Authorization:
-                                'JWT ' + store.state.authUser.access_token
-                        }
-                    }
-                )
-                .then(response => {
-                    console.log(response)
-                })
         }
 
         const test = (): void => {
@@ -83,7 +58,6 @@ export default defineComponent({
             store,
             logout,
             test,
-            create
         }
     }
 })
