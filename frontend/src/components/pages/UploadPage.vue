@@ -2,7 +2,7 @@
     <div>
         <h2>Upload</h2>
         <ChapterStageSelect @selectedChapterStage="setChapterStage" />
-        <input type="file" accept="image/*" @change="setImageFile" v-if="!needsRedraw" />
+        <input type="file" accept="image/*" @change="setImageFile" v-if="showFlag" />
         <div v-if="url">
             <div class='preview-box'>
                 <img :src="url" />
@@ -24,7 +24,7 @@ export default defineComponent({
 
     setup() {
         let url = ref('')
-        let needsRedraw = ref(false)
+        let showFlag = ref(true)
 
         const store = useStore()
         const data = new FormData()
@@ -40,8 +40,8 @@ export default defineComponent({
         const deletePreview = () => {
             url.value = ''
             data.delete('uploaded_image')
-            needsRedraw.value = true
-            nextTick(() => needsRedraw.value = false)
+            showFlag.value = false
+            nextTick(() => showFlag.value = true)
         }
 
         const setImageFile = (event: { target: HTMLInputElement }): void => {
@@ -83,7 +83,7 @@ export default defineComponent({
             registration,
             url,
             deletePreview,
-            needsRedraw
+            showFlag
         }
     }
 })
