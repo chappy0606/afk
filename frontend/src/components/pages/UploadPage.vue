@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>Upload</h2>
-        <ChapterStageSelect @selectedChapterStage="setChapterStage" />
+        <ChapterStageSelect @sendChapterStage="setChapterStage" />
         <input type="file" accept="image/*" @change="setImageFile" v-if="showFlag" />
         <div v-if="url">
             <div class='preview-box'>

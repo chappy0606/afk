@@ -1,11 +1,11 @@
 <template>
     <div>
-        <select v-model="state.selectedChapter" @change="selectedChapterStage">
+        <select v-model="state.selectedChapter" @change="sendChapterStage">
             <option v-for="chapter in state.chapters" :key="chapter.id">
                 chapter{{ chapter.id }}
             </option>
         </select>
-        <select v-model="state.selectedStage" @change="selectedChapterStage">
+        <select v-model="state.selectedStage" @change="sendChapterStage">
             <option v-for="stage in state.stages" :key="stage.id">
                 stage{{ stage.id }}
             </option>
@@ -49,17 +49,17 @@ export default defineComponent({
             .get('https://127.0.0.1:8000/api/v1/campaign/stages/')
             .then(response => (state.stages = response.data))
 
-        const selectedChapterStage = (event: {
+        const sendChapterStage = (event: {
             target: HTMLButtonElement
         }): void => {
             if (event.target.value) {
-                emit('selectedChapterStage', event.target.value)
+                emit('sendChapterStage', event.target.value)
             }
         }
 
         return {
             state,
-            selectedChapterStage
+            sendChapterStage
         }
     }
 })
