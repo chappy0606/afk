@@ -2,14 +2,20 @@
     <div>
         <h2>Upload</h2>
         <ChapterStageSelect @selectedChapterStage="setChapterStage" />
-        <input type="file" @change="setImageFile" />
+        <input type="file" accept="image/*" @change="setImageFile" v-if="!shouldReset" />
+        <div v-if="url">
+            <div class='preview-box'>
+                <img :src="url" />
+                <button @click="deletePreview">クリア</button>
+            </div>
+        </div>
         <button type="button" @click="registration">登録テスト</button>
     </div>
 </template>
 
 <script lang="ts">
 import axios from 'axios'
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, nextTick } from 'vue'
 import { useStore } from '../../store'
 import ChapterStageSelect from '../modules/ChapterStageSelect.vue'
 
@@ -17,18 +23,25 @@ export default defineComponent({
     components: { ChapterStageSelect },
 
     setup() {
+        let url = ref('')
+        let shouldReset = ref(false)
+
         const store = useStore()
         const data = new FormData()
-
-        const chapter = ref('')
-        const stage = ref('')
-        const image_file = ref()
+        data.append('user', String(store.state.authUser.user.id))
 
         const setChapterStage = (value: string): void => {
             if (value.includes('chapter')) {
-                chapter.value = value.replace(/[^0-9]/g, '')
+                data.append('chapter_id', value.replace(/[^0-9]/g, ''))
             } else if (value.includes('stage'))
-                stage.value = value.replace(/[^0-9]/g, '')
+                data.append('stage_id', value.replace(/[^0-9]/g, ''))
+        }
+
+        const deletePreview = () => {
+            url.value = ''
+            data.delete('uploaded_image')
+            shouldReset.value = true
+            nextTick(() => shouldReset.value = false)
         }
 
         const setImageFile = (event: { target: HTMLInputElement }): void => {
@@ -36,34 +49,48 @@ export default defineComponent({
                 event.target instanceof HTMLInputElement &&
                 event.target.files
             ) {
-                image_file.value = event.target.files[0]
+                try {
+                    url.value = URL.createObjectURL(event.target.files[0])
+                    data.append('uploaded_image', event.target.files[0])
+                } catch (error) {
+                    console.log(error)
+                    deletePreview()
+                }
             }
         }
 
         const registration = (): void => {
-            data.append('user', String(store.state.authUser.user.id))
-            data.append('chapter_id', chapter.value)
-            data.append('stage_id', stage.value)
-            data.append('uploaded_image', image_file.value)
-
             axios
                 .post('https://127.0.0.1:8000/api/v1/campaign/posts/', data, {
                     headers: {
                         Authorization:
                             'JWT ' + store.state.authUser.access_token,
-                        'content-type': 'multipart/form-data'
+                            'content-type': 'multipart/form-data'
                     }
                 })
                 .then(response => {
+                    // 処理後リダイレクトする
                     console.log(response)
+                })
+                .catch(error => {
+                    console.log(error)
                 })
         }
 
         return {
             setChapterStage,
             setImageFile,
-            registration
+            registration,
+            url,
+            deletePreview,
+            shouldReset
         }
     }
 })
 </script>
+<style>
+div.preview-box img{
+    width: 50%;
+    height: 50%;
+}
+</style>

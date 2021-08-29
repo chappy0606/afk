@@ -113,7 +113,7 @@ export const store = createStore<State>({
                     if (error.response.status === 401) {
                         store.dispatch('authLogout')
                     } else {
-                        console.log(error.response.data)
+                        console.log(error.response)
                     }
                 }
             )
@@ -141,8 +141,8 @@ export const store = createStore<State>({
         authLogout: ({ commit }) => {
             axios
                 .post('https://127.0.0.1:8000/api/v1/auth/logout/')
-                .then(response => {
-                    console.log(response.data.detail)
+                .then( () => {
+                    console.log('ログアウトしました')
                     commit('isAuth', null)
                     commit('setAuthUser', initialState())
                     router.push('/')
