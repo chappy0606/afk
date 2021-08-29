@@ -30,8 +30,8 @@ export default defineComponent({
             items: ''
         })
 
-        const chapterId = ref('')
-        const stageId = ref('')
+        const chapterId = ref<string>('')
+        const stageId = ref<string>('')
 
         const setChapterStage = (value: string): void => {
             if (value.includes('chapter')) {

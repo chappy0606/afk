@@ -16,6 +16,7 @@
 <script lang="ts">
 import axios from 'axios'
 import { defineComponent, ref, nextTick } from 'vue'
+import router from '../../router/index'
 import { useStore } from '../../store'
 import ChapterStageSelect from '../modules/ChapterStageSelect.vue'
 
@@ -23,18 +24,23 @@ export default defineComponent({
     components: { ChapterStageSelect },
 
     setup() {
-        let url = ref('')
-        let showFlag = ref(true)
+        let url = ref<string>('')
+        let showFlag = ref<boolean>(true)
+        let chapter: string = ''
+        let stage: string = ''
 
         const store = useStore()
+        
         const data = new FormData()
         data.append('user', String(store.state.authUser.user.id))
 
         const setChapterStage = (value: string): void => {
             if (value.includes('chapter')) {
-                data.append('chapter_id', value.replace(/[^0-9]/g, ''))
+                chapter = value.replace(/[^0-9]/g, '')
+                data.append('chapter_id', chapter)
             } else if (value.includes('stage'))
-                data.append('stage_id', value.replace(/[^0-9]/g, ''))
+                stage = value.replace(/[^0-9]/g, '')
+                data.append('stage_id', stage)
         }
 
         const deletePreview = () => {
@@ -53,7 +59,6 @@ export default defineComponent({
                     url.value = URL.createObjectURL(event.target.files[0])
                     data.append('uploaded_image', event.target.files[0])
                 } catch (error) {
-                    console.log(error)
                     deletePreview()
                 }
             }
@@ -68,10 +73,15 @@ export default defineComponent({
                             'content-type': 'multipart/form-data'
                     }
                 })
-                .then(response => {
-                    // 処理後リダイレクトする
-                    console.log(response)
-                })
+                .then( () =>
+                    router.push({
+                        path: '/pve_comp/',
+                        query: {
+                            chapter_id: chapter,
+                            stage_id: stage
+                        }
+                    })
+                )
                 .catch(error => {
                     console.log(error)
                 })
