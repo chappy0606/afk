@@ -1,7 +1,7 @@
 <template>
     <div>
         <router-link to="/pve_comp/upload">投稿ページ</router-link>
-        <ChapterStageSelect @selectedChapterStage="setChapterStage" />
+        <ChapterStageSelect @sendChapterStage="setChapterStage" />
         <template v-if="state.items != ''">
             <li v-for="path in state.items" :key="path">
                 <div id="postedImage">
@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue'
+import { defineComponent, reactive } from 'vue'
 import axios from 'axios'
 import ChapterStageSelect from '../modules/ChapterStageSelect.vue'
 import router from '../../router/index'
@@ -24,22 +24,22 @@ interface State {
 export default defineComponent({
     components: { ChapterStageSelect },
     setup() {
+        let chapter = ''
+        let stage = ''
+
         const route = useRoute()
 
         const state: State = reactive({
             items: ''
         })
 
-        const chapterId = ref<string>('')
-        const stageId = ref<string>('')
-
         const setChapterStage = (value: string): void => {
             if (value.includes('chapter')) {
-                chapterId.value = value.replace(/[^0-9]/g, '')
+                chapter = value.replace(/[^0-9]/g, '')
             } else if (value.includes('stage')) {
-                stageId.value = value.replace(/[^0-9]/g, '')
+                stage = value.replace(/[^0-9]/g, '')
             }
-            if (chapterId.value && stageId.value) {
+            if (chapter && stage) {
                 fetchPosts()
             }
         }
@@ -48,16 +48,16 @@ export default defineComponent({
             axios
                 .get(
                     'https://127.0.0.1:8000/api/v1/campaign/posts/?chapter_id=' +
-                        chapterId.value +
+                        chapter +
                         '&stage_id=' +
-                        stageId.value
+                        stage
                 )
                 .then(response => {
                     router.push({
                         path: '/pve_comp/',
                         query: {
-                            chapter_id: chapterId.value,
-                            stage_id: stageId.value
+                            chapter_id: chapter,
+                            stage_id: stage
                         }
                     })
                     if (response.data.length != 0) {
@@ -79,8 +79,8 @@ export default defineComponent({
         }
 
         if (route.query.chapter_id && route.query.stage_id) {
-            chapterId.value = route.query.chapter_id.toString()
-            stageId.value = route.query.stage_id.toString()
+            chapter = route.query.chapter_id.toString()
+            stage = route.query.stage_id.toString()
             fetchPosts()
         }
         
