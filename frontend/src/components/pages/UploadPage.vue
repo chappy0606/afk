@@ -73,15 +73,15 @@ export default defineComponent({
                             'content-type': 'multipart/form-data'
                     }
                 })
-                .then( () =>
+                .then( () =>{
                     router.push({
-                        path: '/pve_comp/',
+                        name: 'PveComp',
                         query: {
                             chapter_id: chapter,
                             stage_id: stage
                         }
                     })
-                )
+                })
                 .catch(error => {
                     console.log(error)
                 })

@@ -96,19 +96,3 @@
 勇気の星材料 = {'勇気の心': {'コスト':勇気の心,'数量':3}}
 my_relic = {'勇気の心': 4, '勇気のコア': 1 }
 need = 156000
-
-print()
-print(勇気の星材料)
-
-# for name, cost in 勇気の星材料.items():
-#     for key, value in my_relic.items():
-#         if key == name:
-#             print('素材:' + name)
-#             print(key, '所持数' + str(value))
-#             if 勇気の星 > need:
-#                 for i in range(value):
-#                     result = 勇気の星 - cost
-#     else:
-#         continue
-
-# print(result)

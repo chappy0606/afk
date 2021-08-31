@@ -11,9 +11,9 @@
                 <button v-if="store.state.auth.isAuth" @click="logout">
                     ログアウト
                 </button>
-                <li v-else><router-link to="/login">ログイン</router-link></li>
-                <li><router-link to="/">トップページ</router-link></li>
-                <li><a href="#">ユーザー登録</a></li>
+                <li v-else><router-link :to="{ name: 'Login' }">ログイン</router-link></li>
+                <li><router-link :to="{ name: 'TopPage' }">トップページ</router-link></li>
+                <li><router-link :to="{ name: 'Registration' }">ユーザー登録</router-link></li>
             </ul>
         </nav>
         <button @click="test">認証テスト</button>

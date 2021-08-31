@@ -7,7 +7,7 @@
 
     <nav class="menubar">
 		<ul>
-			<li><router-link to="/pve_comp">pve_comp</router-link></li>
+			<li><router-link :to="{ name: 'PveComp' }">pve_comp</router-link></li>
 			<li><a href="#">transelate</a></li>
 			<li><a href="#">mythic manage</a></li>
 		</ul>

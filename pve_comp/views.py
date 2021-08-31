@@ -30,4 +30,3 @@ class PostViewSet(viewsets.ModelViewSet):
     serializer_class = PostSerializer
     filter_class = PostFilter
     permission_classes = [IsAuthenticatedOrReadOnly]
-

@@ -1,8 +1,8 @@
 <template>
     <div>
-        <router-link to="/pve_comp/upload">投稿ページ</router-link>
+        <router-link :to="{ name: 'Upload' }">投稿ページ</router-link>
         <ChapterStageSelect @sendChapterStage="setChapterStage" />
-        <template v-if="state.items != ''">
+        <template v-if="state.items">
             <li v-for="path in state.items" :key="path">
                 <div id="postedImage">
                     <img :src="path.uploaded_image" />
@@ -24,8 +24,8 @@ interface State {
 export default defineComponent({
     components: { ChapterStageSelect },
     setup() {
-        let chapter = ''
-        let stage = ''
+        let chapter:string = ''
+        let stage:string = ''
 
         const route = useRoute()
 
@@ -39,6 +39,7 @@ export default defineComponent({
             } else if (value.includes('stage')) {
                 stage = value.replace(/[^0-9]/g, '')
             }
+
             if (chapter && stage) {
                 fetchPosts()
             }
@@ -54,13 +55,13 @@ export default defineComponent({
                 )
                 .then(response => {
                     router.push({
-                        path: '/pve_comp/',
+                        name: 'PveComp',
                         query: {
                             chapter_id: chapter,
                             stage_id: stage
                         }
                     })
-                    if (response.data.length != 0) {
+                    if (response.data.length) {
                         state.items = response.data
                     } else {
                         state.items = ''
@@ -83,7 +84,7 @@ export default defineComponent({
             stage = route.query.stage_id.toString()
             fetchPosts()
         }
-        
+
         return {
             state,
             setChapterStage

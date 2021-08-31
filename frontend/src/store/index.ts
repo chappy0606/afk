@@ -126,12 +126,13 @@ export const store = createStore<State>({
                     commit('setAuthUser', response.data)
                     commit('isAuth', true)
                     if (state.path.currentPath) {
+                        console.log('pathあるで！')
                         router.push({
                             path: state.path.currentPath
                         })
-                    } else {
-                        router.push({ path: '/' })
-                    }
+                        } else if (!state.path.currentPath) {
+                                router.push({ name: 'TopPage' })
+                        }
                 })
                 .catch(error => {
                     console.log(error.response)
@@ -145,7 +146,8 @@ export const store = createStore<State>({
                     console.log('ログアウトしました')
                     commit('isAuth', null)
                     commit('setAuthUser', initialState())
-                    router.push('/')
+                    commit('setCurrentPath', '')
+                    router.push({name: 'TopPage'})
                 })
         }
     }
