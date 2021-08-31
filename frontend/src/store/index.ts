@@ -126,11 +126,10 @@ export const store = createStore<State>({
                     commit('setAuthUser', response.data)
                     commit('isAuth', true)
                     if (state.path.currentPath) {
-                        console.log('pathあるで！')
                         router.push({
                             path: state.path.currentPath
                         })
-                        } else if (!state.path.currentPath) {
+                        } else{
                                 router.push({ name: 'TopPage' })
                         }
                 })

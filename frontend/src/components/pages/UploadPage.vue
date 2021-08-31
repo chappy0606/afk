@@ -3,12 +3,10 @@
         <h2>Upload</h2>
         <ChapterStageSelect @sendChapterStage="setChapterStage" />
         <input type="file" accept="image/*" @change="setImageFile" v-if="showFlag" />
-        <div v-if="url">
-            <div class='preview-box'>
-                <img :src="url" />
-                <button @click="deletePreview">クリア</button>
+        <div v-show="url" class='preview-box'>
+            <img :src="url" />
+            <button @click="deletePreview">クリア</button>
             </div>
-        </div>
         <button type="button" @click="registration">登録テスト</button>
     </div>
 </template>
