@@ -19,7 +19,6 @@ export default defineComponent({
 
         const store = useStore()
         
-
         const userName = ref<string>('master')
         const passWord = ref<string>('chappy0606')
 
