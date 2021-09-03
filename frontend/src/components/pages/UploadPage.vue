@@ -3,8 +3,8 @@
         <h2>Upload</h2>
         <ChapterStageSelect @sendChapterStage="setChapterStage" />
         <input type="file" accept="image/*" @change="setImageFile" v-if="showFlag" />
-        <div v-show="url" class='preview-box'>
-            <img :src="url" />
+        <div v-show="images" class='preview-box'>
+            <img :src="images" />
             <button @click="deletePreview">クリア</button>
             </div>
         <button type="button" @click="registration">登録テスト</button>
@@ -22,7 +22,7 @@ export default defineComponent({
     components: { ChapterStageSelect },
 
     setup() {
-        let url = ref<string>('')
+        let images = ref<string>('')
         let showFlag = ref<boolean>(true)
         let chapter: string = ''
         let stage: string = ''
@@ -42,7 +42,7 @@ export default defineComponent({
         }
 
         const deletePreview = () => {
-            url.value = ''
+            images.value = ''
             data.delete('uploaded_image')
             showFlag.value = false
             nextTick(() => showFlag.value = true)
@@ -54,7 +54,7 @@ export default defineComponent({
                 event.target.files
             ) {
                 try {
-                    url.value = URL.createObjectURL(event.target.files[0])
+                    images.value = URL.createObjectURL(event.target.files[0])
                     data.append('uploaded_image', event.target.files[0])
                 } catch (error) {
                     deletePreview()
@@ -89,7 +89,7 @@ export default defineComponent({
             setChapterStage,
             setImageFile,
             registration,
-            url,
+            images,
             deletePreview,
             showFlag
         }

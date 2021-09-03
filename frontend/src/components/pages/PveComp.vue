@@ -2,8 +2,8 @@
     <div>
         <router-link :to="{ name: 'Upload' }">投稿ページ</router-link>
         <ChapterStageSelect @sendChapterStage="setChapterStage" />
-        <template v-if="state.items">
-            <li v-for="path in state.items" :key="path">
+        <template v-if="images">
+            <li v-for="path in images" :key="path">
                 <div id="postedImage">
                     <img :src="path.uploaded_image" />
                 </div>
@@ -13,81 +13,73 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, ref } from 'vue'
 import axios from 'axios'
 import ChapterStageSelect from '../modules/ChapterStageSelect.vue'
 import router from '../../router/index'
 import { useRoute } from 'vue-router'
-interface State {
-    items: string
-}
+
 export default defineComponent({
     components: { ChapterStageSelect },
     setup() {
-        let chapter:string = ''
-        let stage:string = ''
+        let chapter = ref<string>('')
+        let stage = ref<string>('')
 
+        const images = ref<string>('')
         const route = useRoute()
-
-        const state: State = reactive({
-            items: ''
-        })
-
-        const setChapterStage = (value: string): void => {
-            if (value.includes('chapter')) {
-                chapter = value.replace(/[^0-9]/g, '')
-            } else if (value.includes('stage')) {
-                stage = value.replace(/[^0-9]/g, '')
-            }
-
-            if (chapter && stage) {
-                fetchPosts()
-            }
-        }
 
         const fetchPosts = (): void => {
             axios
                 .get(
                     'https://127.0.0.1:8000/api/v1/campaign/posts/?chapter_id=' +
-                        chapter +
+                        chapter.value +
                         '&stage_id=' +
-                        stage
+                        stage.value
                 )
                 .then(response => {
-                    router.push({
-                        name: 'PveComp',
-                        query: {
-                            chapter_id: chapter,
-                            stage_id: stage
-                        }
-                    })
                     if (response.data.length) {
-                        state.items = response.data
+                        images.value = response.data
+                        router.push({
+                            name: 'PveComp',
+                            query: {
+                                chapter_id: chapter.value,
+                                stage_id: stage.value
+                            }
+                        })
                     } else {
-                        state.items = ''
+                        images.value = ''
                     }
                 })
                 .catch(error => {
-                    const {
-                        status,
-                        statusText
-                    }: {
-                        status: string
-                        statusText: string
-                    } = error.response
-                    console.log('Error! HTTP Status:' + status + statusText)
+                    console.log(error)
                 })
         }
 
+        const setChapterStage = (value: string): void => {
+            if (value.includes('chapter')) {
+                chapter.value = value.replace(/[^0-9]/g, '')
+            } else if (value.includes('stage')) {
+                stage.value = value.replace(/[^0-9]/g, '')
+            }
+            if (chapter.value && stage.value) {
+                fetchPosts()
+            }
+        }
+
         if (route.query.chapter_id && route.query.stage_id) {
-            chapter = route.query.chapter_id.toString()
-            stage = route.query.stage_id.toString()
-            fetchPosts()
+            const pattern = new RegExp(/^([1-9]\d*|1)$/)
+
+            chapter.value = route.query.chapter_id.toString()
+            stage.value = route.query.stage_id.toString()
+            // api側でエラー返すここの処理なくなるはず
+            if (chapter.value.match(pattern) && stage.value.match(pattern)) {
+                fetchPosts()
+            }
         }
 
         return {
-            state,
-            setChapterStage
+            setChapterStage,
+            images
         }
     }
 })
