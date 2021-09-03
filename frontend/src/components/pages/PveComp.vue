@@ -21,6 +21,7 @@ import { useRoute } from 'vue-router'
 
 export default defineComponent({
     components: { ChapterStageSelect },
+
     setup() {
         let chapter = ref<string>('')
         let stage = ref<string>('')
@@ -29,6 +30,7 @@ export default defineComponent({
         const route = useRoute()
 
         const fetchPosts = (): void => {
+            console.log(chapter, stage)
             axios
                 .get(
                     'https://127.0.0.1:8000/api/v1/campaign/posts/?chapter_id=' +
@@ -39,19 +41,23 @@ export default defineComponent({
                 .then(response => {
                     if (response.data.length) {
                         images.value = response.data
-                        router.push({
-                            name: 'PveComp',
-                            query: {
-                                chapter_id: chapter.value,
-                                stage_id: stage.value
-                            }
-                        })
                     } else {
                         images.value = ''
                     }
+                    router.push({
+                        name: 'PveComp',
+                        query: {
+                            chapter_id: chapter.value,
+                            stage_id: stage.value
+                        }
+                    })
                 })
                 .catch(error => {
-                    console.log(error)
+                    if (error.response.status === 400) {
+                        router.push({
+                            name: 'PveComp'
+                        })
+                    }
                 })
         }
 
@@ -67,12 +73,10 @@ export default defineComponent({
         }
 
         if (route.query.chapter_id && route.query.stage_id) {
-            const pattern = new RegExp(/^([1-9]\d*|1)$/)
-
             chapter.value = route.query.chapter_id.toString()
             stage.value = route.query.stage_id.toString()
-            // api側でエラー返すここの処理なくなるはず
-            if (chapter.value.match(pattern) && stage.value.match(pattern)) {
+
+            if (chapter.value && stage.value) {
                 fetchPosts()
             }
         }

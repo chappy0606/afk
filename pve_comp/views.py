@@ -1,5 +1,4 @@
 from django_filters import rest_framework as filters
-from rest_framework.decorators import action
 from pve_comp.serializers import ChapterSerializer, PostSerializer, StageSerializer
 from .models import Post, Chapter, Stage
 from rest_framework import viewsets
@@ -17,13 +16,11 @@ class StageViewSet(viewsets.ModelViewSet):
 
 
 class PostFilter(filters.FilterSet):
-    chapter_id = filters.NumberFilter(lookup_expr='exact')
-    stage_id = filters.NumberFilter(lookup_expr='exact')
+    username = filters.CharFilter(field_name='user__username')
 
     class Meta:
         model = Post
-        fields = ['chapter_id', 'stage_id']
-
+        fields = ['user','username','chapter_id', 'stage_id' ]
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
