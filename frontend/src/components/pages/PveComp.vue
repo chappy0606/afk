@@ -30,7 +30,6 @@ export default defineComponent({
         const route = useRoute()
 
         const fetchPosts = (): void => {
-            console.log(chapter, stage)
             axios
                 .get(
                     'https://127.0.0.1:8000/api/v1/campaign/posts/?chapter_id=' +

@@ -36,17 +36,18 @@ export default defineComponent({
 
         const route = useRoute()
 
-        if (route.query.chapter_id && route.query.stage_id){
-            state.selectedChapter = 'chapter' + route.query.chapter_id.toString()
-            state.selectedStage = 'stage' + route.query.stage_id.toString()
-        }
-
         axios
             .get('https://127.0.0.1:8000/api/v1/campaign/chapters/')
             .then(response => (state.chapters = response.data))
         axios
             .get('https://127.0.0.1:8000/api/v1/campaign/stages/')
             .then(response => (state.stages = response.data))
+
+        if (route.query.chapter_id && route.query.stage_id) {
+            state.selectedChapter = 'chapter' + route.query.chapter_id.toString()
+            state.selectedStage = 'stage' + route.query.stage_id.toString()
+            console.log(state.selectedChapter)
+        }
 
         const sendChapterStage = (event: {
             target: HTMLButtonElement

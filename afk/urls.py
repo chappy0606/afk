@@ -1,17 +1,16 @@
-from accounts import views
+from accounts.views import CustomLoginView, TestView
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from accounts.urls import router as user_router
 from pve_comp.urls import router as pve_comp_router
 
 urlpatterns = [
     
     # 削除候補
-    path('api/v1/test/', views.TestView.as_view()),
+    path('api/v1/test/', TestView.as_view()),
 
-    path('api/v1/auth/login/', views.CustomLoginView.as_view()),
+    path('api/v1/auth/login/', CustomLoginView.as_view()),
     path('api/v1/auth/', include('dj_rest_auth.urls')),
     path('api/v1/auth/registration/', include('dj_rest_auth.registration.urls')),
     

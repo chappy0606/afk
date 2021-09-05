@@ -1,18 +1,21 @@
 from django_filters import rest_framework as filters
+from rest_framework.response import Response
 from pve_comp.serializers import ChapterSerializer, PostSerializer, StageSerializer
 from .models import Post, Chapter, Stage
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
+class ChapterViewSet(viewsets.ViewSet):
+    def list(self,request):
+        queryset = Chapter.objects.all()
+        serializer = ChapterSerializer(queryset,many=True)
+        return Response(serializer.data)
 
-class ChapterViewSet(viewsets.ModelViewSet):
-    queryset = Chapter.objects.all()
-    serializer_class = ChapterSerializer
-
-
-class StageViewSet(viewsets.ModelViewSet):
-    queryset = Stage.objects.all()
-    serializer_class = StageSerializer
+class StageViewSet(viewsets.ViewSet):
+    def list(self, request):
+        queryset = Stage.objects.all()
+        serializer = StageSerializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class PostFilter(filters.FilterSet):
