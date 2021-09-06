@@ -1,5 +1,6 @@
 from copy import error
 from rest_framework.exceptions import ValidationError
+from rest_framework.exceptions import NotFound
 from rest_framework.response import Response
 from pve_comp.serializers import ChapterSerializer, PostSerializer, StageSerializer
 from .models import Post, Chapter, Stage
@@ -25,6 +26,10 @@ class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def list(self, request, *args, **kwargs):
+        
+        return super().list(request, *args, **kwargs)
 
     def get_queryset(self):
         queryset = Post.objects.all()
