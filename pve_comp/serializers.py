@@ -15,8 +15,6 @@ class StageSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    # user = UserSerializer(read_only=True)
-    # user = serializers.StringRelatedField()
     class Meta:
         model = Post
         fields = ('id', 'chapter_id', 'stage_id', 'user',
