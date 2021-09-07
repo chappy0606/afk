@@ -128,17 +128,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-.env.sample
-.env
-
-img_scraping.py
-youtube_search.py
-key.py
-
-.vscode
-
-image
-
 Makefile
 
 media
@@ -146,8 +135,6 @@ media
 poetry.lock
 poetry.toml
 pyproject.toml
-
-thinking_memo.txt
 
 san.txt
 server.crt

@@ -1,0 +1,13 @@
+{
+    "python.pythonPath": ".venv/bin/python",
+    "[jsonc]": {
+
+        "editor.quickSuggestions": {
+            "strings": true
+        },
+        "editor.suggest.insertMode": "replace"
+    },
+    "json.schemas": [
+    
+    ]
+}

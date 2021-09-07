@@ -38,6 +38,7 @@ export default defineComponent({
                         stage.value
                 )
                 .then(response => {
+                    console.log(response.data)
                     if (response.data.length) {
                         images.value = response.data
                     } else {
