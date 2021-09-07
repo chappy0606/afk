@@ -43,3 +43,4 @@ class PostViewSet(viewsets.ModelViewSet):
                 queryset = None
 
         return queryset
+        
