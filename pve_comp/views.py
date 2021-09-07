@@ -1,9 +1,9 @@
-from rest_framework.response import Response
+from rest_framework.views import exception_handler
 from pve_comp.serializers import ChapterSerializer, PostSerializer, StageSerializer
 from .models import Post, Chapter, Stage
-from rest_framework import serializers, viewsets
-from rest_framework.exceptions import APIException, ValidationError
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework import status, viewsets
+from rest_framework.response import Response
 
 
 class ChapterViewSet(viewsets.ViewSet):
@@ -19,7 +19,6 @@ class StageViewSet(viewsets.ViewSet):
         serializer = StageSerializer(queryset, many=True)
         return Response(serializer.data)
 
-
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -27,17 +26,10 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         try:
-            return super().list(request, *args, **kwargs)
-        except ValueError:
-            raise serializers.ValidationError
-
-    # def handle_exception(self, exc):
-    #     try:
-    #         return super(PostViewSet,self).handle_exception(exc)
-    #     except ValueError:
-    #         content = {'detail': '{}'.format(exc)}
-    #         raise APIException
-    #         # return Response(content, status=status.HTTP_404_NOT_FOUND)
+            return super().list(request, *args, **kwargs) 
+        except ValueError as e:
+            content = {'detail': '{}'.format(e)}
+            return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
     def get_queryset(self):
         queryset = Post.objects.all()

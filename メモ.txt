@@ -8,5 +8,5 @@
 axiosの型定義
 
 vuetify alpha使ってみる
-
+vim ~/.gitconfig
 django posts空の時とデータベースに値がないときはエラー返す処理
