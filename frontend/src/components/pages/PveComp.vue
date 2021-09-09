@@ -2,13 +2,11 @@
     <div>
         <router-link :to="{ name: 'Upload' }">投稿ページ</router-link>
         <ChapterStageSelect @sendChapterStage="setChapterStage" />
-        <template v-if="images">
             <li v-for="path in images" :key="path">
                 <div id="postedImage">
                     <img :src="path.uploaded_image" />
                 </div>
             </li>
-        </template>
     </div>
 </template>
 
@@ -38,12 +36,7 @@ export default defineComponent({
                         stage.value
                 )
                 .then(response => {
-                    console.log(response.data)
-                    if (response.data.length) {
-                        images.value = response.data
-                    } else {
-                        images.value = ''
-                    }
+                    images.value = response.data
                     router.push({
                         name: 'PveComp',
                         query: {
@@ -80,6 +73,13 @@ export default defineComponent({
                 fetchPosts()
             }
         }
+
+        const test = (b:number) =>{
+            let a = 1
+            let c = a + b
+            return c
+        }
+        console.log(test(2))
 
         return {
             setChapterStage,
