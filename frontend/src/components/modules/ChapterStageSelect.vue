@@ -46,7 +46,6 @@ export default defineComponent({
         if (route.query.chapter_id && route.query.stage_id) {
             state.selectedChapter = 'chapter' + route.query.chapter_id.toString()
             state.selectedStage = 'stage' + route.query.stage_id.toString()
-            console.log(state.selectedChapter)
         }
 
         const sendChapterStage = (event: {
