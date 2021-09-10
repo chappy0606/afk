@@ -11,11 +11,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watchEffect } from 'vue'
+import { defineComponent, ref, watchEffect } from 'vue'
 import axios from 'axios'
 import ChapterStageSelect from '../modules/ChapterStageSelect.vue'
 import router from '../../router/index'
-import { useRoute } from 'vue-router'
+import { useRoute, onBeforeRouteUpdate } from 'vue-router'
 
 export default defineComponent({
     components: { ChapterStageSelect },
@@ -27,8 +27,15 @@ export default defineComponent({
         const stage = ref<string>('')
         const images = ref<string>('')
 
+        const setChapterStage = (value: string): void => {
+            if (value.includes('chapter')) {
+                chapter.value = value.replace(/[^0-9]/g, '')
+            } else if (value.includes('stage')) {
+                stage.value = value.replace(/[^0-9]/g, '')
+            }
+        }
+
         if (route.query.chapter_id && route.query.stage_id) {
-            console.log('query発見')
             chapter.value = route.query.chapter_id.toString()
             stage.value = route.query.stage_id.toString()
         } else {
@@ -37,14 +44,13 @@ export default defineComponent({
             })
         }
 
-        const setChapterStage = (value: string): void => {
-            if (value.includes('chapter')) {
-                chapter.value = value.replace(/[^0-9]/g, '')
-            } else if (value.includes('stage')) {
-                stage.value = value.replace(/[^0-9]/g, '')
+        onBeforeRouteUpdate(to => {
+            if (('chapter_id' && 'stage_id') in to.query) {
+                chapter.value = to.query.chapter_id.toString()
+                stage.value = to.query.stage_id.toString()
             }
-        }
-        computed
+        })
+
         watchEffect(() => {
             if (chapter.value && stage.value) {
                 axios
