@@ -2,11 +2,16 @@
     <div>
         <h2>Upload</h2>
         <ChapterStageSelect @sendChapterStage="setChapterStage" />
-        <input type="file" accept="image/*" @change="setImageFile" v-if="showFlag" />
-        <div v-show="images" class='preview-box'>
+        <input
+            type="file"
+            accept="image/*"
+            @change="setImageFile"
+            v-if="showFlag"
+        />
+        <div v-show="images" class="preview-box">
             <img :src="images" />
             <button @click="deletePreview">クリア</button>
-            </div>
+        </div>
         <button type="button" @click="registration">登録テスト</button>
     </div>
 </template>
@@ -22,47 +27,42 @@ export default defineComponent({
     components: { ChapterStageSelect },
 
     setup() {
-        let images = ref<string>('')
-        let showFlag = ref<boolean>(true)
-        let chapter: string = ''
-        let stage: string = ''
+        const images = ref<string>('')
+        const showFlag = ref<boolean>(true)
 
         const store = useStore()
-        
+
         const data = new FormData()
-        data.append('user', String(store.state.authUser.user.id))
 
         const setChapterStage = (value: string): void => {
             if (value.includes('chapter')) {
-                chapter = value.replace(/[^0-9]/g, '')
-                data.append('chapter_id', chapter)
+                data.append('chapter_id', value.replace(/[^0-9]/g, ''))
             } else if (value.includes('stage'))
-                stage = value.replace(/[^0-9]/g, '')
-                data.append('stage_id', stage)
+                data.append('stage_id', value.replace(/[^0-9]/g, ''))
         }
 
         const deletePreview = () => {
             images.value = ''
             data.delete('uploaded_image')
             showFlag.value = false
-            nextTick(() => showFlag.value = true)
+            nextTick(() => (showFlag.value = true))
         }
 
         const setImageFile = (event: { target: HTMLInputElement }): void => {
-            if (
-                event.target instanceof HTMLInputElement &&
-                event.target.files
-            ) {
+            if (event.target instanceof HTMLInputElement && event.target.files) {
                 try {
                     images.value = URL.createObjectURL(event.target.files[0])
                     data.append('uploaded_image', event.target.files[0])
-                } catch (error) {
+                } catch {
                     deletePreview()
                 }
             }
         }
 
         const registration = (): void => {
+
+            data.append('user', String(store.state.authUser.user.id))
+
             axios
                 .post('https://127.0.0.1:8000/api/v1/campaign/posts/', data, {
                     headers: {
@@ -71,13 +71,9 @@ export default defineComponent({
                             'content-type': 'multipart/form-data'
                     }
                 })
-                .then( () =>{
+                .then(() => {
                     router.push({
                         name: 'PveComp',
-                        query: {
-                            chapter_id: chapter,
-                            stage_id: stage
-                        }
                     })
                 })
                 .catch(error => {
@@ -91,13 +87,13 @@ export default defineComponent({
             registration,
             images,
             deletePreview,
-            showFlag
+            showFlag,
         }
     }
 })
 </script>
 <style>
-div.preview-box img{
+div.preview-box img {
     width: 50%;
     height: 50%;
 }

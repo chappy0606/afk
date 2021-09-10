@@ -17,10 +17,11 @@
 import { defineComponent, reactive } from 'vue'
 import axios from 'axios'
 import { useRoute } from 'vue-router'
+import router from '../../router'
 
 interface State {
-    chapters: string
-    stages: string
+    chapters: []
+    stages: []
     selectedChapter: string
     selectedStage: string
 }
@@ -28,29 +29,47 @@ interface State {
 export default defineComponent({
     setup(props, { emit }) {
         const state: State = reactive({
-            chapters: '',
-            stages: '',
+            chapters: [],
+            stages: [],
             selectedChapter: '',
             selectedStage: ''
         })
 
         const route = useRoute()
 
-        axios
-            .get('https://127.0.0.1:8000/api/v1/campaign/chapters/')
-            .then(response => (state.chapters = response.data))
-        axios
-            .get('https://127.0.0.1:8000/api/v1/campaign/stages/')
-            .then(response => (state.stages = response.data))
+        const test = (a: [], b: []): void => {
+            let chapter: string
+            let stage: string
+            
+            if (route.query.stage_id && route.query.stage_id) {
+                chapter = String(route.query.chapter_id)
+                stage = String(route.query.stage_id)
 
-        if (route.query.chapter_id && route.query.stage_id) {
-            state.selectedChapter = 'chapter' + route.query.chapter_id.toString()
-            state.selectedStage = 'stage' + route.query.stage_id.toString()
+                // api側のlengthと入力された数値で比較してapi側以下ならselectに代入
+                if (Number(chapter) <= a.length && b.length >= Number(stage)) {
+                    state.selectedChapter = 'chapter' + chapter.toString()
+                    state.selectedStage = 'stage' + stage.toString()
+                } else {
+                    router.push({
+                        name: 'PveComp'
+                    })
+                }
+            }
         }
+
+        Promise.all([
+            axios.get('https://127.0.0.1:8000/api/v1/campaign/chapters/'),
+            axios.get('https://127.0.0.1:8000/api/v1/campaign/stages/')
+        ]).then(([chapters, stages]) => {
+            state.chapters = chapters.data
+            state.stages = stages.data
+
+            test(state.chapters, state.stages)
+        })
 
         const sendChapterStage = (event: {
             target: HTMLButtonElement
-        }): void => {
+        }) => {
             if (event.target.value) {
                 emit('sendChapterStage', event.target.value)
             }

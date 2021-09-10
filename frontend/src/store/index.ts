@@ -105,8 +105,6 @@ export const store = createStore<State>({
                     }
                 )
                 .then(response => {
-                    console.log('更新完了！')
-                    console.log('認証成功やで！！！')
                     commit('setAccessToken', response.data.access)
                 })
                 .catch(error => {
@@ -142,7 +140,6 @@ export const store = createStore<State>({
             axios
                 .post('https://127.0.0.1:8000/api/v1/auth/logout/')
                 .then( () => {
-                    console.log('ログアウトしました')
                     commit('isAuth', null)
                     commit('setAuthUser', initialState())
                     commit('setCurrentPath', '')

@@ -8,16 +8,11 @@
 </template>
 
 <script lang="ts">
-// import axios from 'axios'
 import { defineComponent } from 'vue'
 export default defineComponent({
     setup() {
-        const userRegister = () => {
-            console.log('登録ーーーーーーーーーーーーーーーー')
-        }
 
         return {
-            userRegister
         }
     }
 })

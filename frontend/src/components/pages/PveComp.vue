@@ -46,8 +46,12 @@ export default defineComponent({
 
         onBeforeRouteUpdate(to => {
             if (('chapter_id' && 'stage_id') in to.query) {
-                chapter.value = to.query.chapter_id.toString()
-                stage.value = to.query.stage_id.toString()
+                // 値のチェックをしないとObject is possibly 'null'が返ってくる
+                // Non-null assertion operator(!)でも回避できる
+                if (to.query.chapter_id && to.query.stage_id) {
+                    chapter.value = to.query.chapter_id.toString()
+                    stage.value = to.query.stage_id.toString()
+                }
             }
         })
 
