@@ -60,7 +60,6 @@ export default defineComponent({
         }
 
         const registration = (): void => {
-
             data.append('user', String(store.state.authUser.user.id))
 
             axios
