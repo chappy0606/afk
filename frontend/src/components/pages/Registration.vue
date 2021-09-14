@@ -17,11 +17,13 @@ export default defineComponent({
         const passWord = ref<string>('')
         const eMail = ref<string>('')
 
-        const userRegister =() =>{
+        const userRegister =() => {
             console.log(userName)
             console.log(passWord)
             console.log(eMail)
         }
+
+        
 
         return {
             userName,

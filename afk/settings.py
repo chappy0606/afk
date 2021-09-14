@@ -68,6 +68,9 @@ CORS_ALLOWED_ORIGINS = [
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'accounts.serializers.UserSerializer',
 }
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer'
+}
 
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('JWT',),
