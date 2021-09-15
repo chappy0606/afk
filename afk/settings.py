@@ -71,6 +71,7 @@ REST_AUTH_SERIALIZERS = {
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer'
 }
+ACCOUNT_ADAPTER = 'accounts.adapter.CustomUserAccountAdapter'
 
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('JWT',),
