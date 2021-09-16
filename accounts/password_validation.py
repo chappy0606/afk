@@ -9,8 +9,7 @@ def contain_any(target, condition_list):
 class CustomValidator:
     message = "パスワードは(大小英字、数字）全てを組み合わせて8文字以上に設定してください。"
 
-    def validate(self, password, user=None):
-        print(len(password))
+    def password_validate(self, password, user=None):
         if not all([contain_any(password, ascii_lowercase),
                     contain_any(password, ascii_uppercase),
                     contain_any(password, digits),
