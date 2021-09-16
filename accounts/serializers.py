@@ -2,7 +2,6 @@ from rest_framework import serializers
 from accounts.models import User
 from django.utils.translation import gettext_lazy as _
 from dj_rest_auth.registration.serializers import RegisterSerializer
-from allauth.account.adapter import DefaultAccountAdapter
 from .adapter import CustomAccountAdapter
 
 
@@ -24,8 +23,6 @@ class CustomRegisterSerializer(serializers.ModelSerializer, RegisterSerializer, 
         return super().clean_username(username)
 
     def validate_password(self, password):
-        if 'testpassword' in password.lower():
-            raise serializers.ValidationError('いつも同じやん。。。')
         return super().clean_password(password)
 
     def validate(self, data):

@@ -1,8 +1,8 @@
 from allauth.account.adapter import DefaultAccountAdapter
+from .password_validation import CustomValidator
 
-
-class CustomAccountAdapter(DefaultAccountAdapter):
+class CustomAccountAdapter(DefaultAccountAdapter,CustomValidator):
 
     def clean_password(self, password, user=None):
-        print('custom')
-        return super().clean_password(password)
+        super().validate(password)
+        return password
