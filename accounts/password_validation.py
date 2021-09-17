@@ -6,7 +6,7 @@ def contain_any(target, condition_list):
     return any([i in target for i in condition_list])
 
 
-class CustomValidator:
+class CustomValidator():
     message = "パスワードは(大小英字、数字）全てを組み合わせて8文字以上に設定してください。"
 
     def password_validate(self, password, user=None):
@@ -19,3 +19,4 @@ class CustomValidator:
 
     def get_help_text(self):
         return self.message
+

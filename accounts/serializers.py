@@ -12,14 +12,14 @@ class UserSerializer(serializers.ModelSerializer):
                 'is_active', 'last_login', 'date_joined')
 
 
-class CustomRegisterSerializer(serializers.ModelSerializer, RegisterSerializer, CustomValidator):
+class CustomRegisterSerializer(serializers.ModelSerializer, RegisterSerializer):
     class Meta:
         model = User
         fields = ('username', 'password', 'email')
 
     def validate_password(self, password):
-        super().password_validate(password)
+        CustomValidator().password_validate(password)
         return password
-
+    
     def validate(self, data):
         return data
