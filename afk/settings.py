@@ -65,6 +65,9 @@ CORS_ALLOWED_ORIGINS = [
     'https://localhost:8080',
 ]
 
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_USERNAME_REQUIRED = True
+
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'accounts.serializers.UserSerializer',
 }

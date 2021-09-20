@@ -23,9 +23,9 @@ export default defineComponent({
     setup() {
         const route = useRoute()
 
-        const chapter = ref<string>('')
-        const stage = ref<string>('')
-        const images = ref<string>('')
+        const chapter = ref<string>()
+        const stage = ref<string>()
+        const images = ref<string>()
 
         const setChapterStage = (value: string): void => {
             if (value.includes('chapter')) {
