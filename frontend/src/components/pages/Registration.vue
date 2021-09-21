@@ -1,29 +1,30 @@
 <template>
     <div>
         <div class="input-form">
-            <div class="username">
-                <input type="text" v-model="userName" placeholder="ユーザー名" />
-                    <span v-if="errorMessages.username">
+            <label>ユーザー名</label><br>
+                <input type="text" v-model="userName" />
+                    <label v-if="errorMessages.username">
                         {{errorMessages.username}}
-                    </span>
-            </div>
+                    </label>
+                    <label v-else>最低１文字必要です。</label><br>
 
-            <div class="password">
-                <input type="password" v-model="passWord" placeholder="パスワード"/>
-                    <span v-if="errorMessages.password">
+            <label>パスワード</label><br>
+                <input type="password" v-model="passWord" />
+                    <label v-if="errorMessages.password">
                         {{errorMessages.password}}
-                    </span>
-            </div>
+                    </label>
+                    <label v-else>大小英字、数字を含む8文字以上必要です</label><br>
+                <input type="checkbox" />
+                    <label>パスワードの表示</label><br>
 
-        <div class="email">
-            <input type="text" v-model="eMail" placeholder="メールアドレス(任意)"/>
-                <span v-if="errorMessages.email">
-                    {{errorMessages.email}}
-                </span>
-        </div>
-        
-        <button @click="userRegister">登録</button>
-        
+            <label>メールアドレス</label><br>
+                <input type="text" v-model="eMail" />
+                    <label v-if="errorMessages.email">
+                        {{errorMessages.email}}
+                    </label>
+                    <label v-else>パスワード再発行時に使用します(任意)</label><br>
+
+            <button @click="userRegister">Sign up</button>
         </div>
     </div>
 </template>
@@ -51,6 +52,10 @@ export default defineComponent({
             password: '',
             email: ''
         })
+
+        const isShowPassword = () => {
+            console.log('')
+        }
 
         const userRegister = () => {
             axios
