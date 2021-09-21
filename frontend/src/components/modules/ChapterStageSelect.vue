@@ -37,22 +37,19 @@ export default defineComponent({
 
         const route = useRoute()
 
-        const test = (a: [], b: []): void => {
-            let chapter: string
-            let stage: string
-            
+        const checkQueryValue = (chapters: [], stages: []): void => {
             if (route.query.stage_id && route.query.stage_id) {
-                chapter = String(route.query.chapter_id)
-                stage = String(route.query.stage_id)
-
-                // api側のlengthと入力された数値で比較してapi側以下ならselectに代入
-                if (Number(chapter) <= a.length && b.length >= Number(stage)) {
-                    state.selectedChapter = 'chapter' + chapter.toString()
-                    state.selectedStage = 'stage' + stage.toString()
-                } else {
-                    router.push({
-                        name: 'PveComp'
-                    })
+                const queryChapter: number = Number(route.query.chapter_id)
+                const queryStage: number = Number(route.query.stage_id)
+                // 0の処理
+                if (!queryChapter || !queryStage){
+                    router.push({name: 'PveComp'})
+                    return
+                }
+                // DBに存在してる数字ならselectboxにセット
+                if (queryChapter <= chapters.length && queryStage <= stages.length){
+                    state.selectedChapter = 'chapter' + queryChapter.toString()
+                    state.selectedStage = 'stage' + queryStage.toString()
                 }
             }
         }
@@ -64,12 +61,10 @@ export default defineComponent({
             state.chapters = chapters.data
             state.stages = stages.data
 
-            test(state.chapters, state.stages)
+            checkQueryValue(state.chapters, state.stages)
         })
 
-        const sendChapterStage = (event: {
-            target: HTMLButtonElement
-        }) => {
+        const sendChapterStage = (event: { target: HTMLButtonElement }) => {
             if (event.target.value) {
                 emit('sendChapterStage', event.target.value)
             }
