@@ -1,21 +1,56 @@
 <template>
     <div>
-        <input type="text" v-model="userName" placeholder="ユーザー名" />
-        <input type="password" v-model="passWord" placeholder="パスワード" />
-        <input type="text" v-model="eMail" placeholder="メールアドレス(任意)" />
+        <div class="input-form">
+            <div class="username">
+                <input type="text" v-model="userName" placeholder="ユーザー名" />
+                    <span v-if="errorMessages.username">
+                        {{errorMessages.username}}
+                    </span>
+            </div>
+
+            <div class="password">
+                <input type="password" v-model="passWord" placeholder="パスワード"/>
+                    <span v-if="errorMessages.password">
+                        {{errorMessages.password}}
+                    </span>
+            </div>
+
+        <div class="email">
+            <input type="text" v-model="eMail" placeholder="メールアドレス(任意)"/>
+                <span v-if="errorMessages.email">
+                    {{errorMessages.email}}
+                </span>
+        </div>
+        
         <button @click="userRegister">登録</button>
+        
+        </div>
     </div>
 </template>
 
 <script lang="ts">
 import axios from 'axios'
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, reactive } from 'vue'
+import { useRouter } from 'vue-router'
+
+interface response {
+    username: string
+    password: string
+    email: string
+}
 export default defineComponent({
     setup() {
+        const router = useRouter()
+
         const userName = ref<string>('')
         const passWord = ref<string>('')
-        // todo: 間違って空白入ったときは空白チェックでお茶濁す
         const eMail = ref<string>('')
+
+        const errorMessages: response = reactive({
+            username: '',
+            password: '',
+            email: ''
+        })
 
         const userRegister = () => {
             axios
@@ -26,9 +61,16 @@ export default defineComponent({
                 })
                 .then(respnse => {
                     console.log(respnse)
+                    router.push({
+                        name: 'PveComp'
+                    })
                 })
                 .catch(error => {
-                    console.log(error.response)
+                    for(const key in error.response.data){
+                        if(key in errorMessages){
+                            errorMessages[key] = error.response.data[key][0]
+                        }
+                    }
                 })
         }
 
@@ -36,6 +78,7 @@ export default defineComponent({
             userName,
             passWord,
             eMail,
+            errorMessages,
             userRegister
         }
     }
