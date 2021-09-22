@@ -47,10 +47,12 @@ export default defineComponent({
         })
 
         const showPassword = () => {
-            const test = document.getElementById('password')
-            console.log(test.getAttribute('type'))
-            test.setAttribute('type','text')
-            console.log(test)
+            const elm = document.getElementById('password')
+            if (elm.getAttribute('type') === 'password'){
+                elm.setAttribute('type','text')
+            }else{
+                elm.setAttribute('type','password')
+            }
         }
 
         const userRegister = () => {
