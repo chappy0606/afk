@@ -26,6 +26,7 @@
 import axios from 'axios'
 import { defineComponent, ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { useStore } from '../../store'
 
 interface response {
     username: string
@@ -35,6 +36,7 @@ interface response {
 export default defineComponent({
     setup() {
         const router = useRouter()
+        const store = useStore()
 
         const userName = ref<string>('')
         const passWord = ref<string>('')
@@ -64,8 +66,9 @@ export default defineComponent({
                 })
                 .then(respnse => {
                     console.log(respnse)
+                    store.dispatch('authLogin',{username:userName.value, password:passWord.value})
                     router.push({
-                        name: 'PveComp'
+                        name: 'TopPage'
                     })
                 })
                 .catch(error => {
@@ -88,3 +91,7 @@ export default defineComponent({
     }
 })
 </script>
+
+function userStore() {
+  throw new Error('Function not implemented.')
+}

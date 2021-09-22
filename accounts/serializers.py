@@ -1,3 +1,4 @@
+from allauth.account.utils import setup_user_email
 from rest_framework import serializers
 from accounts.models import User
 from django.utils.translation import gettext_lazy as _
@@ -42,3 +43,10 @@ class CustomRegisterSerializer(serializers.ModelSerializer, RegisterSerializer):
 
     def validate(self, data):
         return data
+
+    def get_cleaned_data(self):
+        return {
+            'username': self.validated_data.get('username', ''),
+            'password': self.validated_data.get('password', ''),
+            'email': self.validated_data.get('email', ''),
+        }
