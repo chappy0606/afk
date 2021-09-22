@@ -2,26 +2,19 @@
     <div>
         <div class="input-form">
             <label>ユーザー名</label><br>
-                <input type="text" v-model="userName" />
-                    <label v-if="errorMessages.username">
-                        {{errorMessages.username}}
-                    </label>
+                <input id="username" type="text" v-model="userName" />
+                    <label v-if="errorMessages.username">{{errorMessages.username}}</label>
                     <label v-else>最低１文字必要です。</label><br>
 
             <label>パスワード</label><br>
-                <input type="password" v-model="passWord" />
-                    <label v-if="errorMessages.password">
-                        {{errorMessages.password}}
-                    </label>
+                <input id="password" type="password" v-model="passWord" />
+                    <label v-if="errorMessages.password">{{errorMessages.password}}</label>
                     <label v-else>大小英字、数字を含む8文字以上必要です</label><br>
-                <input type="checkbox" />
-                    <label>パスワードの表示</label><br>
+                    <label><input type="checkbox" @change="showPassword" />パスワードの表示</label><br>
 
             <label>メールアドレス</label><br>
-                <input type="text" v-model="eMail" />
-                    <label v-if="errorMessages.email">
-                        {{errorMessages.email}}
-                    </label>
+                <input id="email" type="text" v-model="eMail" />
+                    <label v-if="errorMessages.email">{{errorMessages.email}}</label>
                     <label v-else>パスワード再発行時に使用します(任意)</label><br>
 
             <button @click="userRegister">Sign up</button>
@@ -53,8 +46,11 @@ export default defineComponent({
             email: ''
         })
 
-        const isShowPassword = () => {
-            console.log('')
+        const showPassword = () => {
+            const test = document.getElementById('password')
+            console.log(test.getAttribute('type'))
+            test.setAttribute('type','text')
+            console.log(test)
         }
 
         const userRegister = () => {
@@ -84,7 +80,8 @@ export default defineComponent({
             passWord,
             eMail,
             errorMessages,
-            userRegister
+            userRegister,
+            showPassword
         }
     }
 })

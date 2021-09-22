@@ -6,7 +6,7 @@
             type="file"
             accept="image/*"
             @change="setImageFile"
-            v-if="showFlag"
+            v-if="shouldShow"
         />
         <div v-show="images" class="preview-box">
             <img :src="images" />
@@ -28,7 +28,7 @@ export default defineComponent({
 
     setup() {
         const images = ref<string>('')
-        const showFlag = ref<boolean>(true)
+        const shouldShow = ref<boolean>(true)
 
         const store = useStore()
 
@@ -44,8 +44,8 @@ export default defineComponent({
         const deletePreview = () => {
             images.value = ''
             data.delete('uploaded_image')
-            showFlag.value = false
-            nextTick(() => (showFlag.value = true))
+            shouldShow.value = false
+            nextTick(() => (shouldShow.value = true))
         }
 
         const setImageFile = (event: { target: HTMLInputElement }): void => {
@@ -86,7 +86,7 @@ export default defineComponent({
             registration,
             images,
             deletePreview,
-            showFlag,
+            shouldShow,
         }
     }
 })

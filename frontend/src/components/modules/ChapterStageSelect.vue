@@ -1,11 +1,11 @@
 <template>
     <div>
-        <select v-model="state.selectedChapter" @change="sendChapterStage">
+        <select :value="state.selectedChapter" @change="sendChapterStage">
             <option v-for="chapter in state.chapters" :key="chapter.id">
                 chapter{{ chapter.id }}
             </option>
         </select>
-        <select v-model="state.selectedStage" @change="sendChapterStage">
+        <select :value="state.selectedStage" @change="sendChapterStage">
             <option v-for="stage in state.stages" :key="stage.id">
                 stage{{ stage.id }}
             </option>
