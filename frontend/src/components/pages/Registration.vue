@@ -1,6 +1,5 @@
 <template>
     <div>
-        <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
 
         <div class="input-form">
             <label>ユーザー名</label><br>
@@ -10,7 +9,7 @@
 
             <label>パスワード</label><br>
                 <input id="password" type="password" v-model="passWord" />
-                <span id="buttonEye" class="fa fa-eye-slash" @click="showPassword"></span>
+                <span id="buttonEye" class="fa fa-eye" @click="showPassword"></span>
                     <label v-if="errorMessages.password">{{errorMessages.password}}</label>
                     <label v-else>大小英字、数字を含む8文字以上必要です</label><br>
 
@@ -55,12 +54,11 @@ export default defineComponent({
             const className = document.getElementById('buttonEye')
             if (inputType.getAttribute('type') === 'password'){
                 inputType.setAttribute('type','text')
-                className.setAttribute('class','fa fa-eye')
+                className.setAttribute('class','fa fa-eye-slash')
             }else{
                 inputType.setAttribute('type','password')
-                className.setAttribute('class','fa fa-eye-slash')
+                className.setAttribute('class','fa fa-eye')
             }
-            console.log(className)
         }
 
         const userRegister = () => {
