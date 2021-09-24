@@ -1,4 +1,3 @@
-from allauth.account.utils import setup_user_email
 from rest_framework import serializers
 from accounts.models import User
 from django.utils.translation import gettext_lazy as _

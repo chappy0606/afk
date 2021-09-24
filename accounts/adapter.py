@@ -1,5 +1,4 @@
 from allauth.account.adapter import DefaultAccountAdapter
-from allauth.account.utils import passthrough_next_redirect_url
 
 
 class CustomAccountAdapter(DefaultAccountAdapter):
