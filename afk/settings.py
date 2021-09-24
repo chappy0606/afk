@@ -74,6 +74,11 @@ REST_AUTH_SERIALIZERS = {
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer'
 }
+
+# PASSWORD_RESET_SERIALIZER = {
+#     # たぶん必要
+# }
+
 ACCOUNT_ADAPTER = "accounts.adapter.CustomAccountAdapter"
 
 SIMPLE_JWT = {

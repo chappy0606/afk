@@ -1,5 +1,7 @@
 <template>
     <div>
+        <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+
         <div class="input-form">
             <label>ユーザー名</label><br>
                 <input id="username" type="text" v-model="userName" />
@@ -8,9 +10,9 @@
 
             <label>パスワード</label><br>
                 <input id="password" type="password" v-model="passWord" />
+                <span id="buttonEye" class="fa fa-eye-slash" @click="showPassword"></span>
                     <label v-if="errorMessages.password">{{errorMessages.password}}</label>
                     <label v-else>大小英字、数字を含む8文字以上必要です</label><br>
-                    <label><input type="checkbox" @change="showPassword" />パスワードの表示</label><br>
 
             <label>メールアドレス</label><br>
                 <input id="email" type="text" v-model="eMail" />
@@ -49,12 +51,16 @@ export default defineComponent({
         })
 
         const showPassword = () => {
-            const elm = document.getElementById('password')
-            if (elm.getAttribute('type') === 'password'){
-                elm.setAttribute('type','text')
+            const inputType = document.getElementById('password')
+            const className = document.getElementById('buttonEye')
+            if (inputType.getAttribute('type') === 'password'){
+                inputType.setAttribute('type','text')
+                className.setAttribute('class','fa fa-eye')
             }else{
-                elm.setAttribute('type','password')
+                inputType.setAttribute('type','password')
+                className.setAttribute('class','fa fa-eye-slash')
             }
+            console.log(className)
         }
 
         const userRegister = () => {
