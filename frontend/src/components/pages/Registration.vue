@@ -1,6 +1,5 @@
 <template>
     <div>
-
         <div class="input-form">
             <label>ユーザー名</label><br>
                 <input id="username" type="text" v-model="userName" />
@@ -50,12 +49,15 @@ export default defineComponent({
         })
 
         const showPassword = () => {
-            const inputType = document.getElementById('password')
-            const className = document.getElementById('buttonEye')
+            // 型アサーション
+            const inputType = document.getElementById('password') as HTMLElement
+            const className = document.getElementById('buttonEye') as HTMLElement
+
             if (inputType.getAttribute('type') === 'password'){
                 inputType.setAttribute('type','text')
                 className.setAttribute('class','fa fa-eye-slash')
-            }else{
+            }
+            else{
                 inputType.setAttribute('type','password')
                 className.setAttribute('class','fa fa-eye')
             }
@@ -76,9 +78,12 @@ export default defineComponent({
                     })
                 })
                 .catch(error => {
-                    for(const key in error.response.data){
-                        if(key in errorMessages){
+                    // todo:ここも怒られてる
+                    for (const key in error.response.data){
+                        console.log(key)
+                    if(key in errorMessages){
                             errorMessages[key] = error.response.data[key][0]
+                            console.log('')
                         }
                     }
                 })
