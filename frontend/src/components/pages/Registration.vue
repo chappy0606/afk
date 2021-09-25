@@ -82,7 +82,7 @@ export default defineComponent({
                     for (const key in error.response.data){
                         console.log(key)
                     if(key in errorMessages){
-                            errorMessages[key] = error.response.data[key][0]
+                            // errorMessages[key] = error.response.data[key][0]
                             console.log('')
                         }
                     }
