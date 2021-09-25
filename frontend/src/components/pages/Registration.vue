@@ -33,6 +33,7 @@ interface response {
     password: string
     email: string
 }
+
 export default defineComponent({
     setup() {
         const router = useRouter()
@@ -78,13 +79,8 @@ export default defineComponent({
                     })
                 })
                 .catch(error => {
-                    // todo:ここも怒られてる
                     for (const key in error.response.data){
-                        console.log(key)
-                    if(key in errorMessages){
-                            // errorMessages[key] = error.response.data[key][0]
-                            console.log('')
-                        }
+                        errorMessages[key as keyof response] = error.response.data[key][0]
                     }
                 })
         }
