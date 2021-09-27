@@ -1,11 +1,11 @@
 <template>
     <header>
         <span v-if="store.state.auth.isAuth">
-            ユーザーID{{ store.state.authUser.user.id }}
+            <router-link :to="{ name: 'Profile'}">
+                <h3>{{ store.state.authUser.user.username }}さん</h3>
+            </router-link>
         </span>
-        <span v-if="store.state.auth.isAuth">
-            {{ store.state.authUser.user.username }}さん
-        </span>
+
         <nav class="header-menu">
             <ul>
                 <button v-show="store.state.auth.isAuth" @click="logout">ログアウト</button>

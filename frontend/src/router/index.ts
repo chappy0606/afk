@@ -4,6 +4,7 @@ import PveComp from '@/components/pages/PveComp.vue'
 import UploadPage from '@/components/pages/UploadPage.vue'
 import LoginPage from '@/components/pages/LoginPage.vue'
 import Registration from '@/components/pages/Registration.vue'
+import Profile from '@/components/pages/Profile.vue'
 import { store } from '@/store'
 
 const routes: Array<RouteRecordRaw> = [
@@ -14,7 +15,7 @@ const routes: Array<RouteRecordRaw> = [
     },
 
     {
-        path: '/user/login',
+        path: '/login',
         name: 'Login',
         component: LoginPage
     },
@@ -31,12 +32,18 @@ const routes: Array<RouteRecordRaw> = [
         component: UploadPage,
         meta: { isAuth: true }
     },
-    
+
     {
-        path: '/user/registration',
+        path: '/registration',
         name: 'Registration',
         component: Registration,
-        meta: {isAuth: false}
+        meta: { isAuth: false }
+    },
+    {
+        path: '/profile',
+        name: 'Profile',
+        component: Profile,
+        meta: { isAuth: true }
     }
 ]
 

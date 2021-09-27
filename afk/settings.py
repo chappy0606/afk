@@ -79,6 +79,9 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 #     # たぶん必要
 # }
 
+OLD_PASSWORD_FIELD_ENABLED = True
+LOGOUT_ON_PASSWORD_CHANGE = False
+
 ACCOUNT_ADAPTER = "accounts.adapter.CustomAccountAdapter"
 
 SIMPLE_JWT = {

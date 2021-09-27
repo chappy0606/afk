@@ -15,7 +15,7 @@
             <label>メールアドレス</label><br>
                 <input id="email" type="text" v-model="eMail" />
                     <label v-if="errorMessages.email">{{errorMessages.email}}</label>
-                    <label v-else>パスワードリセット時に使用します(任意)</label><br>
+                    <label v-else>パスワード再発行時に使用します(任意)</label><br>
 
             <button @click="userRegister">Sign up</button>
         </div>

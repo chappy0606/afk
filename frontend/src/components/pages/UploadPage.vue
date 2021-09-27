@@ -12,7 +12,7 @@
             <img :src="images" />
             <button @click="deletePreview">クリア</button>
         </div>
-        <button type="button" @click="registration">登録テスト</button>
+        <button @click="registration">登録テスト</button>
     </div>
 </template>
 
