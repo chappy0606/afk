@@ -28,7 +28,7 @@ import { defineComponent, ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from '../../store'
 
-interface response {
+interface Response {
     username: string
     password: string
     email: string
@@ -43,7 +43,7 @@ export default defineComponent({
         const passWord = ref<string>('')
         const eMail = ref<string>('')
 
-        const errorMessages: response = reactive({
+        const errorMessages: Response = reactive({
             username: '',
             password: '',
             email: ''
@@ -80,7 +80,7 @@ export default defineComponent({
                 })
                 .catch(error => {
                     for (const key in error.response.data){
-                        errorMessages[key as keyof response] = error.response.data[key][0]
+                        errorMessages[key as keyof Response] = error.response.data[key][0]
                     }
                 })
         }

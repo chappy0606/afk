@@ -17,7 +17,7 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/login',
         name: 'Login',
-        component: LoginPage
+        component: LoginPage,
     },
 
     {
@@ -30,20 +30,20 @@ const routes: Array<RouteRecordRaw> = [
         path: '/pve_comp/upload',
         name: 'Upload',
         component: UploadPage,
-        meta: { isAuth: true }
+        meta: { requiresAuth: true }
     },
 
     {
         path: '/registration',
         name: 'Registration',
         component: Registration,
-        meta: { isAuth: false }
     },
+
     {
         path: '/profile',
         name: 'Profile',
         component: Profile,
-        meta: { isAuth: true }
+        meta: { requiresAuth: true }
     }
 ]
 
@@ -51,20 +51,28 @@ const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes
 })
+
+const isLogin = () => {
+    return store.state.auth.isAuth
+}
+
+const url:string[] = ['/login', '/registration']
+
 router.beforeEach((to, from, next) => {
-    if (to.path === '/user/login' && store.state.auth.isAuth) {
+    if (url.includes(to.path) && isLogin()) {
         router.push({ name: 'TopPage' })
     }
-    if (to.matched.some(record => record.meta.isAuth)) {
+
+    if (to.matched.some(record => record.meta.requiresAuth)) {
         store.commit('setCurrentPath', { currentPath: to.path })
-        if (store.state.auth.isAuth) {
+        if (isLogin()) {
             next()
         } else {
             next({ name: 'Login' })
         }
     } else {
-        next()
-    }
+            next()
+        }
 })
 
 export default router

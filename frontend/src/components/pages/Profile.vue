@@ -25,15 +25,26 @@ import axios from 'axios'
 import { defineComponent, reactive } from 'vue'
 import { useStore } from '../../store'
 
-interface InputData {
+interface PassWord {
     newPassWord: string
     oldPassWord: string
 }
+
+interface Message extends PassWord{
+    success: string
+}
+
 export default defineComponent({
     setup() {
-        const inputData: InputData = reactive({
+        const inputData: PassWord = reactive({
             newPassWord: '',
             oldPassWord: ''
+        })
+
+        const message : Message = reactive({
+            newPassWord: '',
+            oldPassWord: '',
+            success: ''
         })
 
         const store = useStore()
@@ -61,10 +72,10 @@ export default defineComponent({
                     }
                 }
             )
-            .then((response) =>{
-                console.log(response)
+            .then(() => {
+                message.success = 'パスワードの更新が完了しました。'
             })
-            .catch((error) => {
+            .catch( (error) => {
                 console.log(error)
             })
         }

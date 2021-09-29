@@ -14,4 +14,6 @@ Chappy0606
 変更後
 Mame0606
 
-コンポーネント化は後
+axiosBaseURLでまとめる
+
+inputformのコンポーネント化
