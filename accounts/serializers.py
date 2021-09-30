@@ -15,8 +15,7 @@ except ImportError:
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'password', 'email', 'is_staff',
-                'is_active', 'last_login', 'date_joined')
+        fields = ('id', 'username', 'email', 'date_joined')
 
 
 def contain_any(target, condition_list):

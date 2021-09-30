@@ -17,3 +17,5 @@ Mame0606
 axiosBaseURLでまとめる
 
 inputformのコンポーネント化
+
+退会　アドレス変更

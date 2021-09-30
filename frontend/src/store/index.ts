@@ -16,11 +16,7 @@ const initialState = (): User => {
     return {
         user: {
             id: null,
-            is_active: null,
-            is_staff: null,
-            password: '',
             username: '',
-            last_login: '',
             date_joined: '',
             email: ''
         },
@@ -36,11 +32,7 @@ export const store = createStore<State>({
         authUser: {
             user: {
                 id: null,
-                is_active: null,
-                is_staff: null,
-                password: '',
                 username: '',
-                last_login: '',
                 date_joined: '',
                 email: ''
             },
