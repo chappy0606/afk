@@ -75,7 +75,7 @@ export default defineComponent({
             .then(() => {
                 message.success = 'パスワードの更新が完了しました。'
             })
-            .catch( (error) => {
+            .catch(error => {
                 console.log(error)
             })
         }

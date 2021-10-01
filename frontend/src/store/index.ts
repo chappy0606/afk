@@ -101,6 +101,7 @@ export const store = createStore<State>({
                 })
                 .catch(error => {
                     if (error.response.status === 401) {
+                        // refreshToken期限切れで強制ログアウト
                         store.dispatch('authLogout')
                     } else {
                         console.log(error.response)

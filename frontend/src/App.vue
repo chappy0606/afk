@@ -14,7 +14,10 @@ import Header from './components/modules/Header.vue'
 import Footer from './components/modules/Footer.vue'
 
 export default defineComponent({
-    components: { Header, Footer }
+    components: { Header, Footer },
+    setup(){
+        console.log('監視なう')
+    }
 })
 </script>
 

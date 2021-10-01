@@ -8,8 +8,6 @@ vuetify alpha使ってみる
 
 列挙型、辞書で管理？
 
-パスワード変更とリセット
-
 Chappy0606
 変更後
 Mame0606
@@ -18,4 +16,13 @@ axiosBaseURLでまとめる
 
 inputformのコンポーネント化
 
-退会　アドレス変更
+退会　アドレス変更(PATCH)
+パスワードリセット
+
+refreshtokenは常に見張らない
+最終ログインからn日後に自動でログアウトする
+
+expires_in
+全てのページでアクセストークンを確認する
+↑SPAやから大丈夫
+verify
