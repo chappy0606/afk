@@ -12,11 +12,22 @@
 import { defineComponent } from 'vue'
 import Header from './components/modules/Header.vue'
 import Footer from './components/modules/Footer.vue'
+import axios from 'axios'
+import { useStore } from './store'
 
 export default defineComponent({
     components: { Header, Footer },
     setup(){
-        console.log('監視なう')
+        const store = useStore()
+
+        if (store.state.auth.isAuth){
+            axios.post('https://127.0.0.1:8000/api/v1/auth/token/verify/',{
+                token : store.state.authUser.refresh_token
+            })
+            .catch(()=> {
+                store.dispatch('authLogout')
+            })
+        }
     }
 })
 </script>
