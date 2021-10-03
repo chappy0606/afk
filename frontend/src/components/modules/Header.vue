@@ -32,23 +32,18 @@ export default defineComponent({
         }
 
         const test = (): void => {
-            // 認証チェック
             axios
-                .get('https://127.0.0.1:8000/api/v1/test/', {
+                .delete('https://127.0.0.1:8000/api/v1/auth/user/',{
                     headers: {
                         Authorization:
                             'JWT ' + store.state.authUser.access_token
                     }
                 })
                 .then(response => {
-                    console.log('認証成功！')
                     console.log(response.request.response)
                 })
                 .catch(error => {
-                    if (error.response.status === 401) {
-                        console.log('アクセストークン更新できるか確認するわ！')
-                        store.dispatch('accessTokenRefresh')
-                    }
+                    console.log(error)
                 })
         }
 

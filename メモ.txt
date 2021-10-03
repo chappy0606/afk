@@ -18,3 +18,4 @@ inputformのコンポーネント化
 
 退会　アドレス変更(PATCH)
 パスワードリセット
+deleted_at

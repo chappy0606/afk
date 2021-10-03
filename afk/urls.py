@@ -1,4 +1,4 @@
-from accounts.views import CustomLoginView, TestView
+from accounts.views import CustomLoginView, TestView, AuthInfoDeleteView
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
@@ -11,6 +11,7 @@ urlpatterns = [
     path('api/v1/test/', TestView.as_view()),
 
     path('api/v1/auth/login/', CustomLoginView.as_view()),
+    path('api/v1/auth/user/', AuthInfoDeleteView.as_view()),
     path('api/v1/auth/', include('dj_rest_auth.urls')),
     path('api/v1/auth/registration/', include('dj_rest_auth.registration.urls')),
     

@@ -1,3 +1,5 @@
+from rest_framework import status
+from rest_framework.generics import RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
@@ -23,3 +25,10 @@ class CustomLoginView(views.LoginView):
         update_last_login(None, self.user)
         
         return self.get_response()
+
+
+class AuthInfoDeleteView(views.UserDetailsView, RetrieveUpdateDestroyAPIView):
+    def destroy(self, request, *args, **kwargs):
+        request.user.is_active = False
+        request.user.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
