@@ -5,7 +5,7 @@
         <input
             id="old-password"
             type="text"
-            v-model="inputData.oldPassWord"
+            v-model="req.oldPassWord"
             @change="getPassWord"
         />
         <br />
@@ -13,7 +13,7 @@
         <input
             id="new-password"
             type="text"
-            v-model="inputData.newPassWord"
+            v-model="req.newPassWord"
             @change="getPassWord"
         />
         <button @click="passWordUpdate">更新</button>
@@ -25,35 +25,39 @@ import axios from 'axios'
 import { defineComponent, reactive } from 'vue'
 import { useStore } from '../../store'
 
-interface PassWord {
-    newPassWord: string
-    oldPassWord: string
+
+interface RequestData {
+    newPassword: string
+    oldPassword: string
 }
 
-interface Message extends PassWord{
+interface ResponseData {
+    newPassword: string
+    oldPassword: string
     success: string
 }
 
 export default defineComponent({
     setup() {
-        const inputData: PassWord = reactive({
-            newPassWord: '',
-            oldPassWord: ''
+        const req: RequestData = reactive({
+            newPassword: '',
+            oldPassword: ''
         })
 
-        const message : Message = reactive({
-            newPassWord: '',
-            oldPassWord: '',
+        const resp : ResponseData = reactive({
+            newPassword: '',
+            oldPassword: '',
             success: ''
         })
+
 
         const store = useStore()
 
         const getPassWord = (event: { target: HTMLInputElement }) => {
             if (event.target.id === 'old-password') {
-                inputData.oldPassWord = event.target.value
+                req.oldPassword = event.target.value
             } else if (event.target.id === 'new-password') {
-                inputData.newPassWord = event.target.value
+                req.newPassword = event.target.value
             }
         }
 
@@ -61,9 +65,9 @@ export default defineComponent({
             axios.post(
                 'https://127.0.0.1:8000/api/v1/auth/password/change/',
                 {
-                    old_password: inputData.oldPassWord,
-                    new_password1: inputData.newPassWord,
-                    new_password2: inputData.newPassWord
+                    old_password: req.oldPassword,
+                    new_password1: req.newPassword,
+                    new_password2: req.newPassword
                 },
                 {
                     headers: {
@@ -73,7 +77,7 @@ export default defineComponent({
                 }
             )
             .then(() => {
-                message.success = 'パスワードの更新が完了しました。'
+                resp.success = 'パスワードの更新が完了しました。'
             })
             .catch(error => {
                 console.log(error)
@@ -81,7 +85,7 @@ export default defineComponent({
         }
 
         return {
-            inputData,
+            req,
             getPassWord,
             passWordUpdate
         }
