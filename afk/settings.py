@@ -70,6 +70,7 @@ ACCOUNT_USERNAME_REQUIRED = True
 
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'accounts.serializers.UserSerializer',
+    'LOGIN_SERIALIZER': 'accounts.serializers.CustomLoginSerializer'
 }
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer'
@@ -78,6 +79,8 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 # PASSWORD_RESET_SERIALIZER = {
 #     # たぶん必要
 # }
+
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 OLD_PASSWORD_FIELD_ENABLED = True
 LOGOUT_ON_PASSWORD_CHANGE = False

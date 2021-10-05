@@ -16,7 +16,7 @@ const initialState = (): User => {
     return {
         user: {
             id: null,
-            username: '',
+            user_name: '',
             created_at: '',
             email: ''
         },
@@ -32,7 +32,7 @@ export const store = createStore<State>({
         authUser: {
             user: {
                 id: null,
-                username: '',
+                user_name: '',
                 created_at: '',
                 email: ''
             },
@@ -61,7 +61,7 @@ export const store = createStore<State>({
             },
             paths: [
                 'authUser.user.id',
-                'authUser.user.username',
+                'authUser.user.user_name',
                 'auth.isAuth',
                 'authUser.access_token',
                 'authUser.refresh_token'

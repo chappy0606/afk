@@ -1,4 +1,8 @@
+from dj_rest_auth.serializers import LoginSerializer
+from django.db import models
+from django.db.models import fields
 from rest_framework import serializers
+from rest_framework.fields import CharField
 from accounts.models import User
 from django.utils.translation import gettext_lazy as _
 from dj_rest_auth.registration.serializers import RegisterSerializer
@@ -13,9 +17,10 @@ except ImportError:
 
 
 class UserSerializer(serializers.ModelSerializer):
+    user_name = CharField(source='username')
     class Meta:
         model = User
-        fields = ('id', 'username', 'email',
+        fields = ('id', 'user_name', 'email',
                 'is_active', 'created_at')
         extra_kwargs = {
             'is_active': { 'write_only': True },
@@ -27,13 +32,22 @@ def contain_any(target, condition_list):
     return any([i in target for i in condition_list])
 
 
+class CustomLoginSerializer(serializers.ModelSerializer, LoginSerializer):
+    user_name = CharField(source='username')
+
+    class Meta:
+        model = User
+        fields = ('user_name', 'password', 'email')
+
+
 class CustomRegisterSerializer(serializers.ModelSerializer, RegisterSerializer):
+    user_name = CharField(source='username')
     email = serializers.EmailField(
         required=allauth_settings.EMAIL_REQUIRED, allow_blank=True)
 
     class Meta:
         model = User
-        fields = ('username', 'password', 'email')
+        fields = ('user_name', 'password', 'email')
 
     def validate_password(self, password):
         if not all([contain_any(password, ascii_lowercase),

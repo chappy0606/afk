@@ -18,3 +18,7 @@ inputformのコンポーネント化
 アドレス変更(PATCH)
 パスワードリセット
 deleted_at
+
+git stash
+git stash clear
+git clean -fd

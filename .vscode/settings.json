@@ -9,5 +9,8 @@
     },
     "json.schemas": [
     
-    ]
+    ],
+    "files.exclude": {
+        "**/.venv": true,
+    }
 }

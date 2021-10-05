@@ -1,7 +1,7 @@
 export interface User {
     user: {
         id: number | null
-        username: string
+        user_name: string
         created_at: string
         email: string
     }

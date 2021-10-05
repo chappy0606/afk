@@ -23,7 +23,7 @@ export default defineComponent({
         const passWord = ref<string>('Chappy0606')
 
         const login = (): void => {
-            store.dispatch('authLogin', { username: userName.value, password: passWord.value })
+            store.dispatch('authLogin', { user_name: userName.value, password: passWord.value })
         }
 
         return {

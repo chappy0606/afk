@@ -2,7 +2,7 @@
     <header>
         <span v-if="store.state.auth.isAuth">
             <router-link :to="{ name: 'Profile'}">
-                <h3>{{ store.state.authUser.user.username }}さん</h3>
+                <h3>{{ store.state.authUser.user.user_name }}さん</h3>
             </router-link>
         </span>
 
