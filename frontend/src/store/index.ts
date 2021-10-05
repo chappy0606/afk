@@ -17,7 +17,7 @@ const initialState = (): User => {
         user: {
             id: null,
             username: '',
-            date_joined: '',
+            created_at: '',
             email: ''
         },
         access_token: '',
@@ -33,7 +33,7 @@ export const store = createStore<State>({
             user: {
                 id: null,
                 username: '',
-                date_joined: '',
+                created_at: '',
                 email: ''
             },
             access_token: '',

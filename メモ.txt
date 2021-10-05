@@ -1,10 +1,9 @@
-管理サイトのアクセス制限
-アカウント凍結など
+アカウント凍結
 モーダルウィンドウ
 
 axiosの型定義
 
-vuetify alpha使ってみる
+vuetify alpha
 
 列挙型、辞書で管理？
 
@@ -16,6 +15,6 @@ axiosBaseURLでまとめる
 
 inputformのコンポーネント化
 
-退会　アドレス変更(PATCH)
+アドレス変更(PATCH)
 パスワードリセット
 deleted_at

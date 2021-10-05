@@ -6,7 +6,7 @@
             id="old-password"
             type="text"
             v-model="inputData.oldPassWord"
-            @change="test"
+            @change="getPassWord"
         />
         <br />
         <label>変更後のパスワード</label><br />
@@ -14,7 +14,7 @@
             id="new-password"
             type="text"
             v-model="inputData.newPassWord"
-            @change="test"
+            @change="getPassWord"
         />
         <button @click="passWordUpdate">更新</button>
     </div>
@@ -49,7 +49,7 @@ export default defineComponent({
 
         const store = useStore()
 
-        const test = (event: { target: HTMLInputElement }) => {
+        const getPassWord = (event: { target: HTMLInputElement }) => {
             if (event.target.id === 'old-password') {
                 inputData.oldPassWord = event.target.value
             } else if (event.target.id === 'new-password') {
@@ -82,7 +82,7 @@ export default defineComponent({
 
         return {
             inputData,
-            test,
+            getPassWord,
             passWordUpdate
         }
     }

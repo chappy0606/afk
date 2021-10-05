@@ -13,7 +13,7 @@ class CustomUserAdmin(UserAdmin):
         (_('Permissions'), {
             'fields': ('is_active', 'is_staff', 'is_superuser',),
         }),
-        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+        (_('Important dates'), {'fields': ('last_login', 'created_at')}),
     )
     
     add_fieldsets = (
@@ -23,7 +23,7 @@ class CustomUserAdmin(UserAdmin):
         }),
     )
 
-    list_display = ('username', 'is_staff', 'is_active')
+    list_display = ('username', 'is_staff', 'is_active','is_superuser')
     search_fields = ('username',)
     ordering = ('username',)
 

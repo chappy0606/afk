@@ -16,12 +16,10 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'email',
-                'is_active', 'date_joined')
+                'is_active', 'created_at')
         extra_kwargs = {
-            'password': {'write_only': True },
             'is_active': { 'write_only': True },
-            'is_staff': {  'read_only': True },
-            'date_joined': { 'read_only': True }
+            'created_at': {'read_only': True},
         }
 
 

@@ -2,7 +2,7 @@ export interface User {
     user: {
         id: number | null
         username: string
-        date_joined: string
+        created_at: string
         email: string
     }
     access_token: string

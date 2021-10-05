@@ -1,5 +1,5 @@
 from rest_framework import status
-from rest_framework.generics import RetrieveUpdateDestroyAPIView
+from rest_framework.generics import DestroyAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
@@ -14,7 +14,7 @@ class TestView(APIView):
         content = '認証済みユーザーのみ返信してるよ'
         return Response(content)
 
-class CustomLoginView(views.LoginView):
+class LoginView(views.LoginView):
     def post(self, request):
 
         self.request = request
@@ -27,7 +27,7 @@ class CustomLoginView(views.LoginView):
         return self.get_response()
 
 
-class AuthInfoDeleteView(views.UserDetailsView, RetrieveUpdateDestroyAPIView):
+class UserDetailsView(views.UserDetailsView, DestroyAPIView):
     def destroy(self, request, *args, **kwargs):
         request.user.is_active = False
         request.user.save()
