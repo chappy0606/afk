@@ -140,7 +140,5 @@ san.txt
 server.crt
 server.csr
 server.key
-
-key.py
 memo.py
-メモ.txt
+key.py
