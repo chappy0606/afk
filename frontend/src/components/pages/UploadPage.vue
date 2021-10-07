@@ -36,9 +36,9 @@ export default defineComponent({
 
         const setChapterStage = (value: string): void => {
             if (value.includes('chapter')) {
-                data.append('chapter_id', value.replace(/[^0-9]/g, ''))
+                data.append('chapterId', value.replace(/[^0-9]/g, ''))
             } else if (value.includes('stage'))
-                data.append('stage_id', value.replace(/[^0-9]/g, ''))
+                data.append('stageId', value.replace(/[^0-9]/g, ''))
         }
 
         const deletePreview = () => {
@@ -66,7 +66,7 @@ export default defineComponent({
                 .post('https://127.0.0.1:8000/api/v1/campaign/posts/', data, {
                     headers: {
                         Authorization:
-                            'JWT ' + store.state.authUser.access_token,
+                            'JWT ' + store.state.authUser.accessToken,
                             'content-type': 'multipart/form-data'
                     }
                 })

@@ -142,4 +142,5 @@ server.csr
 server.key
 
 key.py
+memo.py
 メモ.txt

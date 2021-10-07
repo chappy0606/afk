@@ -51,6 +51,17 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
     ),
+    #  ここ入れるとパスワードチェンジできない
+    'DEFAULT_RENDERER_CLASSES': (
+        'djangorestframework_camel_case.render.CamelCaseJSONRenderer',
+        'djangorestframework_camel_case.render.CamelCaseBrowsableAPIRenderer',
+    ),
+
+    'DEFAULT_PARSER_CLASSES': (
+        'djangorestframework_camel_case.parser.CamelCaseFormParser',
+        'djangorestframework_camel_case.parser.CamelCaseMultiPartParser',
+        'djangorestframework_camel_case.parser.CamelCaseJSONParser',
+    ),
 }
 AUTH_USER_MODEL = 'accounts.User'
 REST_USE_JWT = True
@@ -90,7 +101,7 @@ ACCOUNT_ADAPTER = "accounts.adapter.CustomAccountAdapter"
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('JWT',),
     'AUTH_COOKIE_HTTP_ONLY': True,
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=90),
 }
 

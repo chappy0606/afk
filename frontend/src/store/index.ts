@@ -16,12 +16,12 @@ const initialState = (): User => {
     return {
         user: {
             id: null,
-            user_name: '',
-            created_at: '',
+            userName: '',
+            createdAt: '',
             email: ''
         },
-        access_token: '',
-        refresh_token: ''
+        accessToken: '',
+        refreshToken: ''
     }
 }
 
@@ -32,12 +32,12 @@ export const store = createStore<State>({
         authUser: {
             user: {
                 id: null,
-                user_name: '',
-                created_at: '',
+                userName: '',
+                createdAt: '',
                 email: ''
             },
-            access_token: '',
-            refresh_token: ''
+            accessToken: '',
+            refreshToken: ''
         },
 
         auth: {
@@ -61,10 +61,10 @@ export const store = createStore<State>({
             },
             paths: [
                 'authUser.user.id',
-                'authUser.user.user_name',
+                'authUser.user.userName',
                 'auth.isAuth',
-                'authUser.access_token',
-                'authUser.refresh_token'
+                'authUser.accessToken',
+                'authUser.refreshToken'
             ]
         })
     ],
@@ -72,10 +72,11 @@ export const store = createStore<State>({
     mutations: {
         setAuthUser: (state, user: User): void => {
             state.authUser = user
+            console.log(state.authUser)
         },
 
         setAccessToken: (state, accsseToken: string): void => {
-            state.authUser.access_token = accsseToken
+            state.authUser.accessToken = accsseToken
         },
 
         isAuth: (state, auth): void => {
@@ -93,7 +94,7 @@ export const store = createStore<State>({
                 .post(
                     'https://127.0.0.1:8000/api/v1/auth/token/refresh/',
                     {
-                        refresh: state.authUser.refresh_token
+                        refresh: state.authUser.refreshToken
                     }
                 )
                 .then(response => {

@@ -1,6 +1,4 @@
 from dj_rest_auth.serializers import LoginSerializer
-from django.db import models
-from django.db.models import fields
 from rest_framework import serializers
 from rest_framework.fields import CharField
 from accounts.models import User

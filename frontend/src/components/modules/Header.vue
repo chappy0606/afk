@@ -2,7 +2,7 @@
     <header>
         <span v-if="store.state.auth.isAuth">
             <router-link :to="{ name: 'Profile'}">
-                <h3>{{ store.state.authUser.user.user_name }}さん</h3>
+                <h3>{{ store.state.authUser.user.userName}}さん</h3>
             </router-link>
         </span>
 
@@ -36,7 +36,7 @@ export default defineComponent({
                 .delete('https://127.0.0.1:8000/api/v1/auth/user/',{
                     headers: {
                         Authorization:
-                            'JWT ' + store.state.authUser.access_token
+                            'JWT ' + store.state.authUser.accessToken
                     }
                 })
                 .then(response => {

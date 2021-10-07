@@ -1,12 +1,12 @@
 export interface User {
     user: {
         id: number | null
-        user_name: string
-        created_at: string
+        userName: string
+        createdAt: string
         email: string
     }
-    access_token: string
-    refresh_token: string
+    accessToken: string
+    refreshToken: string
 }
 
 export interface Auth {

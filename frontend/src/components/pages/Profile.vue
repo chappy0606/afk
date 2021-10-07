@@ -5,7 +5,7 @@
         <input
             id="old-password"
             type="text"
-            v-model="req.oldPassWord"
+            v-model="req.oldPassword"
             @change="getPassWord"
         />
         <br />
@@ -13,10 +13,10 @@
         <input
             id="new-password"
             type="text"
-            v-model="req.newPassWord"
+            v-model="req.newPassword"
             @change="getPassWord"
         />
-        <button @click="passWordUpdate">更新</button>
+        <button @click="passwordUpdate">更新</button>
     </div>
 </template>
 
@@ -61,18 +61,20 @@ export default defineComponent({
             }
         }
 
-        const passWordUpdate = () => {
+        const passwordUpdate = () => {
+            console.log(req.newPassword)
+            console.log(store.state.authUser.accessToken)
             axios.post(
                 'https://127.0.0.1:8000/api/v1/auth/password/change/',
                 {
-                    old_password: req.oldPassword,
+                    oldPassword: req.oldPassword,
                     new_password1: req.newPassword,
                     new_password2: req.newPassword
                 },
                 {
                     headers: {
                         Authorization:
-                            'JWT ' + store.state.authUser.access_token
+                            'JWT ' + store.state.authUser.accessToken
                     }
                 }
             )
@@ -87,7 +89,7 @@ export default defineComponent({
         return {
             req,
             getPassWord,
-            passWordUpdate
+            passwordUpdate
         }
     }
 })

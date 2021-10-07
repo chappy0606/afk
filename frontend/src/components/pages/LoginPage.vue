@@ -2,7 +2,7 @@
     <div>
         <input v-model="userName" type="text" placeholder="ユーザー名" />
         <input
-            v-model="passWord"
+            v-model="password"
             type="text"
             placeholder="ログインパスワード"
         />
@@ -20,16 +20,16 @@ export default defineComponent({
         const store = useStore()
         
         const userName = ref<string>('todo')
-        const passWord = ref<string>('Chappy0606')
+        const password = ref<string>('Chappy0606')
 
         const login = (): void => {
-            store.dispatch('authLogin', { user_name: userName.value, password: passWord.value })
+            store.dispatch('authLogin', { userName: userName.value, password: password.value })
         }
 
         return {
             login,
             userName,
-            passWord,
+            password,
         }
     }
 })

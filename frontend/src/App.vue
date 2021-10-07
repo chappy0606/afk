@@ -22,7 +22,7 @@ export default defineComponent({
 
         if (store.state.auth.isAuth){
             axios.post('https://127.0.0.1:8000/api/v1/auth/token/verify/',{
-                token : store.state.authUser.refresh_token
+                token : store.state.authUser.refreshToken
             })
             .catch(()=> {
                 store.dispatch('authLogout')

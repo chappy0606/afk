@@ -18,6 +18,7 @@ inputformのコンポーネント化
 アドレス変更(PATCH)
 パスワードリセット
 deleted_at
+キャメルケース　スネークケース変換する。
 
 git stash
 git stash clear
