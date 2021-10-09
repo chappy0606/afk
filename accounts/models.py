@@ -75,6 +75,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         ),
     )
     created_at = models.DateTimeField(_('date joined'), default=timezone.now)
+    deleted_at = models.DateTimeField(_('退会日'),blank=True, null=True)
 
     objects = UserManager()
 

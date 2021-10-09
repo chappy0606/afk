@@ -1,3 +1,5 @@
+import re
+from django.utils import timezone
 from rest_framework import status
 from rest_framework.generics import DestroyAPIView
 from rest_framework.response import Response
@@ -30,5 +32,6 @@ class LoginView(views.LoginView):
 class UserDetailsView(views.UserDetailsView, DestroyAPIView):
     def destroy(self, request, *args, **kwargs):
         request.user.is_active = False
+        request.user.deleted_at = timezone.now()
         request.user.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
