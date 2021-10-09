@@ -2,19 +2,19 @@
     <div>
         <div class="input-form">
             <label>ユーザー名</label><br>
-                <input id="username" type="text" v-model="userName" />
-                    <label v-if="errorMessages.username">{{errorMessages.username}}</label>
+                <input id="username" type="text" v-model="req.userName" />
+                    <label v-if="resp.userName">{{resp.userName}}</label>
                     <label v-else>最低１文字必要です。</label><br>
 
             <label>パスワード</label><br>
-                <input id="password" type="password" v-model="passWord" />
+                <input id="password" type="password" v-model="req.password" />
                 <span id="buttonEye" class="fa fa-eye" @click="showPassword"></span>
-                    <label v-if="errorMessages.password">{{errorMessages.password}}</label>
+                    <label v-if="resp.password">{{resp.password}}</label>
                     <label v-else>大小英字、数字を含む8文字以上必要です</label><br>
 
             <label>メールアドレス</label><br>
-                <input id="email" type="text" v-model="eMail" />
-                    <label v-if="errorMessages.email">{{errorMessages.email}}</label>
+                <input id="email" type="text" v-model="req.email" />
+                    <label v-if="resp.email">{{resp.email}}</label>
                     <label v-else>パスワード再発行時に使用します(任意)</label><br>
 
             <button @click="userRegister">Sign up</button>
@@ -24,12 +24,18 @@
 
 <script lang="ts">
 import axios from 'axios'
-import { defineComponent, ref, reactive } from 'vue'
+import { defineComponent, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from '../../store'
 
-interface Response {
-    username: string
+interface RequestData {
+    userName: string
+    password: string
+    email: string
+}
+
+interface ResponseData {
+    userName: string
     password: string
     email: string
 }
@@ -39,18 +45,19 @@ export default defineComponent({
         const router = useRouter()
         const store = useStore()
 
-        const userName = ref<string>('')
-        const passWord = ref<string>('')
-        const eMail = ref<string>('')
+        const req: RequestData = reactive({
+            userName: '',
+            password: '',
+            email: ''
+        })
 
-        const errorMessages: Response = reactive({
-            username: '',
+        const resp: ResponseData = reactive({
+            userName: '',
             password: '',
             email: ''
         })
 
         const showPassword = () => {
-            // 型アサーション
             const inputType = document.getElementById('password') as HTMLElement
             const className = document.getElementById('buttonEye') as HTMLElement
 
@@ -67,29 +74,27 @@ export default defineComponent({
         const userRegister = () => {
             axios
                 .post('https://127.0.0.1:8000/api/v1/auth/registration/', {
-                    username: userName.value,
-                    password: passWord.value,
-                    email: eMail.value
+                    userName: req.userName,
+                    password: req.password,
+                    email: req.email
                 })
                 .then(respnse => {
                     console.log(respnse)
-                    store.dispatch('authLogin',{username:userName.value, password:passWord.value})
+                    store.dispatch('authLogin',{userName:req.userName, password:req.password})
                     router.push({
                         name: 'TopPage'
                     })
                 })
                 .catch(error => {
                     for (const key in error.response.data){
-                        errorMessages[key as keyof Response] = error.response.data[key][0]
+                        resp[key as keyof ResponseData] = error.response.data[key][0]
                     }
                 })
         }
 
         return {
-            userName,
-            passWord,
-            eMail,
-            errorMessages,
+            req,
+            resp,
             userRegister,
             showPassword
         }
