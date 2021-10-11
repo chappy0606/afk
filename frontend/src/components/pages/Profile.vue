@@ -17,6 +17,9 @@
             @change="getPassWord"
         />
         <button @click="passwordUpdate">更新</button>
+        <label v-if="resp.success">
+            {{resp.success}}
+        </label>
     </div>
 </template>
 
@@ -61,9 +64,12 @@ export default defineComponent({
             }
         }
 
+        const initialRequestData = () => {
+            req.newPassword = ''
+            req.oldPassword = ''
+        }
+
         const passwordUpdate = () => {
-            console.log(req.newPassword)
-            console.log(store.state.authUser.accessToken)
             axios.post(
                 'https://127.0.0.1:8000/api/v1/auth/password/change/',
                 {
@@ -79,7 +85,8 @@ export default defineComponent({
                 }
             )
             .then(() => {
-                resp.success = 'パスワードの更新が完了しました。'
+                    resp.success = 'パスワードの更新が完了しました。'
+                    initialRequestData()
             })
             .catch(error => {
                 console.log(error)
@@ -88,6 +95,7 @@ export default defineComponent({
 
         return {
             req,
+            resp,
             getPassWord,
             passwordUpdate
         }

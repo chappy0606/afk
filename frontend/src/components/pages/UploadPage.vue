@@ -45,7 +45,7 @@ export default defineComponent({
             images.value = ''
             data.delete('uploaded_image')
             shouldShow.value = false
-            nextTick(() => (shouldShow.value = true))
+            nextTick(() => shouldShow.value = true)
         }
 
         const setImageFile = (event: { target: HTMLInputElement }): void => {
