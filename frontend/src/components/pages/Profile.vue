@@ -64,7 +64,7 @@ export default defineComponent({
             }
         }
 
-        const initialRequestData = () => {
+        const initializeRequestData = () => {
             req.newPassword = ''
             req.oldPassword = ''
         }
@@ -86,7 +86,7 @@ export default defineComponent({
             )
             .then(() => {
                     resp.success = 'パスワードの更新が完了しました。'
-                    initialRequestData()
+                    initializeRequestData()
             })
             .catch(error => {
                 console.log(error)

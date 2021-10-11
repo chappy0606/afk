@@ -12,7 +12,7 @@ interface State {
     path: Path
 }
 
-const initialState = (): User => {
+const initializeState = (): User => {
     return {
         user: {
             id: null,
@@ -135,7 +135,7 @@ export const store = createStore<State>({
                 .post('https://127.0.0.1:8000/api/v1/auth/logout/')
                 .then( () => {
                     commit('isAuth', null)
-                    commit('setAuthUser', initialState())
+                    commit('setAuthUser', initializeState())
                     commit('setCurrentPath', '')
                     router.push({name: 'TopPage'})
                 })
