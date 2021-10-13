@@ -1,6 +1,8 @@
-from dj_rest_auth.serializers import UserDetailsSerializer
+from django.conf.global_settings import EMAIL_SSL_CERTFILE
+from django.db.models.functions.datetime import TruncQuarter
 from django.utils import timezone
-from rest_framework import status
+from requests.api import delete
+from rest_framework import status, viewsets
 from rest_framework.generics import DestroyAPIView, ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -9,6 +11,7 @@ from dj_rest_auth import views
 from django.contrib.auth.models import update_last_login
 
 from accounts.models import User
+from accounts.serializers import UserSerializer
 
 
 class TestView(APIView):
@@ -20,7 +23,6 @@ class TestView(APIView):
 
 class LoginView(views.LoginView):
     def post(self, request):
-
         self.request = request
         self.serializer = self.get_serializer(data=self.request.data)
         self.serializer.is_valid(raise_exception=True)
@@ -31,17 +33,39 @@ class LoginView(views.LoginView):
         return self.get_response()
 
 
-class UserDetailsView(views.UserDetailsView, DestroyAPIView):
+class Test2(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+
+    def has_permission(self):
+        user = self.request.user
+        if(self.get_object() == user or user.is_superuser):
+            return True
+        return False
+
+    # 詳細ページ
+    def retrieve(self, request, *args, **kwargs):
+        if(self.has_permission()):
+            return super().retrieve(request, *args, **kwargs)
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    
     def destroy(self, request, *args, **kwargs):
-        request.user.is_active = False
-        request.user.deleted_at = timezone.now()
-        request.user.save()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        if(self.has_permission()):
+            instance = self.get_object()
+            instance.is_active = False
+            instance.deleted_at = timezone.now()
+            instance.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        
+        return Response(status=status.HTTP_403_FORBIDDEN)
+
+    
 
 
 class Test3(ListCreateAPIView, RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
-    serializer_class = UserDetailsSerializer
+    serializer_class = UserSerializer
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
 

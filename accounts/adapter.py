@@ -23,7 +23,5 @@ class CustomAccountAdapter(DefaultAccountAdapter):
             user.set_unusable_password()
         self.populate_username(request, user)
         if commit:
-            # Ability not to commit makes it easier to derive from
-            # this adapter by adding
             user.save()
         return user

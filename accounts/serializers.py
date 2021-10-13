@@ -16,35 +16,28 @@ except ImportError:
 
 class UserSerializer(serializers.ModelSerializer):
     user_name = CharField(source='username')
+
     class Meta:
         model = User
-        fields = ('id', 'user_name', 'email',
-                'is_active', 'created_at')
+        fields = ('id', 'user_name', 'is_active')
         extra_kwargs = {
-            'is_active': { 'write_only': True },
-            'created_at': {'read_only': True},
+            'is_active': {'write_only': True}
         }
+
+class CustomLoginSerializer(UserSerializer, LoginSerializer):
+
+    class Meta(UserSerializer.Meta):
+        fields = ('user_name', 'password')
 
 
 def contain_any(target, condition_list):
     return any([i in target for i in condition_list])
 
-
-class CustomLoginSerializer(serializers.ModelSerializer, LoginSerializer):
-    user_name = CharField(source='username')
-
-    class Meta:
-        model = User
-        fields = ('user_name', 'password', 'email')
-
-
-class CustomRegisterSerializer(serializers.ModelSerializer, RegisterSerializer):
-    user_name = CharField(source='username')
+class CustomRegisterSerializer(UserSerializer, RegisterSerializer):
     email = serializers.EmailField(
         required=allauth_settings.EMAIL_REQUIRED, allow_blank=True)
 
-    class Meta:
-        model = User
+    class Meta(UserSerializer.Meta):
         fields = ('user_name', 'password', 'email')
 
     def validate_password(self, password):
