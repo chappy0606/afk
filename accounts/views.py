@@ -1,12 +1,14 @@
-import re
+from dj_rest_auth.serializers import UserDetailsSerializer
 from django.utils import timezone
 from rest_framework import status
-from rest_framework.generics import DestroyAPIView
+from rest_framework.generics import DestroyAPIView, ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from dj_rest_auth import views
 from django.contrib.auth.models import update_last_login
+
+from accounts.models import User
 
 
 class TestView(APIView):
@@ -30,6 +32,19 @@ class LoginView(views.LoginView):
 
 
 class UserDetailsView(views.UserDetailsView, DestroyAPIView):
+    def destroy(self, request, *args, **kwargs):
+        request.user.is_active = False
+        request.user.deleted_at = timezone.now()
+        request.user.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class Test3(ListCreateAPIView, RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserDetailsSerializer
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
     def destroy(self, request, *args, **kwargs):
         request.user.is_active = False
         request.user.deleted_at = timezone.now()
