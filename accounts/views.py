@@ -5,10 +5,10 @@ from requests.api import delete
 from rest_framework import status, viewsets
 from rest_framework.generics import DestroyAPIView, ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.views import APIView
 from dj_rest_auth import views
-from django.contrib.auth.models import update_last_login
+from django.contrib.auth.models import Permission, update_last_login
 
 from accounts.models import User
 from accounts.serializers import UserSerializer
@@ -36,13 +36,23 @@ class LoginView(views.LoginView):
 class Test2(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = IsAdminUser
+    permission_classes_by_action = {'create': [AllowAny],
+                                    'list': [IsAdminUser],
+                                    'destroy':[IsAuthenticated],
+                                    'retrieve': [IsAuthenticated],}
 
     def has_permission(self):
         user = self.request.user
         if(self.get_object() == user or user.is_superuser):
             return True
         return False
+    
+    def get_permissions(self):
+        try:
+            return [permission() for permission in self.permission_classes_by_action[self.action]]
+        except KeyError:
+            return [permission() for permission in self.permission_classes]
 
     # 詳細ページ
     def retrieve(self, request, *args, **kwargs):
