@@ -36,11 +36,12 @@ class LoginView(views.LoginView):
 class Test2(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = IsAdminUser
+    permission_classes = [IsAdminUser]
     permission_classes_by_action = {'create': [AllowAny],
                                     'list': [IsAdminUser],
                                     'destroy':[IsAuthenticated],
-                                    'retrieve': [IsAuthenticated],}
+                                    'retrieve': [IsAuthenticated],
+                                    'partial_update': [IsAuthenticated], }
 
     def has_permission(self):
         user = self.request.user
