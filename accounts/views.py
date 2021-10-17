@@ -47,6 +47,7 @@ class Test2(viewsets.ModelViewSet):
         user = self.request.user
         if(self.get_object() == user or user.is_superuser):
             return True
+
         return False
     
     def get_permissions(self):
@@ -55,10 +56,16 @@ class Test2(viewsets.ModelViewSet):
         except KeyError:
             return [permission() for permission in self.permission_classes]
 
-    # 詳細ページ
+    def partial_update(self, request, *args, **kwargs):
+        if(self.has_permission()):
+            return super().partial_update(request, *args, **kwargs)
+
+        return Response(status=status.HTTP_403_FORBIDDEN)
+    
     def retrieve(self, request, *args, **kwargs):
         if(self.has_permission()):
             return super().retrieve(request, *args, **kwargs)
+
         return Response(status=status.HTTP_403_FORBIDDEN)
     
     def destroy(self, request, *args, **kwargs):
