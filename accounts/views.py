@@ -29,7 +29,7 @@ class LoginView(views.LoginView):
         return self.get_response()
 
 
-class Test2(viewsets.ModelViewSet):
+class UserDetailsView(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAdminUser]

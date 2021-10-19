@@ -10,9 +10,8 @@ urlpatterns = [
     
     # 削除候補
     path('api/v1/test/', TestView.as_view()),
-    path('api/v1/', include(accounts_router.urls)),
 
-
+    path('api/v1/auth/', include(accounts_router.urls)),
     path('api/v1/auth/login/', LoginView.as_view()),
     path('api/v1/auth/', include('dj_rest_auth.urls')),
     path('api/v1/auth/registration/', include('dj_rest_auth.registration.urls')),
