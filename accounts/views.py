@@ -1,14 +1,10 @@
-from django.conf.global_settings import EMAIL_SSL_CERTFILE
-from django.db.models.functions.datetime import TruncQuarter
 from django.utils import timezone
-from requests.api import delete
 from rest_framework import status, viewsets
-from rest_framework.generics import DestroyAPIView, ListAPIView, ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.views import APIView
 from dj_rest_auth import views
-from django.contrib.auth.models import Permission, update_last_login
+from django.contrib.auth.models import update_last_login
 
 from accounts.models import User
 from accounts.serializers import UserSerializer
@@ -77,18 +73,3 @@ class Test2(viewsets.ModelViewSet):
             return Response(status=status.HTTP_204_NO_CONTENT)
         
         return Response(status=status.HTTP_403_FORBIDDEN)
-
-    
-
-
-class Test3(ListCreateAPIView, RetrieveUpdateDestroyAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    def list(self, request, *args, **kwargs):
-        return super().list(request, *args, **kwargs)
-
-    def destroy(self, request, *args, **kwargs):
-        request.user.is_active = False
-        request.user.deleted_at = timezone.now()
-        request.user.save()
-        return Response(status=status.HTTP_204_NO_CONTENT)

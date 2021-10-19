@@ -1,5 +1,4 @@
-from jinja2.nodes import Test
-from accounts.views import LoginView, TestView,Test3
+from accounts.views import LoginView, TestView
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
@@ -12,7 +11,6 @@ urlpatterns = [
     # 削除候補
     path('api/v1/test/', TestView.as_view()),
     path('api/v1/', include(accounts_router.urls)),
-    path('api/v1/auth/test/', Test3.as_view()),
 
 
     path('api/v1/auth/login/', LoginView.as_view()),
