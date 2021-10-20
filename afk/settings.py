@@ -83,7 +83,7 @@ ACCOUNT_EMAIL_REQUIRED = False
 ACCOUNT_USERNAME_REQUIRED = True
 
 REST_AUTH_SERIALIZERS = {
-    'USER_DETAILS_SERIALIZER': 'accounts.serializers.UserSerializer',
+    'USER_DETAILS_SERIALIZER': 'accounts.serializers.BaseSerializer',
     'LOGIN_SERIALIZER': 'accounts.serializers.CustomLoginSerializer',
 }
 REST_AUTH_REGISTER_SERIALIZERS = {

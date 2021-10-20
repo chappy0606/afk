@@ -7,7 +7,7 @@ from dj_rest_auth import views
 from django.contrib.auth.models import update_last_login
 
 from accounts.models import User
-from accounts.serializers import UserSerializer
+from accounts.serializers import UserDetailSerializer
 
 
 class TestView(APIView):
@@ -31,7 +31,7 @@ class LoginView(views.LoginView):
 
 class UserDetailsView(viewsets.ModelViewSet):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = UserDetailSerializer
     permission_classes = [IsAdminUser]
     permission_classes_by_action = {'create': [AllowAny],
                                     'list': [IsAdminUser],
