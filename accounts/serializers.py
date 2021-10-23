@@ -1,10 +1,6 @@
 from dj_rest_auth.serializers import LoginSerializer
-from django.db.models.expressions import Value
-from django.db.models.fields.related import OneToOneField
-from rest_framework import RemovedInDRF313Warning, serializers
-from rest_framework import fields
+from rest_framework import serializers
 from rest_framework.fields import CharField, SerializerMethodField
-from rest_framework.relations import PrimaryKeyRelatedField
 from accounts.models import User
 from django.utils.translation import gettext_lazy as _
 from dj_rest_auth.registration.serializers import RegisterSerializer
@@ -33,7 +29,7 @@ class PostsSerializer(serializers.ModelSerializer):
         fields = ('id', 'chapter_id', 'stage_id', 'uploaded_at')
 
 class UserDetailSerializer(BaseSerializer):
-    posts = serializers.SerializerMethodField()
+    posts = SerializerMethodField()
     class Meta:
         model = User
         fields = ('id', 'user_name', 'posts', 'is_active', 'email')
@@ -43,11 +39,10 @@ class UserDetailSerializer(BaseSerializer):
         }
 
     def get_posts(self, obj):
-        posts = PostsSerializer(Post.objects.filter(user=obj.id), many=True).data
-        return posts
-        # except:
-        #     posts = None
-        #     return posts
+        try:
+            return PostsSerializer(Post.objects.filter(user=obj.id), many=True).data
+        except:
+            return None
 
 class CustomLoginSerializer(BaseSerializer, LoginSerializer):
 
