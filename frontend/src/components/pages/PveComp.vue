@@ -1,11 +1,11 @@
 <template>
     <div>
         <router-link :to="{ name: 'Upload' }">投稿ページ</router-link>
+        <button v-if="stage > 1">前へ</button>
+        <button v-if="1 <= stage && stage <= 60">次へ</button>
         <ChapterStageSelect @sendChapterStage="setChapterStage" />
         <li v-for="path in images" :key="path">
-            <div id="postedImage">
-                <img :src="path.uploaded_image" />
-            </div>
+            <img :src="path.uploadedImage" />
         </li>
     </div>
 </template>
@@ -83,7 +83,8 @@ export default defineComponent({
 
         return {
             setChapterStage,
-            images
+            images,
+            stage
         }
     }
 })

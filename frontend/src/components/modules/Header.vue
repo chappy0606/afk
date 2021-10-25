@@ -14,13 +14,11 @@
                 <li v-show="!store.state.auth.isAuth"><router-link :to="{ name: 'Registration' }">ユーザー登録</router-link></li>
             </ul>
         </nav>
-        <button @click="test">認証テスト</button>
     </header>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { useStore } from '../../store'
-import axios from 'axios'
 export default defineComponent({
     setup() {
         const store = useStore()
@@ -31,26 +29,9 @@ export default defineComponent({
             }
         }
 
-        const test = (): void => {
-            axios
-                .delete('https://127.0.0.1:8000/api/v1/auth/user/',{
-                    headers: {
-                        Authorization:
-                            'JWT ' + store.state.authUser.accessToken
-                    }
-                })
-                .then(response => {
-                    console.log(response.request.response)
-                })
-                .catch(error => {
-                    console.log(error)
-                })
-        }
-
         return {
             store,
             logout,
-            test,
         }
     }
 })

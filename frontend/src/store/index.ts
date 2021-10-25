@@ -16,9 +16,7 @@ const initializeState = (): User => {
     return {
         user: {
             id: null,
-            userName: '',
-            createdAt: '',
-            email: ''
+            userName: ''
         },
         accessToken: '',
         refreshToken: ''
@@ -33,8 +31,6 @@ export const store = createStore<State>({
             user: {
                 id: null,
                 userName: '',
-                createdAt: '',
-                email: ''
             },
             accessToken: '',
             refreshToken: ''
@@ -72,7 +68,6 @@ export const store = createStore<State>({
     mutations: {
         setAuthUser: (state, user: User): void => {
             state.authUser = user
-            console.log(state.authUser)
         },
 
         setAccessToken: (state, accsseToken: string): void => {
