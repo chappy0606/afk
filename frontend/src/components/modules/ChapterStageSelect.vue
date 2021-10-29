@@ -16,7 +16,7 @@
 <script lang="ts">
 import { defineComponent, reactive } from 'vue'
 import axios from 'axios'
-import { useRoute } from 'vue-router'
+import { useRoute, onBeforeRouteUpdate, LocationQuery } from 'vue-router'
 import router from '../../router'
 
 interface State {
@@ -37,21 +37,22 @@ export default defineComponent({
 
         const route = useRoute()
 
-        const checkQueryValue = (chapters: [], stages: []): void => {
-            if (route.query.stage_id && route.query.stage_id) {
-                const queryChapter: number = Number(route.query.chapter_id)
-                const queryStage: number = Number(route.query.stage_id)
-                // 0の処理
-                if (!queryChapter || !queryStage){
-                    router.push({name: 'PveComp'})
-                    return
-                }
-                // DBに存在してる数字ならselectboxにセット
-                if (queryChapter <= chapters.length && queryStage <= stages.length){
-                    state.selectedChapter = 'chapter' + queryChapter.toString()
-                    state.selectedStage = 'stage' + queryStage.toString()
-                }
+        const checkQuery = (query: LocationQuery) => {
+            const queryChapter: number = Number(query.chapter_id)
+            const queryStage: number = Number(query.stage_id)
+
+            if(!queryChapter || !queryStage){
+                return false
             }
+
+            if (queryChapter > state.chapters.length || queryStage > state.stages.length){
+                return false
+            }
+
+            state.selectedChapter = 'chapter' + queryChapter.toString()
+            state.selectedStage = 'stage' + queryStage.toString()
+            
+            return true
         }
 
         Promise.all([
@@ -60,13 +61,27 @@ export default defineComponent({
         ]).then(([chapters, stages]) => {
             state.chapters = chapters.data
             state.stages = stages.data
+            emit('send-chapter-stages', state.chapters, state.stages)
 
-            checkQueryValue(state.chapters, state.stages)
+            if (route.query.chapter_id && route.query.stage_id) {
+                if(!checkQuery(route.query)){
+                    router.push({name: 'PveComp'})
+                }
+            }
+        })
+
+        onBeforeRouteUpdate(to => {
+            checkQuery(to.query)
+            if (Number(to.query.stage_id) > state.stages.length){
+                state.selectedChapter = ''
+                state.selectedStage = ''
+                router.push({name: 'PveComp'})
+            }
         })
 
         const sendChapterStage = (event: { target: HTMLButtonElement }) => {
             if (event.target.value) {
-                emit('sendChapterStage', event.target.value)
+                emit('selected-value-send', event.target.value)
             }
         }
 

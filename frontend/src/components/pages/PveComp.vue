@@ -2,8 +2,8 @@
     <div>
         <router-link :to="{ name: 'Upload' }">投稿ページ</router-link>
         <button v-if="stage > 1">前へ</button>
-        <button v-if="1 <= stage && stage <= 60" @click="nextStage">次へ</button>
-        <ChapterStageSelect @sendChapterStage="setChapterStage" />
+        <button v-if="1 <= stage && stage < stages.length" @click="nextStage">次へ</button>
+        <ChapterStageSelect @selected-value-send="setChapterStage" @send-chapter-stages="setChapterStageList" />
         <li v-for="path in images" :key="path">
             <img :src="path.uploadedImage" />
         </li>
@@ -26,6 +26,10 @@ export default defineComponent({
 
         const chapter = ref<string>('')
         const stage = ref<string>('')
+
+        const chapters = ref<string[]>([])
+        const stages = ref<string[]>([])
+
         const images = ref<string>('')
 
         const setChapterStage = (value: string): void => {
@@ -37,7 +41,14 @@ export default defineComponent({
         }
 
         const nextStage = () =>{
-            stage.value = (Number(route.query.stage_id) + 1).toString()
+            if(Number(stage.value) < chapters.value.length){
+                stage.value = (Number(route.query.stage_id) + 1).toString()
+            }
+        }
+
+        const setChapterStageList = (ch:[],st:[]) => {
+            chapters.value = ch
+            stages.value = st
         }
 
         if (route.query.chapter_id && route.query.stage_id) {
@@ -88,8 +99,10 @@ export default defineComponent({
         return {
             setChapterStage,
             images,
+            stages,
             stage,
             nextStage,
+            setChapterStageList
         }
     }
 })

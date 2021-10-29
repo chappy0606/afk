@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>Upload</h2>
-        <ChapterStageSelect @sendChapterStage="setChapterStage" />
+        <ChapterStageSelect @selected-value-send="setChapterStage" />
         <input
             type="file"
             accept="image/*"
