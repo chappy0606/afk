@@ -42,17 +42,17 @@ export default defineComponent({
             const queryStage: number = Number(query.stage_id)
 
             if(!queryChapter || !queryStage){
-                return false
+                return
             }
 
             if (queryChapter > state.chapters.length || queryStage > state.stages.length){
-                return false
+                return
             }
 
             state.selectedChapter = 'chapter' + queryChapter.toString()
             state.selectedStage = 'stage' + queryStage.toString()
             
-            return true
+            return query
         }
 
         Promise.all([

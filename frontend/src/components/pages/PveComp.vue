@@ -40,19 +40,19 @@ export default defineComponent({
             }
         }
 
-        const fetchNextStage = () =>{
+        const fetchNextStage = ():void => {
             if(Number(stage.value) < chapters.value.length){
                 stage.value = (Number(route.query.stage_id) + 1).toString()
             }
         }
 
-        const fetchPrevStage = () => {
+        const fetchPrevStage = ():void => {
             if(Number(stage.value) < chapters.value.length){
                 stage.value = (Number(route.query.stage_id) - 1).toString()
             }
         }
 
-        const setChapterStageList = (ch:[],st:[]) => {
+        const setChapterStageList = (ch:[],st:[]):void => {
             chapters.value = ch
             stages.value = st
         }

@@ -79,7 +79,6 @@ export default defineComponent({
                     email: req.email
                 })
                 .then(respnse => {
-                    console.log(respnse)
                     store.dispatch('authLogin',{userName:req.userName, password:req.password})
                     router.push({
                         name: 'TopPage'
