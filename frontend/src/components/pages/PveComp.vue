@@ -1,8 +1,8 @@
 <template>
     <div>
         <router-link :to="{ name: 'Upload' }">投稿ページ</router-link>
-        <button v-if="stage > 1">前へ</button>
-        <button v-if="1 <= stage && stage < stages.length" @click="nextStage">次へ</button>
+        <button v-if="stage > 1" @click="fetchPrevStage">前へ</button>
+        <button v-if="1 <= stage && stage < stages.length" @click="fetchNextStage">次へ</button>
         <ChapterStageSelect @selected-value-send="setChapterStage" @send-chapter-stages="setChapterStageList" />
         <li v-for="path in images" :key="path">
             <img :src="path.uploadedImage" />
@@ -40,13 +40,13 @@ export default defineComponent({
             }
         }
 
-        const nextStage = () =>{
+        const fetchNextStage = () =>{
             if(Number(stage.value) < chapters.value.length){
                 stage.value = (Number(route.query.stage_id) + 1).toString()
             }
         }
 
-        const backStage = () => {
+        const fetchPrevStage = () => {
             if(Number(stage.value) < chapters.value.length){
                 stage.value = (Number(route.query.stage_id) - 1).toString()
             }
@@ -107,7 +107,8 @@ export default defineComponent({
             images,
             stages,
             stage,
-            nextStage,
+            fetchNextStage,
+            fetchPrevStage,
             setChapterStageList
         }
     }
