@@ -46,6 +46,12 @@ export default defineComponent({
             }
         }
 
+        const backStage = () => {
+            if(Number(stage.value) < chapters.value.length){
+                stage.value = (Number(route.query.stage_id) - 1).toString()
+            }
+        }
+
         const setChapterStageList = (ch:[],st:[]) => {
             chapters.value = ch
             stages.value = st
