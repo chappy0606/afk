@@ -2,6 +2,7 @@
     <div>
         <h2>Upload</h2>
         <ChapterStageSelect @selected-value-send="setChapterStage" />
+        <label v-if="errorMessage">{{errorMessage}}</label>
         <input
             type="file"
             accept="image/*"
@@ -28,6 +29,7 @@ export default defineComponent({
 
     setup() {
         const images = ref<string>('')
+        const errorMessage = ref<string>('')
         const shouldShow = ref<boolean>(true)
 
         const store = useStore()
@@ -76,7 +78,7 @@ export default defineComponent({
                     })
                 })
                 .catch(error => {
-                    console.log(error)
+                    errorMessage.value = error.response.data
                 })
         }
 
@@ -87,6 +89,8 @@ export default defineComponent({
             images,
             deletePreview,
             shouldShow,
+            errorMessage
+            
         }
     }
 })
