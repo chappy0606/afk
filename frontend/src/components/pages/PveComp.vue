@@ -13,8 +13,7 @@
 <script lang="ts">
 
 import { defineComponent, ref, watchEffect } from 'vue'
-import axios from 'axios'
-import axios2 from '../../export'
+import axios from '../../export'
 import ChapterStageSelect from '../modules/ChapterStageSelect.vue'
 import router from '../../router/index'
 import { useRoute, onBeforeRouteUpdate } from 'vue-router'
@@ -76,7 +75,7 @@ export default defineComponent({
 
         watchEffect(() => {
             if (chapter.value && stage.value) {
-                axios2
+                axios
                     .get(
                         'https://127.0.0.1:8000/api/v1/campaign/posts/?chapter_id=' +
                             chapter.value +

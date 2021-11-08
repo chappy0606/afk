@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import axios from 'axios'
+import axios from '../../export'
 import { defineComponent, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from '../../store'

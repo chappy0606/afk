@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import axios from 'axios'
+import axios from '../../export'
 import { defineComponent, ref, nextTick } from 'vue'
 import router from '../../router/index'
 import { useStore } from '../../store'

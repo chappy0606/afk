@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from 'vue'
-import axios from 'axios'
+import axios from '../../export'
 import { useRoute, onBeforeRouteUpdate, LocationQuery } from 'vue-router'
 import router from '../../router'
 

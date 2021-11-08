@@ -1,7 +1,7 @@
 import { createStore, Store, useStore as baseUseStore } from 'vuex'
 import { InjectionKey } from 'vue'
 import { User, Auth, Path } from './modules/Types'
-import axios from 'axios'
+import axios from '../export'
 import router from '@/router'
 import createPersistedState from 'vuex-persistedstate'
 import Cookies from 'js-cookie'
@@ -84,28 +84,6 @@ export const store = createStore<State>({
     },
 
     actions: {
-        accessTokenRefresh: ({ commit, state }) => {
-            axios
-                .post(
-                    'https://127.0.0.1:8000/api/v1/auth/token/refresh/',
-                    {
-                        refresh: state.authUser.refreshToken
-                    }
-                )
-                .then(response => {
-                    commit('setAccessToken', response.data.access)
-                })
-                .catch(error => {
-                    if (error.response.status === 401) {
-                        // refreshToken期限切れで強制ログアウト
-                        store.dispatch('authLogout')
-                    } else {
-                        console.log(error.response)
-                    }
-                }
-            )
-        },
-
         authLogin: ({ commit, state }, payload: string): void => {
             axios
                 .post('https://127.0.0.1:8000/api/v1/auth/login/', payload)
