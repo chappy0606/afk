@@ -1,7 +1,5 @@
 import axios from 'axios'
-import { useStore } from './store'
-
-const store = useStore()
+import { store } from '@/store'
 
 axios.interceptors.response.use(
     response => {
@@ -14,17 +12,19 @@ axios.interceptors.response.use(
                     refresh: store.state.authUser.refreshToken
                 })
                 .then(response => {
+                    console.log('success token refresh')
                     store.commit('setAccessToken', response.data.access)
+                    error.config.headers.Authorization = 'JWT ' + store.state.authUser.accessToken
+                    return axios.request(error.config)
                 })
                 .catch(error => {
-                    if (error.response.status === 401) {
+                    if (error.response.status == 401) {
                         // refreshToken期限切れで強制ログアウト
                         store.dispatch('authLogout')
-                    } else {
-                        console.log(error.response)
                     }
                 })
         }
+        return Promise.reject(error)
     }
 )
 

@@ -73,6 +73,7 @@ export default defineComponent({
                     }
                 })
                 .then(() => {
+                    // axios.requestした場合はここ呼び出されない問題
                     router.push({
                         name: 'PveComp',
                     })
