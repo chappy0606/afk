@@ -71,7 +71,7 @@ export default defineComponent({
 
         const passwordUpdate = () => {
             axios.post(
-                'https://127.0.0.1:8000/api/v1/auth/password/change/',
+                '/auth/password/change/',
                 {
                     oldPassword: req.oldPassword,
                     newPassword1: req.newPassword,

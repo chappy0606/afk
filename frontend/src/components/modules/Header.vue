@@ -14,6 +14,7 @@
                 <li v-show="!store.state.auth.isAuth"><router-link :to="{ name: 'Registration' }">ユーザー登録</router-link></li>
             </ul>
         </nav>
+        {{store.state.authUser.accessToken}}
     </header>
 </template>
 <script lang="ts">

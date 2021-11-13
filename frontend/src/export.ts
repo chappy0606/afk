@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios'
+import axios from 'axios'
 import { store } from '@/store'
 
 let isRetry: boolean = false
@@ -18,24 +18,29 @@ axios.interceptors.response.use(
                         refresh: store.state.authUser.refreshToken
                     }
                 )
-
+                console.log('tryさん')
                 store.commit('setAccessToken', response.data.access)
                 error.config.headers.Authorization =
                     'JWT ' + store.state.authUser.accessToken
                 
-                return await axios.request(error.config)
+                await axios.request(error.config)
 
             } catch (e) {
+                console.log('e')
                 if (axios.isAxiosError(e)) {
+                    console.log('axios error')
                     if (e.request.status == 401) {
-                        // refreshToken期限切れで強制ログアウト
+                        console.log('強制ログアウト')
                         store.dispatch('authLogout')
                     }
                 }
             }
         }
+        isRetry = false
         return Promise.reject(error)
     }
 )
 
-export default axios
+export default axios.create({
+    baseURL: 'https://127.0.0.1:8000/api/v1'
+})

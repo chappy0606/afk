@@ -86,7 +86,7 @@ export const store = createStore<State>({
     actions: {
         authLogin: ({ commit, state }, payload: string): void => {
             axios
-                .post('https://127.0.0.1:8000/api/v1/auth/login/', payload)
+                .post('/auth/login/', payload)
                 .then(response => {
                     commit('setAuthUser', response.data)
                     commit('isAuth', true)
@@ -105,7 +105,7 @@ export const store = createStore<State>({
         },
         authLogout: ({ commit }) => {
             axios
-                .post('https://127.0.0.1:8000/api/v1/auth/logout/')
+                .post('/auth/logout/')
                 .then( () => {
                     commit('isAuth', null)
                     commit('setAuthUser', initializeState())

@@ -73,7 +73,7 @@ export default defineComponent({
 
         const userRegister = () => {
             axios
-                .post('https://127.0.0.1:8000/api/v1/auth/registration/', {
+                .post('/auth/registration/', {
                     userName: req.userName,
                     password: req.password,
                     email: req.email

@@ -56,8 +56,8 @@ export default defineComponent({
         }
 
         Promise.all([
-            axios.get('https://127.0.0.1:8000/api/v1/campaign/chapters/'),
-            axios.get('https://127.0.0.1:8000/api/v1/campaign/stages/')
+            axios.get('/campaign/chapters/'),
+            axios.get('/campaign/stages/')
         ]).then(([chapters, stages]) => {
             state.chapters = chapters.data
             state.stages = stages.data

@@ -65,7 +65,7 @@ export default defineComponent({
             data.append('user', String(store.state.authUser.user.id))
 
             axios
-                .post('https://127.0.0.1:8000/api/v1/campaign/posts/', data, {
+                .post('/campaign/posts/', data, {
                     headers: {
                         Authorization:
                             'JWT ' + store.state.authUser.accessToken,
@@ -73,7 +73,6 @@ export default defineComponent({
                     }
                 })
                 .then(() => {
-                    // axios.requestした場合はここ呼び出されない問題
                     router.push({
                         name: 'PveComp',
                     })

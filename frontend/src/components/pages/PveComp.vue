@@ -77,7 +77,7 @@ export default defineComponent({
             if (chapter.value && stage.value) {
                 axios
                     .get(
-                        'https://127.0.0.1:8000/api/v1/campaign/posts/?chapter_id=' +
+                        'campaign/posts/?chapter_id=' +
                             chapter.value +
                             '&stage_id=' +
                             stage.value
