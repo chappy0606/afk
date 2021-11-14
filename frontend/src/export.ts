@@ -3,7 +3,11 @@ import { store } from '@/store'
 
 let isRetry: boolean = false
 
-axios.interceptors.response.use(
+const instance = axios.create({
+    baseURL: 'https://127.0.0.1:8000/api/v1'
+})
+
+instance.interceptors.response.use(
     response => {
         return response
     },
@@ -12,25 +16,18 @@ axios.interceptors.response.use(
             isRetry = true
 
             try {
-                const response = await axios.post(
-                    'https://127.0.0.1:8000/api/v1/auth/token/refresh/',
-                    {
-                        refresh: store.state.authUser.refreshToken
-                    }
-                )
-                console.log('tryさん')
+                const response = await instance.post('/auth/token/refresh/', {
+                    refresh: store.state.authUser.refreshToken
+                })
                 store.commit('setAccessToken', response.data.access)
                 error.config.headers.Authorization =
                     'JWT ' + store.state.authUser.accessToken
                 
-                await axios.request(error.config)
+                return await axios.request(error.config)
 
             } catch (e) {
-                console.log('e')
                 if (axios.isAxiosError(e)) {
-                    console.log('axios error')
                     if (e.request.status == 401) {
-                        console.log('強制ログアウト')
                         store.dispatch('authLogout')
                     }
                 }
@@ -41,6 +38,4 @@ axios.interceptors.response.use(
     }
 )
 
-export default axios.create({
-    baseURL: 'https://127.0.0.1:8000/api/v1'
-})
+export default instance

@@ -63,7 +63,6 @@ export default defineComponent({
 
         const registration = (): void => {
             data.append('user', String(store.state.authUser.user.id))
-
             axios
                 .post('/campaign/posts/', data, {
                     headers: {
@@ -90,7 +89,6 @@ export default defineComponent({
             deletePreview,
             shouldShow,
             errorMessage
-            
         }
     }
 })
