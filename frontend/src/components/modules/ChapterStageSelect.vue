@@ -1,15 +1,17 @@
 <template>
     <div>
-        <select :value="state.selectedChapter" @change="sendChapterStage">
+            <select :value="state.selectedChapter" @change="sendChapterStage">
             <option v-for="chapter in state.chapters" :key="chapter.id">
                 chapter{{ chapter.id }}
             </option>
         </select>
+        <slot name="ChapterErrorMessage"></slot>
         <select :value="state.selectedStage" @change="sendChapterStage">
             <option v-for="stage in state.stages" :key="stage.id">
                 stage{{ stage.id }}
             </option>
         </select>
+        <slot name="StageErrorMessage"></slot>
     </div>
 </template>
 

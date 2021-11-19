@@ -1,14 +1,18 @@
 <template>
     <div>
         <h2>Upload</h2>
-        <ChapterStageSelect @selected-value-send="setChapterStage" />
-        <label v-if="errorMessage">{{errorMessage}}</label>
+        <ChapterStageSelect @selected-value-send="setChapterStage">
+            <template v-slot:ChapterErrorMessage v-if="resp.chapterId">{{resp.chapterId}}</template>
+            <template v-slot:StageErrorMessage v-if="resp.stageId">{{resp.stageId}}</template>
+        </ChapterStageSelect>
+
         <input
             type="file"
             accept="image/*"
             @change="setImageFile"
             v-if="shouldShow"
         />
+        <label v-if="resp.uploadedImage">{{ resp.uploadedImage }}</label>
         <div v-show="images" class="preview-box">
             <img :src="images" />
             <button @click="deletePreview">クリア</button>
@@ -19,17 +23,28 @@
 
 <script lang="ts">
 import axios from '../../export'
-import { defineComponent, ref, nextTick } from 'vue'
+import { defineComponent, ref, nextTick, reactive } from 'vue'
 import router from '../../router/index'
 import { useStore } from '../../store'
 import ChapterStageSelect from '../modules/ChapterStageSelect.vue'
+
+interface ResponseData {
+    chapterId: string
+    stargeId: string
+    uploadedImage: string
+}
 
 export default defineComponent({
     components: { ChapterStageSelect },
 
     setup() {
+        const resp:ResponseData = reactive({
+            chapterId: '',
+            stargeId: '',
+            uploadedImage: ''
+        })
+
         const images = ref<string>('')
-        const errorMessage = ref<string>('')
         const shouldShow = ref<boolean>(true)
 
         const store = useStore()
@@ -47,11 +62,14 @@ export default defineComponent({
             images.value = ''
             data.delete('uploaded_image')
             shouldShow.value = false
-            nextTick(() => shouldShow.value = true)
+            nextTick(() => (shouldShow.value = true))
         }
 
         const setImageFile = (event: { target: HTMLInputElement }): void => {
-            if (event.target instanceof HTMLInputElement && event.target.files) {
+            if (
+                event.target instanceof HTMLInputElement &&
+                event.target.files
+            ) {
                 try {
                     images.value = URL.createObjectURL(event.target.files[0])
                     data.append('uploaded_image', event.target.files[0])
@@ -68,16 +86,18 @@ export default defineComponent({
                     headers: {
                         Authorization:
                             'JWT ' + store.state.authUser.accessToken,
-                            'content-type': 'multipart/form-data'
+                        'content-type': 'multipart/form-data'
                     }
                 })
                 .then(() => {
                     router.push({
-                        name: 'PveComp',
+                        name: 'PveComp'
                     })
                 })
                 .catch(error => {
-                    errorMessage.value = error.response.data
+                    for (const key in error.response.data){
+                        resp[key as keyof ResponseData] = error.response.data[key][0]
+                    }
                 })
         }
 
@@ -88,7 +108,7 @@ export default defineComponent({
             images,
             deletePreview,
             shouldShow,
-            errorMessage
+            resp
         }
     }
 })
