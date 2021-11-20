@@ -1,6 +1,6 @@
 <template>
     <div>
-            <select :value="state.selectedChapter" @change="sendChapterStage">
+        <select :value="state.selectedChapter" @change="sendChapterStage">
             <option v-for="chapter in state.chapters" :key="chapter.id">
                 chapter{{ chapter.id }}
             </option>
