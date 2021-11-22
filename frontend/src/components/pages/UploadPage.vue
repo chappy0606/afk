@@ -1,9 +1,14 @@
 <template>
     <div>
         <h2>Upload</h2>
+
         <ChapterStageSelect @selected-value-send="setChapterStage">
-            <template v-slot:ChapterErrorMessage v-if="resp.chapterId">{{resp.chapterId}}</template>
-            <template v-slot:StageErrorMessage v-if="resp.stageId">{{resp.stageId}}</template>
+            <template v-slot:chapterErrorMessage>
+                <label v-if="resp.chapterId">{{resp.chapterId}}</label>
+            </template>
+            <template v-slot:stageErrorMessage>
+                <label v-if="resp.stageId">{{resp.chapterId}}</label>
+            </template>
         </ChapterStageSelect>
 
         <input
