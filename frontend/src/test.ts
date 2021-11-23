@@ -3,7 +3,7 @@ class Relic {
     name?: string
     quality?: string
     compornents?: {
-        compornent: string
+        name: string
         num: number
     }[]
     cost?: number
@@ -17,11 +17,11 @@ class Relic {
 // apiで取得よていの形
 const response = [
     {
-        compornent: 'aaa',
+        name: 'aaa',
         num: 1
     },
     {
-        compornent: 'bbb',
+        name: 'bbb',
         num: 1
     }
 ]

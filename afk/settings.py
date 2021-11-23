@@ -136,6 +136,7 @@ INSTALLED_APPS = [
     
     'accounts.apps.AccountsConfig',
     'pve_comp.apps.PveCompConfig',
+    'relic_calculator.apps.RelicCalculatorConfig'
 ]
 
 MIDDLEWARE = [
