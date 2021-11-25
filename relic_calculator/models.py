@@ -5,9 +5,13 @@ from django.core.validators import MinValueValidator
 class Quality(models.Model):
     type = models.CharField(max_length=20)
 
+    def __str__(self):
+        return self.type
+
 
 class Relic(models.Model):
-    name = models.CharField(max_length=50)
+    en_name = models.CharField(max_length=50)
+    ja_name = models.CharField(max_length=50)
     quality = models.ForeignKey(Quality, on_delete=models.CASCADE)
     compornent1 = models.ForeignKey(
         'self', blank=True, null=True, on_delete=models.SET_NULL, related_name='compornent1_relic')
@@ -19,3 +23,4 @@ class Relic(models.Model):
         'self', blank=True, null=True, on_delete=models.SET_NULL, related_name='compornent4_relic')
     cost = models.IntegerField(validators=[MinValueValidator(0)])
     total_price = models.IntegerField(validators=[MinValueValidator(0)])
+

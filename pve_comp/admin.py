@@ -1,7 +1,5 @@
 from django.contrib import admin
-from .models import Post
-from .models import Chapter
-from .models import Stage
+from .models import Post, Chapter, Stage
 
 class ChapterStageAdmin(admin.ModelAdmin):
     list_display = ('chapter_id', 'stage_id', 'user', 'uploaded_at', 'uploaded_image')
