@@ -20,7 +20,7 @@ class Stage(models.Model):
 def rename_to_uuid(self, filename):
     prefix = 'comp/'
     return prefix + str(uuid.uuid4()).replace('-', '') + ".png"
-
+    
 class Post(models.Model):
     chapter_id = models.ForeignKey(Chapter, on_delete=models.CASCADE)
     stage_id = models.ForeignKey(Stage, on_delete=models.CASCADE)
