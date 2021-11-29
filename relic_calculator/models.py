@@ -29,3 +29,6 @@ class Relic(models.Model):
     cost = models.IntegerField(validators=[MinValueValidator(0)])
     total_price = models.IntegerField(validators=[MinValueValidator(0)])
     icon = models.ImageField(upload_to=rename_to_uuid, null=True)
+
+    def __str__(self):
+        return self.ja_name
