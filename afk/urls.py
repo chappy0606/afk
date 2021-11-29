@@ -17,6 +17,7 @@ urlpatterns = [
     path('api/v1/auth/registration/', include('dj_rest_auth.registration.urls')),
     
     path('api/v1/campaign/', include(pve_comp_router.urls)),
+    path('api/v1/relic_calculator/', include('relic_calculator.urls')),
     path('admin/', admin.site.urls),
 ]
 

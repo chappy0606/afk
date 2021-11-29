@@ -8,7 +8,7 @@ class QualityAdmin(admin.ModelAdmin):
 
 
 class RelicAdmin(admin.ModelAdmin):
-    list_display = ('id', 'en_name', 'ja_name', 'compornent1',
+    list_display = ('id', 'en_name', 'ja_name','quality', 'compornent1',
                     'compornent2', 'compornent3', 'compornent4', 'cost', 'total_price')
 
 
