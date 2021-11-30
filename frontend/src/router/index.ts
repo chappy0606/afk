@@ -5,6 +5,7 @@ import UploadPage from '@/components/pages/UploadPage.vue'
 import LoginPage from '@/components/pages/LoginPage.vue'
 import Registration from '@/components/pages/Registration.vue'
 import Profile from '@/components/pages/Profile.vue'
+import RelicCalcuator from '@/components/pages/RelicCalcuator.vue'
 import { store } from '@/store'
 
 const routes: Array<RouteRecordRaw> = [
@@ -17,7 +18,7 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/login',
         name: 'Login',
-        component: LoginPage,
+        component: LoginPage
     },
 
     {
@@ -36,7 +37,7 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/registration',
         name: 'Registration',
-        component: Registration,
+        component: Registration
     },
 
     {
@@ -44,7 +45,12 @@ const routes: Array<RouteRecordRaw> = [
         name: 'Profile',
         component: Profile,
         meta: { requiresAuth: true }
-    }
+    },
+    {
+        path: '/relic_calcuator',
+        name: 'RelicCalcuator',
+        component: RelicCalcuator
+    },
 ]
 
 const router = createRouter({

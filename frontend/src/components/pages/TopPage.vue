@@ -8,8 +8,7 @@
     <nav class="menubar">
 		<ul>
 			<li><router-link :to="{ name: 'PveComp' }">pve_comp</router-link></li>
-			<li><a href="#">transelate</a></li>
-			<li><a href="#">mythic manage</a></li>
+			<li><router-link :to="{ name: 'RelicCalcuator' }">RelicCalcuator</router-link></li>
 		</ul>
     </nav>
 </div>

@@ -1,8 +1,6 @@
 from django.contrib import admin
 from .models import Quality, Relic
 
-# Register your models here.
-
 class QualityAdmin(admin.ModelAdmin):
     list_display = ('id', 'type',)
 

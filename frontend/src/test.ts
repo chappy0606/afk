@@ -14,7 +14,6 @@ class Relic {
     }
 }
 
-// apiで取得よていの形
 const response = [
     {
         name: 'aaa',
