@@ -1,20 +1,37 @@
 <template>
     <div>
-        <div class="category-nav">
-            <label> <input type="radio" value="" v-model="quality" />All </label>
-            <label> <input type="radio" value="Common" v-model="quality" />Common </label>
-            <label> <input type="radio" value="Rare" v-model="quality" />Rare </label>
-            <label> <input type="radio" value="Elite" v-model="quality" />Elite </label>
+        <div class="quality-nav">
+            <label><input type="radio" value="" v-model="quality" />All</label>
+            <label><input type="radio" value="Common" v-model="quality" />Common</label>
+            <label><input type="radio" value="Rare" v-model="quality" />Rare</label>
+            <label><input type="radio" value="Elite" v-model="quality" />Elite</label>
         </div>
 
-        <li v-for="(relic, key) in test" :key="key">
-            <img :src="relic.icon" width="50" height="50" :alt="relic.jaName" />
-        </li>
+        <div class="relic-list">
+            <draggable v-model="test" group="relic-list" item-key="id" handle=".handle" @update="onUpdate">
+                <template #item="{element}">
+                    <span class="handle">
+                <img
+                    :src="element.icon"
+                    width="50"
+                    height="50"
+                    :alt="element.jaName"
+                />
+                    </span>
+                </template>
+        </draggable>
+        </div>
+
+        <div class="test-box">
+
+        </div>
+
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue'
+import draggable from 'vuedraggable'
 import axios from '../../export'
 
 interface Relic {
@@ -32,6 +49,9 @@ interface Relic {
 }
 
 export default defineComponent({
+    components:{
+        draggable
+    },
     setup() {
         const relics = ref<Relic[]>([])
         const quality = ref<string>('')
@@ -45,15 +65,24 @@ export default defineComponent({
                 console.log(error.response)
             })
 
-        const test = computed(() => {
-            return relics.value.filter(relic =>
-                relic.quality.includes(quality.value)
-            )
+        const test = computed({set:() =>  {
+            return
+        },
+        get: () => relics.value.filter(relic => 
+            relic.quality.includes(quality.value))
         })
 
+        const onUpdate = (originalEvent: { newDraggableIndex: number, oldDraggableIndex: number}) => {
+            const tmp = relics.value[originalEvent.newDraggableIndex]
+            relics.value[originalEvent.newDraggableIndex] = relics.value[originalEvent.oldDraggableIndex]
+            relics.value[originalEvent.oldDraggableIndex] = tmp
+        }
+            
         return {
             test,
-            quality
+            quality,
+            relics,
+            onUpdate,
         }
     }
 })
@@ -61,5 +90,13 @@ export default defineComponent({
 <style>
 li {
     list-style: none;
+    display: inline-block;
 }
+
+.test-box{
+    width: 80px;
+    height: 80px;
+    background-color: red;
+}
+
 </style>
