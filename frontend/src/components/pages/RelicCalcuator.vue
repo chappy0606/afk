@@ -30,6 +30,7 @@
 </template>
 
 <script lang="ts">
+import { set } from 'js-cookie'
 import { defineComponent, computed, ref } from 'vue'
 import draggable from 'vuedraggable'
 import axios from '../../export'
@@ -65,7 +66,9 @@ export default defineComponent({
                 console.log(error.response)
             })
 
-        const test = computed({set:() =>  {
+        // getterのみなら以下のエラー
+        // Write operation failed: computed value is readonly
+        const test = computed({set:() => {
             return
         },
         get: () => relics.value.filter(relic => 
