@@ -8,7 +8,7 @@
         </div>
 
         <div class="relic-list">
-            <draggable v-model="test" group="relic-list" item-key="id" handle=".handle" @update="onUpdate">
+            <draggable v-model="relics" group="relic-list" item-key="id" handle=".handle" @choose="onChoose" @update="onUpdate">
                 <template #item="{element}">
                     <span class="handle">
                 <img
@@ -30,8 +30,7 @@
 </template>
 
 <script lang="ts">
-import { set } from 'js-cookie'
-import { defineComponent, computed, ref } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
 import draggable from 'vuedraggable'
 import axios from '../../export'
 
@@ -56,6 +55,8 @@ export default defineComponent({
     setup() {
         const relics = ref<Relic[]>([])
         const quality = ref<string>('')
+        const oldIndex = ref<number>()
+        const newIndex = ref<number>()
 
         axios
             .get('relic_calculator/relics')
@@ -66,26 +67,40 @@ export default defineComponent({
                 console.log(error.response)
             })
 
-        // getterのみなら以下のエラー
-        // Write operation failed: computed value is readonly
-        const test = computed({set:() => {
-            return
-        },
-        get: () => relics.value.filter(relic => 
-            relic.quality.includes(quality.value))
+        // const test = computed(() => {
+        //     return relics.value.filter(relic =>
+        //         relic.quality.includes(quality.value)
+        //     )
+        // })
+
+        const splitRelic = ()=> relics.value.filter(relic =>{
+            const ddd = relic.quality.includes(quality.value)
         })
 
+        watch(quality, splitRelic)
+
+        watch(newIndex, () => console.log('watch'));
+
         const onUpdate = (originalEvent: { newDraggableIndex: number, oldDraggableIndex: number}) => {
-            const tmp = relics.value[originalEvent.newDraggableIndex]
-            relics.value[originalEvent.newDraggableIndex] = relics.value[originalEvent.oldDraggableIndex]
-            relics.value[originalEvent.oldDraggableIndex] = tmp
+            console.log(originalEvent.newDraggableIndex)
+            newIndex.value = originalEvent.newDraggableIndex
+            // const tmp = relics.value[originalEvent.newDraggableIndex]
+            // relics.value[originalEvent.newDraggableIndex] = relics.value[originalEvent.oldDraggableIndex]
+            // relics.value[originalEvent.oldDraggableIndex] = tmp
+            // console.log(relics.value)
         }
+
+        const onChoose = (originalEvent: { newDraggableIndex: number, oldDraggableIndex: number}) => {
+            oldIndex.value = originalEvent.oldDraggableIndex
+        }
+        
             
         return {
-            test,
             quality,
             relics,
             onUpdate,
+            onChoose,
+            splitRelic
         }
     }
 })
