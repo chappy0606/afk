@@ -1,36 +1,53 @@
 <template>
-    <div>
-        <div class="quality-nav">
-            <label><input type="radio" value="" v-model="quality" />All</label>
-            <label><input type="radio" value="Common" v-model="quality" />Common</label>
-            <label><input type="radio" value="Rare" v-model="quality" />Rare</label>
-            <label><input type="radio" value="Elite" v-model="quality" />Elite</label>
-        </div>
-
+    <div class="wrapper">
         <div class="relic-list">
-            <draggable v-model="relics" group="relic-list" item-key="id" handle=".handle" @choose="onChoose" @update="onUpdate">
+            <draggable
+                v-model="relics"
+                group="items"
+                item-key="id"
+                handle=".handle"
+            >
                 <template #item="{element}">
-                    <span class="handle">
-                <img
-                    :src="element.icon"
-                    width="50"
-                    height="50"
-                    :alt="element.jaName"
-                />
-                    </span>
+                    <div :class="element.quality">
+                        <span class="handle">
+                            <img
+                                :src="element.icon"
+                                :alt="element.jaName"
+                                width="50"
+                                height="50"
+                            />
+                        </span>
+                    </div>
                 </template>
-        </draggable>
+            </draggable>
+
+            <div class="user-belongings">
+                <draggable
+                    v-model="belongings"
+                    group="items"
+                    item-key="id"
+                    handle=".handle"
+                >
+                    <template #item="{element}">
+                        <div :class="element.quality">
+                            <span class="handle">
+                                <img
+                                    :src="element.icon"
+                                    :alt="element.jaName"
+                                    width="50"
+                                    height="50"
+                                />
+                            </span>
+                        </div>
+                    </template>
+                </draggable>
+            </div>
         </div>
-
-        <div class="test-box">
-
-        </div>
-
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import draggable from 'vuedraggable'
 import axios from '../../export'
 
@@ -49,14 +66,12 @@ interface Relic {
 }
 
 export default defineComponent({
-    components:{
+    components: {
         draggable
     },
     setup() {
         const relics = ref<Relic[]>([])
-        const quality = ref<string>('')
-        const oldIndex = ref<number>()
-        const newIndex = ref<number>()
+        const belongings = ref<Relic[]>([])
 
         axios
             .get('relic_calculator/relics')
@@ -67,54 +82,30 @@ export default defineComponent({
                 console.log(error.response)
             })
 
-        // const test = computed(() => {
-        //     return relics.value.filter(relic =>
-        //         relic.quality.includes(quality.value)
-        //     )
-        // })
-
-        const splitRelic = ()=> relics.value.filter(relic =>{
-            const ddd = relic.quality.includes(quality.value)
-        })
-
-        watch(quality, splitRelic)
-
-        watch(newIndex, () => console.log('watch'));
-
-        const onUpdate = (originalEvent: { newDraggableIndex: number, oldDraggableIndex: number}) => {
-            console.log(originalEvent.newDraggableIndex)
-            newIndex.value = originalEvent.newDraggableIndex
-            // const tmp = relics.value[originalEvent.newDraggableIndex]
-            // relics.value[originalEvent.newDraggableIndex] = relics.value[originalEvent.oldDraggableIndex]
-            // relics.value[originalEvent.oldDraggableIndex] = tmp
-            // console.log(relics.value)
-        }
-
-        const onChoose = (originalEvent: { newDraggableIndex: number, oldDraggableIndex: number}) => {
-            oldIndex.value = originalEvent.oldDraggableIndex
-        }
-        
-            
         return {
-            quality,
             relics,
-            onUpdate,
-            onChoose,
-            splitRelic
+            belongings
         }
     }
 })
 </script>
 <style>
-li {
-    list-style: none;
+.relic-list {
+    width: auto;
+    height: auto;
+}
+.Common {
     display: inline-block;
 }
-
-.test-box{
-    width: 80px;
-    height: 80px;
-    background-color: red;
+.Rare {
+    display: inline-block;
 }
-
+.Elite {
+    display: inline-block;
+}
+.user-belongings {
+    background: palegreen;
+    width: 480px;
+    height: 300px;
+}
 </style>
