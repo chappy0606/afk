@@ -1,12 +1,13 @@
 <template>
-    <div class="wrapper">
+    <div>
+        <div class="quality-nav">
+            <label><input type="radio" value="" v-model="quality" />All</label>
+            <label><input type="radio" value="Common" v-model="quality" />Common</label>
+            <label><input type="radio" value="Rare" v-model="quality" />Rare</label>
+            <label><input type="radio" value="Elite" v-model="quality" />Elite</label>
+        </div>
         <div class="relic-list">
-            <draggable
-                v-model="relics"
-                group="items"
-                item-key="id"
-                handle=".handle"
-            >
+            <draggable v-model="findByQuarity" group="items" item-key="id" handle=".handle">
                 <template #item="{element}">
                     <div :class="element.quality">
                         <span class="handle">
@@ -22,12 +23,7 @@
             </draggable>
 
             <div class="user-belongings">
-                <draggable
-                    v-model="belongings"
-                    group="items"
-                    item-key="id"
-                    handle=".handle"
-                >
+                <draggable v-model="belongings" group="items" item-key="id" handle=".handle">
                     <template #item="{element}">
                         <div :class="element.quality">
                             <span class="handle">
@@ -47,7 +43,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref, watch } from 'vue'
 import draggable from 'vuedraggable'
 import axios from '../../export'
 
@@ -70,12 +66,27 @@ export default defineComponent({
         draggable
     },
     setup() {
+        const RELICS = ref<Relic[]>([])
         const relics = ref<Relic[]>([])
         const belongings = ref<Relic[]>([])
+        const quality = ref<string>('')
+
+        watch(quality,()=> {
+            relics.value = RELICS.value
+        })
+
+        const findByQuarity = computed({
+            set: value => relics.value = value,
+            get: () => {
+                return relics.value.filter(relic =>
+                        relic.quality.includes(quality.value))
+                }
+        })
 
         axios
             .get('relic_calculator/relics')
             .then(response => {
+                RELICS.value = response.data
                 relics.value = response.data
             })
             .catch(error => {
@@ -83,8 +94,11 @@ export default defineComponent({
             })
 
         return {
+            RELICS,
             relics,
-            belongings
+            belongings,
+            quality,
+            findByQuarity
         }
     }
 })
