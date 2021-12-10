@@ -101,14 +101,13 @@ export default defineComponent({
         const quality = ref<string>('')
         const searchWord = ref<string>('')
 
-        watch(quality, () => {
+        const initailRelics = () =>{
             relics.value = RELICS.value
-        })
+        }
 
-        watch(searchWord, () => {
-            console.log('searchword')
-            relics.value = RELICS.value
-        })
+        watch(quality, () => initailRelics())
+
+        watch(searchWord, () => initailRelics())
 
         const filteredRelics = computed({
             set: value => (relics.value = value),
