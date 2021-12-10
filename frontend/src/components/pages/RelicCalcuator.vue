@@ -2,12 +2,36 @@
     <div>
         <div class="quality-nav">
             <label><input type="radio" value="" v-model="quality" />All</label>
-            <label><input type="radio" value="Common" v-model="quality" />Common</label>
-            <label><input type="radio" value="Rare" v-model="quality" />Rare</label>
-            <label><input type="radio" value="Elite" v-model="quality" />Elite</label>
+            <label
+                ><input
+                    type="radio"
+                    value="Common"
+                    v-model="quality"
+                />Common</label
+            >
+            <label
+                ><input
+                    type="radio"
+                    value="Rare"
+                    v-model="quality"
+                />Rare</label
+            >
+            <label
+                ><input
+                    type="radio"
+                    value="Elite"
+                    v-model="quality"
+                />Elite</label
+            >
+            <input type="text" v-model="searchWord" />
         </div>
         <div class="relic-list">
-            <draggable v-model="findByQuarity" group="items" item-key="id" handle=".handle">
+            <draggable
+                v-model="filteredRelics"
+                group="items"
+                item-key="id"
+                handle=".handle"
+            >
                 <template #item="{element}">
                     <div :class="element.quality">
                         <span class="handle">
@@ -23,7 +47,12 @@
             </draggable>
 
             <div class="user-belongings">
-                <draggable v-model="belongings" group="items" item-key="id" handle=".handle">
+                <draggable
+                    v-model="belongings"
+                    group="items"
+                    item-key="id"
+                    handle=".handle"
+                >
                     <template #item="{element}">
                         <div :class="element.quality">
                             <span class="handle">
@@ -70,17 +99,30 @@ export default defineComponent({
         const relics = ref<Relic[]>([])
         const belongings = ref<Relic[]>([])
         const quality = ref<string>('')
+        const searchWord = ref<string>('')
 
-        watch(quality,()=> {
+        watch(quality, () => {
             relics.value = RELICS.value
         })
 
-        const findByQuarity = computed({
-            set: value => relics.value = value,
+        watch(searchWord, () => {
+            console.log('searchword')
+            relics.value = RELICS.value
+        })
+
+        const filteredRelics = computed({
+            set: value => (relics.value = value),
             get: () => {
-                return relics.value.filter(relic =>
-                        relic.quality.includes(quality.value))
+                if (searchWord.value) {
+                    return relics.value
+                        .filter(relic => relic.jaName.includes(searchWord.value))
+                        .filter(relic => relic.quality.includes(quality.value))
                 }
+
+                return relics.value.filter(relic =>
+                    relic.quality.includes(quality.value)
+                )
+            }
         })
 
         axios
@@ -98,7 +140,9 @@ export default defineComponent({
             relics,
             belongings,
             quality,
-            findByQuarity
+            searchWord,
+            filteredRelics
+            // selectBySearchWord
         }
     }
 })
