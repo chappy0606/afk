@@ -25,10 +25,12 @@
             >
             <input type="text" v-model="searchWord" />
         </div>
+        <div class="row">
         <div class="relic-list">
             <draggable
                 v-model="filteredRelics"
-                group="items"
+                :group="{name:'items', pull:'clone'}"
+                :sort="false"
                 item-key="id"
                 handle=".handle"
             >
@@ -69,6 +71,7 @@
             </div>
         </div>
     </div>
+    </div>
 </template>
 
 <script lang="ts">
@@ -108,6 +111,7 @@ export default defineComponent({
         watch(quality, () => initailRelics())
 
         watch(searchWord, () => initailRelics())
+        watch(belongings, () => initailRelics())
 
         const filteredRelics = computed({
             set: value => (relics.value = value),
@@ -141,7 +145,6 @@ export default defineComponent({
             quality,
             searchWord,
             filteredRelics
-            // selectBySearchWord
         }
     }
 })
