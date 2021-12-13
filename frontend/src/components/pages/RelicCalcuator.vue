@@ -25,33 +25,11 @@
             >
             <input type="text" v-model="searchWord" />
         </div>
-        <div class="row">
-        <div class="relic-list">
-            <draggable
-                v-model="filteredRelics"
-                :group="{name:'items', pull:'clone'}"
-                :sort="false"
-                item-key="id"
-                handle=".handle"
-            >
-                <template #item="{element}">
-                    <div :class="element.quality">
-                        <span class="handle">
-                            <img
-                                :src="element.icon"
-                                :alt="element.jaName"
-                                width="50"
-                                height="50"
-                            />
-                        </span>
-                    </div>
-                </template>
-            </draggable>
-
-            <div class="user-belongings">
+            <div class="relic-list">
                 <draggable
-                    v-model="belongings"
-                    group="items"
+                    v-model="filteredRelics"
+                    :group="{ name: 'items', pull: 'clone' }"
+                    :sort="false"
                     item-key="id"
                     handle=".handle"
                 >
@@ -68,14 +46,34 @@
                         </div>
                     </template>
                 </draggable>
+
+                <div class="user-belongings">
+                    <draggable
+                        v-model="belongings"
+                        group="items"
+                        item-key="id"
+                        handle=".handle"
+                    >
+                        <template #item="{element}">
+                            <div :class="element.quality">
+                                <span class="handle">
+                                    <img
+                                        :src="element.icon"
+                                        :alt="element.jaName"
+                                        width="50"
+                                        height="50"
+                                    />
+                                </span>
+                            </div>
+                        </template>
+                    </draggable>
+                </div>
             </div>
         </div>
-    </div>
-    </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watch } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import draggable from 'vuedraggable'
 import axios from '../../export'
 
@@ -98,30 +96,20 @@ export default defineComponent({
         draggable
     },
     setup() {
-        const RELICS = ref<Relic[]>([])
         const relics = ref<Relic[]>([])
         const belongings = ref<Relic[]>([])
         const quality = ref<string>('')
         const searchWord = ref<string>('')
-
-        const initailRelics = () =>{
-            relics.value = RELICS.value
-        }
-
-        watch(quality, () => initailRelics())
-
-        watch(searchWord, () => initailRelics())
-        watch(belongings, () => initailRelics())
 
         const filteredRelics = computed({
             set: value => (relics.value = value),
             get: () => {
                 if (searchWord.value) {
                     return relics.value
-                        .filter(relic => relic.jaName.includes(searchWord.value))
+                        .filter(relic => relic.jaName.includes(searchWord.value)
+                        )
                         .filter(relic => relic.quality.includes(quality.value))
                 }
-
                 return relics.value.filter(relic =>
                     relic.quality.includes(quality.value)
                 )
@@ -131,7 +119,6 @@ export default defineComponent({
         axios
             .get('relic_calculator/relics')
             .then(response => {
-                RELICS.value = response.data
                 relics.value = response.data
             })
             .catch(error => {
@@ -139,7 +126,6 @@ export default defineComponent({
             })
 
         return {
-            RELICS,
             relics,
             belongings,
             quality,
