@@ -25,9 +25,31 @@
             >
             <input type="text" v-model="searchWord" />
         </div>
-            <div class="relic-list">
+        <div class="relic-list">
+            <draggable
+                v-model="filteredRelics"
+                :group="{ name: 'items', pull: 'clone' }"
+                :sort="false"
+                item-key="id"
+                handle=".handle"
+            >
+                <template #item="{element}">
+                    <div :class="element.quality">
+                        <span class="handle">
+                            <img
+                                :src="element.icon"
+                                :alt="element.jaName"
+                                width="50"
+                                height="50"
+                            />
+                        </span>
+                    </div>
+                </template>
+            </draggable>
+
+            <div class="user-belongings">
                 <draggable
-                    v-model="filteredRelics"
+                    v-model="changeOrderRelics"
                     :group="{ name: 'items', pull: 'clone' }"
                     :sort="false"
                     item-key="id"
@@ -46,30 +68,9 @@
                         </div>
                     </template>
                 </draggable>
-
-                <div class="user-belongings">
-                    <draggable
-                        v-model="belongings"
-                        group="items"
-                        item-key="id"
-                        handle=".handle"
-                    >
-                        <template #item="{element}">
-                            <div :class="element.quality">
-                                <span class="handle">
-                                    <img
-                                        :src="element.icon"
-                                        :alt="element.jaName"
-                                        width="50"
-                                        height="50"
-                                    />
-                                </span>
-                            </div>
-                        </template>
-                    </draggable>
-                </div>
             </div>
         </div>
+    </div>
 </template>
 
 <script lang="ts">
@@ -106,13 +107,21 @@ export default defineComponent({
             get: () => {
                 if (searchWord.value) {
                     return relics.value
-                        .filter(relic => relic.jaName.includes(searchWord.value)
+                        .filter(relic =>
+                            relic.jaName.includes(searchWord.value)
                         )
                         .filter(relic => relic.quality.includes(quality.value))
                 }
                 return relics.value.filter(relic =>
                     relic.quality.includes(quality.value)
                 )
+            }
+        })
+
+        const changeOrderRelics = computed({
+            set: value => (belongings.value = value),
+            get: () => {
+                return belongings.value.slice().sort((a, b) => Number(a.id) - Number(b.id))
             }
         })
 
@@ -130,7 +139,8 @@ export default defineComponent({
             belongings,
             quality,
             searchWord,
-            filteredRelics
+            filteredRelics,
+            changeOrderRelics
         }
     }
 })
