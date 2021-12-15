@@ -28,7 +28,7 @@
         <div class="relic-list">
             <draggable
                 v-model="filteredRelics"
-                :group="{ name: 'items', pull: 'clone' }"
+                :group="{ name: 'items', pull: 'clone',put:false }"
                 :sort="false"
                 item-key="id"
                 handle=".handle"
@@ -50,13 +50,15 @@
             <div class="user-belongings">
                 <draggable
                     v-model="changeOrderRelics"
-                    :group="{ name: 'items', pull: 'clone' }"
+                    :group="{ name: 'items'}"
                     :sort="false"
                     item-key="id"
                     handle=".handle"
+                    tag="transition-group"
                 >
-                    <template #item="{element}">
+                    <template #item="{element,index}">
                         <div :class="element.quality">
+                            {{index}}
                             <span class="handle">
                                 <img
                                     :src="element.icon"
@@ -64,6 +66,7 @@
                                     width="50"
                                     height="50"
                                 />
+                                <span class="delete-button" @click="removeRelic(index)">×</span>
                             </span>
                         </div>
                     </template>
@@ -74,7 +77,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref, watch } from 'vue'
 import draggable from 'vuedraggable'
 import axios from '../../export'
 
@@ -119,11 +122,17 @@ export default defineComponent({
         })
 
         const changeOrderRelics = computed({
-            set: value => (belongings.value = value),
+            set: value => {
+                return belongings.value = value},
             get: () => {
                 return belongings.value.slice().sort((a, b) => Number(a.id) - Number(b.id))
             }
         })
+
+        const removeRelic = (index:number) => {
+            // クリック時点では最後の値がsortされていない
+            belongings.value.sort((a, b) => Number(a.id) - Number(b.id)).splice(index,1)
+        }
 
         axios
             .get('relic_calculator/relics')
@@ -140,7 +149,8 @@ export default defineComponent({
             quality,
             searchWord,
             filteredRelics,
-            changeOrderRelics
+            changeOrderRelics,
+            removeRelic
         }
     }
 })
