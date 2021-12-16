@@ -58,7 +58,6 @@
                 >
                     <template #item="{element,index}">
                         <div :class="element.quality">
-                            {{index}}
                             <span class="handle">
                                 <img
                                     :src="element.icon"
@@ -66,7 +65,7 @@
                                     width="50"
                                     height="50"
                                 />
-                                <span class="delete-button" @click="removeRelic(index)">×</span>
+                                <button class="delete-button" @click="removeRelic(index)">×</button>
                             </span>
                         </div>
                     </template>
@@ -77,7 +76,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watch } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import draggable from 'vuedraggable'
 import axios from '../../export'
 
