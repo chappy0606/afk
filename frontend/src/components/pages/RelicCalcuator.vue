@@ -28,7 +28,7 @@
         <div class="relic-list">
             <draggable
                 v-model="filteredRelics"
-                :group="{ name: 'items', pull: 'clone',put:false }"
+                :group="{ name: 'items', pull: 'clone', put: false }"
                 :sort="false"
                 item-key="id"
                 handle=".handle"
@@ -50,7 +50,7 @@
             <div class="user-belongings">
                 <draggable
                     v-model="changeOrderRelics"
-                    :group="{ name: 'items'}"
+                    :group="{ name: 'items' }"
                     :sort="false"
                     item-key="id"
                     handle=".handle"
@@ -58,14 +58,19 @@
                 >
                     <template #item="{element,index}">
                         <div :class="element.quality">
-                            <span class="handle">
+                            <span class="handle" v-if="element.icon">
                                 <img
                                     :src="element.icon"
                                     :alt="element.jaName"
                                     width="50"
                                     height="50"
                                 />
-                                <button class="delete-button" @click="removeRelic(index)">×</button>
+                                <button
+                                    class="delete-button"
+                                    @click="removeRelic(index)"
+                                >
+                                    ×
+                                </button>
                             </span>
                         </div>
                     </template>
@@ -93,6 +98,9 @@ interface Relic {
     totalPrice: number
     icon: string
 }
+interface Belongings extends Relic {
+    count: number
+}
 
 export default defineComponent({
     components: {
@@ -100,7 +108,22 @@ export default defineComponent({
     },
     setup() {
         const relics = ref<Relic[]>([])
-        const belongings = ref<Relic[]>([])
+        const belongings = ref<Belongings[]>([
+            {
+                id: '',
+                enName: '',
+                jaName: '',
+                quality: '',
+                compornent1: '',
+                compornent2: '',
+                compornent3: '',
+                compornent4: '',
+                cost: 0,
+                totalPrice: 0,
+                icon: '',
+                count: 0
+            }
+        ])
         const quality = ref<string>('')
         const searchWord = ref<string>('')
 
@@ -120,17 +143,29 @@ export default defineComponent({
             }
         })
 
+        const count = () => {
+            console.log(belongings.value[0].count)
+            belongings.value[0].count++
+            console.log(belongings.value[0].count)
+        }
+
         const changeOrderRelics = computed({
             set: value => {
-                return belongings.value = value},
+                return (belongings.value = value)
+            },
             get: () => {
-                return belongings.value.slice().sort((a, b) => Number(a.id) - Number(b.id))
+                count()
+                return belongings.value
+                    .slice()
+                    .sort((a, b) => Number(a.id) - Number(b.id))
             }
         })
 
-        const removeRelic = (index:number) => {
+        const removeRelic = (index: number) => {
             // クリック時点では最後の値がsortされていない
-            belongings.value.sort((a, b) => Number(a.id) - Number(b.id)).splice(index,1)
+            belongings.value
+                .sort((a, b) => Number(a.id) - Number(b.id))
+                .splice(index, 1)
         }
 
         axios
