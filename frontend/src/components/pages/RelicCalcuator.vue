@@ -81,7 +81,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watch } from 'vue'
+import { AnchorHTMLAttributes, computed, defineComponent, ref, watch } from 'vue'
+import { filter } from 'vue/types/umd'
 import draggable from 'vuedraggable'
 import axios from '../../export'
 
@@ -131,26 +132,27 @@ export default defineComponent({
 
         watch(belongings, () => {
             // belongings.value[i].count に初期値の代入
-            for (let i in belongings.value) {
+            for (var i in belongings.value) {
                 if (typeof belongings.value[i].count === 'undefined') {
-                    belongings.value[i].count = 0
+                    belongings.value[i].count = 1
                 }
             }
         })
 
         const changeOrderRelics = computed({
             set: value => {
-                return (belongings.value = value)
+                return belongings.value = value
             },
             get: () => {
-                return belongings.value
+                return Array.from(new Set(belongings.value
                     .slice()
-                    .sort((a, b) => Number(a.id) - Number(b.id))
+                    .sort((a, b) => Number(a.id)-Number(b.id))))
             }
         })
 
         const removeRelic = (index: number) => {
             // クリック時点では最後の値がsortされていない
+            belongings.value[index].count--
             belongings.value
                 .sort((a, b) => Number(a.id) - Number(b.id))
                 .splice(index, 1)
@@ -172,7 +174,7 @@ export default defineComponent({
             searchWord,
             filteredRelics,
             changeOrderRelics,
-            removeRelic
+            removeRelic,
         }
     }
 })
