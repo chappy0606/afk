@@ -81,7 +81,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref, watch } from 'vue'
 import draggable from 'vuedraggable'
 import axios from '../../export'
 
@@ -108,22 +108,8 @@ export default defineComponent({
     },
     setup() {
         const relics = ref<Relic[]>([])
-        const belongings = ref<Belongings[]>([
-            {
-                id: '',
-                enName: '',
-                jaName: '',
-                quality: '',
-                compornent1: '',
-                compornent2: '',
-                compornent3: '',
-                compornent4: '',
-                cost: 0,
-                totalPrice: 0,
-                icon: '',
-                count: 0
-            }
-        ])
+        const belongings = ref<Belongings[]>([])
+
         const quality = ref<string>('')
         const searchWord = ref<string>('')
 
@@ -143,18 +129,20 @@ export default defineComponent({
             }
         })
 
-        const count = () => {
-            console.log(belongings.value[0].count)
-            belongings.value[0].count++
-            console.log(belongings.value[0].count)
-        }
+        watch(belongings, () => {
+            // belongings.value[i].count に初期値の代入
+            for (let i in belongings.value) {
+                if (typeof belongings.value[i].count === 'undefined') {
+                    belongings.value[i].count = 0
+                }
+            }
+        })
 
         const changeOrderRelics = computed({
             set: value => {
                 return (belongings.value = value)
             },
             get: () => {
-                count()
                 return belongings.value
                     .slice()
                     .sort((a, b) => Number(a.id) - Number(b.id))
