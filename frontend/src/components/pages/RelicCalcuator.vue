@@ -65,11 +65,18 @@
                                     width="50"
                                     height="50"
                                 />
+                                <label>{{ element.count }}</label>
                                 <button
-                                    class="delete-button"
+                                    class="add-button"
+                                    @click="addRelic(index)"
+                                >
+                                    +
+                                </button>
+                                <button
+                                    class="remove-button"
                                     @click="removeRelic(index)"
                                 >
-                                    ×
+                                    -
                                 </button>
                             </span>
                         </div>
@@ -81,8 +88,7 @@
 </template>
 
 <script lang="ts">
-import { AnchorHTMLAttributes, computed, defineComponent, ref, watch } from 'vue'
-import { filter } from 'vue/types/umd'
+import { computed, defineComponent, ref } from 'vue'
 import draggable from 'vuedraggable'
 import axios from '../../export'
 
@@ -130,32 +136,32 @@ export default defineComponent({
             }
         })
 
-        watch(belongings, () => {
-            // belongings.value[i].count に初期値の代入
-            for (var i in belongings.value) {
-                if (typeof belongings.value[i].count === 'undefined') {
-                    belongings.value[i].count = 1
-                }
+        const changeOrderRelics = computed({
+            set: value => (belongings.value = value),
+            get: () => {
+                return belongings.value
+                    .filter((x, i, self) => {
+                        if (typeof x.count === 'undefined' || x.count <= 0) {
+                            x.count = 1
+                        }
+                        return self.indexOf(x) === i
+                    })
+                    .sort((a, b) => Number(a.id) - Number(b.id))
             }
         })
 
-        const changeOrderRelics = computed({
-            set: value => {
-                return belongings.value = value
-            },
-            get: () => {
-                return Array.from(new Set(belongings.value
-                    .slice()
-                    .sort((a, b) => Number(a.id)-Number(b.id))))
-            }
-        })
+        const addRelic = (index: number) => {
+            belongings.value.sort((a, b) => Number(a.id) - Number(b.id))
+            belongings.value[index].count++
+        }
 
         const removeRelic = (index: number) => {
-            // クリック時点では最後の値がsortされていない
+            belongings.value.sort((a, b) => Number(a.id) - Number(b.id))
             belongings.value[index].count--
-            belongings.value
-                .sort((a, b) => Number(a.id) - Number(b.id))
-                .splice(index, 1)
+
+            if (belongings.value[index].count <= 0) {
+                belongings.value.splice(index, 1)
+            }
         }
 
         axios
@@ -175,6 +181,7 @@ export default defineComponent({
             filteredRelics,
             changeOrderRelics,
             removeRelic,
+            addRelic
         }
     }
 })
