@@ -82,13 +82,14 @@
                         </div>
                     </template>
                 </draggable>
+                {{ sumArray }}
             </div>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref, resolveDirective, watch } from 'vue'
 import draggable from 'vuedraggable'
 import axios from '../../export'
 
@@ -116,30 +117,22 @@ export default defineComponent({
     setup() {
         const relics = ref<Relic[]>([])
         const belongings = ref<Belongings[]>([])
-
         const quality = ref<string>('')
         const searchWord = ref<string>('')
 
         const filteredRelics = computed({
-            set: value => (relics.value = value),
             get: () => {
-                if (searchWord.value) {
-                    return relics.value
-                        .filter(relic =>
-                            relic.jaName.includes(searchWord.value)
-                        )
-                        .filter(relic => relic.quality.includes(quality.value))
-                }
-                return relics.value.filter(relic =>
-                    relic.quality.includes(quality.value)
-                )
-            }
+                return relics.value
+                    .filter(relic => relic.jaName.includes(searchWord.value))
+                    .filter(relic => relic.quality.includes(quality.value))
+            },
+            set: value => relics.value = value
         })
 
         const changeOrderRelics = computed({
-            set: value => (belongings.value = value),
-            get: () => {
-                return belongings.value
+            get: () => belongings.value,
+            set: value => {
+                belongings.value = value
                     .filter((x, i, self) => {
                         if (typeof x.count === 'undefined' || x.count <= 0) {
                             x.count = 1
@@ -150,13 +143,25 @@ export default defineComponent({
             }
         })
 
+        const sumArray = computed(() => {
+            let sum: number = 0
+            for (let i in belongings.value) {
+                console.log(
+                    belongings.value[i].jaName + belongings.value[i].totalPrice
+                )
+                console.log(belongings.value[i].count)
+                sum +=
+                    belongings.value[i].totalPrice * belongings.value[i].count
+            }
+            console.log(sum)
+            return sum
+        })
+
         const addRelic = (index: number) => {
-            belongings.value.sort((a, b) => Number(a.id) - Number(b.id))
             belongings.value[index].count++
         }
 
         const removeRelic = (index: number) => {
-            belongings.value.sort((a, b) => Number(a.id) - Number(b.id))
             belongings.value[index].count--
 
             if (belongings.value[index].count <= 0) {
@@ -181,7 +186,8 @@ export default defineComponent({
             filteredRelics,
             changeOrderRelics,
             removeRelic,
-            addRelic
+            addRelic,
+            sumArray
         }
     }
 })
@@ -202,7 +208,7 @@ export default defineComponent({
 }
 .user-belongings {
     background: palegreen;
-    width: 480px;
-    height: 300px;
+    width: auto;
+    height: auto;
 }
 </style>
