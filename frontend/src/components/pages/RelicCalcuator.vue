@@ -82,14 +82,14 @@
                         </div>
                     </template>
                 </draggable>
-                {{ sumArray }}
+                <label>合計:{{ sumArray }}</label>
             </div>
         </div>
     </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, resolveDirective, watch } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import draggable from 'vuedraggable'
 import axios from '../../export'
 
@@ -123,10 +123,15 @@ export default defineComponent({
         const filteredRelics = computed({
             get: () => {
                 return relics.value
-                    .filter(relic => relic.jaName.includes(searchWord.value))
+                    .filter(relic => {
+                        return (
+                            relic.enName.includes(searchWord.value) ||
+                            relic.jaName.includes(searchWord.value)
+                        )
+                    })
                     .filter(relic => relic.quality.includes(quality.value))
             },
-            set: value => relics.value = value
+            set: value => (relics.value = value)
         })
 
         const changeOrderRelics = computed({
