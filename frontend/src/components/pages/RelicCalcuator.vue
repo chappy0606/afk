@@ -125,7 +125,7 @@ export default defineComponent({
                 return relics.value
                     .filter(relic => {
                         return (
-                            relic.enName.includes(searchWord.value) ||
+                            relic.enName.toUpperCase().includes(searchWord.value.toUpperCase()) ||
                             relic.jaName.includes(searchWord.value)
                         )
                     })
