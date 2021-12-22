@@ -8,7 +8,6 @@
             <input type="text" v-model="searchWord" />
         </div>
 
-        <div class="relic-list">
             <draggable
                 v-model="filteredRelics"
                 :group="{ name: 'items', pull: 'clone', put: false }"
@@ -29,11 +28,40 @@
                     </div>
                 </template>
             </draggable>
-        </div>
 
-        <div class="user-belongings">
+            <div class="test">
+            <div class="belongings">
             <draggable
-                v-model="changeOrderRelics"
+                v-model="filteredbelongings"
+                :group="{ name: 'items' }"
+                :sort="false"
+                item-key="id"
+                handle=".handle"
+                tag="transition-group"
+            >
+                <template #item="{element,index}">
+                    <div :class="element.quality">
+                        <span class="handle" v-if="element.icon">
+                            <img
+                                :src="element.icon"
+                                :alt="element.jaName"
+                                width="50"
+                                height="50"
+                            />
+                            <div>
+                            <label>{{ element.count }}</label>
+                            <button id="belongings-add-btn" @click="addCount($event, index)">+</button>
+                            <button id="belongings-sub-btn" @click="subtractCount($event, index)">-</button>
+                            </div>
+                        </span>
+                    </div>
+                </template>
+            </draggable>
+            </div>
+
+        <div class="necessary-relic">
+            <draggable
+                v-model="filterednecessaryRelics"
                 :group="{ name: 'items' }"
                 :sort="false"
                 item-key="id"
@@ -50,12 +78,13 @@
                                 height="50"
                             />
                             <label>{{ element.count }}</label>
-                            <button class="add-button" @click="addRelic(index)">+</button>
-                            <button class="remove-button" @click="removeRelic(index)">-</button>
+                            <button id="necessary-relic-add-btn" @click="addCount($event, index)">+</button>
+                            <button id="necessary-relic-sub-btn" @click="subtractCount($event, index)">-</button>
                         </span>
                     </div>
                 </template>
             </draggable>
+            </div>
         </div>
     </div>
 </template>
@@ -77,9 +106,7 @@ interface Relic {
     cost: number
     totalPrice: number
     icon: string
-}
-interface Belongings extends Relic {
-    count: number
+    count: number | undefined
 }
 
 export default defineComponent({
@@ -88,7 +115,8 @@ export default defineComponent({
     },
     setup() {
         const relics = ref<Relic[]>([])
-        const belongings = ref<Belongings[]>([])
+        const belongings = ref<Relic[]>([])
+        const necessaryRelics = ref<Relic[]>([])
         const quality = ref<string>('')
         const searchWord = ref<string>('')
 
@@ -108,38 +136,57 @@ export default defineComponent({
             set: value => (relics.value = value)
         })
 
-        const changeOrderRelics = computed({
-            get: () => belongings.value,
-            set: value => {
-                belongings.value = value
-                    .filter((x, i, self) => {
-                        if (typeof x.count === 'undefined' || x.count <= 0) {
-                            x.count = 1
-                        }
-                        return self.indexOf(x) === i
-                    })
-                    .sort((a, b) => Number(a.id) - Number(b.id))
-            }
-        })
-
-        const sumArray = computed(() => {
-            let sum: number = 0
-            for (let i in belongings.value) {
-                sum +=
-                    belongings.value[i].totalPrice * belongings.value[i].count
-            }
-            return sum
-        })
-
-        const addRelic = (index: number) => {
-            belongings.value[index].count++
+        const filterRelics = (array:Relic[])=> {
+            return array
+                .filter((x, i, self) => {
+                    if (typeof x.count === 'undefined' || x.count <= 0) {
+                        x.count = 1
+                    }
+                    return self.indexOf(x) === i
+                })
+                .sort((a, b) => Number(a.id) - Number(b.id))
         }
 
-        const removeRelic = (index: number) => {
-            belongings.value[index].count--
+        const filteredbelongings = computed({
+            get: () => belongings.value,
+            set: value => belongings.value = filterRelics(value)
+        })
 
-            if (belongings.value[index].count <= 0) {
-                belongings.value.splice(index, 1)
+        const filterednecessaryRelics = computed({
+            get: () => necessaryRelics.value,
+            set: value => necessaryRelics.value = filterRelics(value)
+        })
+
+        // const sumArray = computed(() => {
+        //     let sum: number = 0
+        //     for (let i in belongings.value) {
+        //         sum +=
+        //             belongings.value[i].totalPrice * belongings.value[i].count
+        //     }
+        //     return sum
+        // })
+
+        const addCount = (event:{target:HTMLInputElement}, index: number) => {
+            if(event.target.id === 'belongings-add-btn'){
+                belongings.value[index].count++
+            }else{
+                necessaryRelics.value[index].count++
+            }
+        }
+
+        const removeRelic= (array:Relic[],index:number) =>{
+            if(array[index].count <= 0){
+                array.splice(index,1)
+            }
+        }
+
+        const subtractCount = (event:{target:HTMLInputElement}, index: number) => {
+            if(event.target.id === 'belongings-sub-btn'){
+                belongings.value[index].count--
+                removeRelic(belongings.value,index)
+            }else{
+                necessaryRelics.value[index].count--
+                removeRelic(necessaryRelics.value,index)
             }
         }
 
@@ -158,26 +205,33 @@ export default defineComponent({
             quality,
             searchWord,
             filteredRelics,
-            changeOrderRelics,
-            removeRelic,
-            addRelic,
-            sumArray
+            filteredbelongings,
+            addCount,
+            subtractCount,
+            necessaryRelics,
+            filterednecessaryRelics
+            // sumArray
         }
     }
 })
 </script>
 <style>
-.relic-list {
-    width: auto;
-    height: auto;
-}
 
 .Common, .Rare, .Elite   {
     display: inline-block;
 }
 
-.user-belongings {
+.test {
+    display: flex;
+}
+
+.belongings {
     background: palegreen;
+    width: 50%;
+    height: 400px;
+}
+.necessary-relic {
+    background: paleturquoise;
     width: 50%;
     height: 400px;
 }
