@@ -1,30 +1,13 @@
 <template>
     <div>
         <div class="quality-nav">
-            <label><input type="radio" value="" v-model="quality" />All</label>
-            <label
-                ><input
-                    type="radio"
-                    value="Common"
-                    v-model="quality"
-                />Common</label
-            >
-            <label
-                ><input
-                    type="radio"
-                    value="Rare"
-                    v-model="quality"
-                />Rare</label
-            >
-            <label
-                ><input
-                    type="radio"
-                    value="Elite"
-                    v-model="quality"
-                />Elite</label
-            >
+            <label><input type="radio" value="" v-model="quality" />all</label>
+            <label><input type="radio" value="Common" v-model="quality" />Common</label>
+            <label><input type="radio" value="Rare" v-model="quality" />Rare</label>
+            <label><input type="radio" value="Elite" v-model="quality" />Elite</label>
             <input type="text" v-model="searchWord" />
         </div>
+
         <div class="relic-list">
             <draggable
                 v-model="filteredRelics"
@@ -46,44 +29,33 @@
                     </div>
                 </template>
             </draggable>
+        </div>
 
-            <div class="user-belongings">
-                <draggable
-                    v-model="changeOrderRelics"
-                    :group="{ name: 'items' }"
-                    :sort="false"
-                    item-key="id"
-                    handle=".handle"
-                    tag="transition-group"
-                >
-                    <template #item="{element,index}">
-                        <div :class="element.quality">
-                            <span class="handle" v-if="element.icon">
-                                <img
-                                    :src="element.icon"
-                                    :alt="element.jaName"
-                                    width="50"
-                                    height="50"
-                                />
-                                <label>{{ element.count }}</label>
-                                <button
-                                    class="add-button"
-                                    @click="addRelic(index)"
-                                >
-                                    +
-                                </button>
-                                <button
-                                    class="remove-button"
-                                    @click="removeRelic(index)"
-                                >
-                                    -
-                                </button>
-                            </span>
-                        </div>
-                    </template>
-                </draggable>
-                <label>合計:{{ sumArray }}</label>
-            </div>
+        <div class="user-belongings">
+            <draggable
+                v-model="changeOrderRelics"
+                :group="{ name: 'items' }"
+                :sort="false"
+                item-key="id"
+                handle=".handle"
+                tag="transition-group"
+            >
+                <template #item="{element,index}">
+                    <div :class="element.quality">
+                        <span class="handle" v-if="element.icon">
+                            <img
+                                :src="element.icon"
+                                :alt="element.jaName"
+                                width="50"
+                                height="50"
+                            />
+                            <label>{{ element.count }}</label>
+                            <button class="add-button" @click="addRelic(index)">+</button>
+                            <button class="remove-button" @click="removeRelic(index)">-</button>
+                        </span>
+                    </div>
+                </template>
+            </draggable>
         </div>
     </div>
 </template>
@@ -125,7 +97,9 @@ export default defineComponent({
                 return relics.value
                     .filter(relic => {
                         return (
-                            relic.enName.toUpperCase().includes(searchWord.value.toUpperCase()) ||
+                            relic.enName
+                                .toUpperCase()
+                                .includes(searchWord.value.toUpperCase()) ||
                             relic.jaName.includes(searchWord.value)
                         )
                     })
@@ -151,14 +125,9 @@ export default defineComponent({
         const sumArray = computed(() => {
             let sum: number = 0
             for (let i in belongings.value) {
-                console.log(
-                    belongings.value[i].jaName + belongings.value[i].totalPrice
-                )
-                console.log(belongings.value[i].count)
                 sum +=
                     belongings.value[i].totalPrice * belongings.value[i].count
             }
-            console.log(sum)
             return sum
         })
 
@@ -202,18 +171,14 @@ export default defineComponent({
     width: auto;
     height: auto;
 }
-.Common {
+
+.Common, .Rare, .Elite   {
     display: inline-block;
 }
-.Rare {
-    display: inline-block;
-}
-.Elite {
-    display: inline-block;
-}
+
 .user-belongings {
     background: palegreen;
-    width: auto;
-    height: auto;
+    width: 50%;
+    height: 400px;
 }
 </style>
