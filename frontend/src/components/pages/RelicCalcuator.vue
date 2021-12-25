@@ -86,11 +86,13 @@
             </draggable>
             </div>
         </div>
+        必要コスト:{{sumArray}}
     </div>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
+import { component } from 'vue/types/umd'
 import draggable from 'vuedraggable'
 import axios from '../../export'
 
@@ -157,15 +159,6 @@ export default defineComponent({
             set: value => necessaryRelics.value = filterRelics(value)
         })
 
-        // const sumArray = computed(() => {
-        //     let sum: number = 0
-        //     for (let i in belongings.value) {
-        //         sum +=
-        //             belongings.value[i].totalPrice * belongings.value[i].count
-        //     }
-        //     return sum
-        // })
-
         const addCount = (event:{target:HTMLInputElement}, index: number) => {
             if(event.target.id === 'belongings-add-btn'){
                 belongings.value[index].count++
@@ -190,6 +183,41 @@ export default defineComponent({
             }
         }
 
+        const test = ()=> {
+            let comps: string[] = []
+            necessaryRelics.value.filter(relic=> {
+                for(let i = 0; i < relic.count; i++){
+                comps.push(relic.compornent1)
+                comps.push(relic.compornent2)
+                comps.push(relic.compornent3)
+                comps.push(relic.compornent4)
+                }
+            })
+            const test2 = comps.filter(Boolean)
+            console.log(test2)
+            // test2 = [知恵の眼,知恵の眼]
+            relics.value.filter((relic)=>{
+                if(test2.find(value=> value === relic.jaName)){
+                    // 知恵の石
+                    console.log(relic.compornent1)
+                }
+            })
+        }
+
+        const sumArray = computed(() => {
+            let belongingsPrice: number = 0
+            let necessaryRelicsPrice: number = 0
+            test()
+            for (let i in belongings.value) {
+                belongingsPrice +=
+                    belongings.value[i].totalPrice * belongings.value[i].count
+            }
+            for (let i in necessaryRelics.value){
+                necessaryRelicsPrice += necessaryRelics.value[i].totalPrice * necessaryRelics.value[i].count
+            }
+            return necessaryRelicsPrice - belongingsPrice
+        })
+
         axios
             .get('relic_calculator/relics')
             .then(response => {
@@ -209,8 +237,8 @@ export default defineComponent({
             addCount,
             subtractCount,
             necessaryRelics,
-            filterednecessaryRelics
-            // sumArray
+            filterednecessaryRelics,
+            sumArray
         }
     }
 })
