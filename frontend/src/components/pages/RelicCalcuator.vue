@@ -184,24 +184,33 @@ export default defineComponent({
         }
 
         const test = ()=> {
-            let comps: string[] = []
+            const nRelics: string[] = []
             necessaryRelics.value.filter(relic=> {
                 for(let i = 0; i < relic.count; i++){
-                comps.push(relic.compornent1)
-                comps.push(relic.compornent2)
-                comps.push(relic.compornent3)
-                comps.push(relic.compornent4)
+                    nRelics.push(
+                        relic.compornent1,
+                        relic.compornent2,
+                        relic.compornent3,
+                        relic.compornent4
+                    )
                 }
             })
-            const test2 = comps.filter(Boolean)
-            console.log(test2)
-            // test2 = [知恵の眼,知恵の眼]
-            relics.value.filter((relic)=>{
-                if(test2.find(value=> value === relic.jaName)){
-                    // 知恵の石
-                    console.log(relic.compornent1)
-                }
-            })
+            
+            const count = nRelics.filter(Boolean).reduce((prev,current) => {
+                prev[current] = (prev[current] || 0) + 1
+                return prev
+            },{})
+            // {素材a:個数,素材b:個数,素材c:個数}
+            console.log(count)
+
+            // const test2 = comps.filter(Boolean)
+            // console.log(test2)
+            // // test2 = [知恵の眼,知恵の眼]
+            // relics.value.filter((relic)=>{
+            //     if(test2.find(value=> value === relic.jaName)){
+            //         // 知恵の石
+            //         console.log(relic.compornent1)
+            //     }
         }
 
         const sumArray = computed(() => {
