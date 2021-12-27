@@ -193,7 +193,6 @@ export default defineComponent({
 
         const sumArray = computed(() => {
             let compornents: string[] = []
-            
             // 作りたい遺物のcompornentを取得
             necessaryRelics.value.filter(relic=> {
                 for(let i = 0; i < relic.count; i++){
@@ -206,17 +205,18 @@ export default defineComponent({
                 }
             })
 
-            const test:string[] = []
-            
-            Object.keys(countDuplicate(compornents)).filter(v => {
-                return relics.value.filter((v2) =>{
-                    return console.log(v2.jaName.includes(v))
-                    // for(let i =0; i < Number(Object.values(countDuplicate(compornents))); i++){
-                    //     test.push(v)
-                    // }
-                })
-            })
-            console.log(test)
+        let test:string[] = []
+        relics.value.filter(v2 =>{
+            const obj = countDuplicate(compornents)
+            for(let key of Object.keys(obj)){
+                if(v2.jaName.includes(key)){
+                    for(let i = 0; i < obj[key]; i++){
+                        test.push(key)
+                    }
+                }
+            }
+        })
+        console.log(test)
 
             // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓保留中↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
             let belongingsPrice: number = 0
