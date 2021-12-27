@@ -95,6 +95,7 @@ import { computed, defineComponent, ref } from 'vue'
 import { component } from 'vue/types/umd'
 import draggable from 'vuedraggable'
 import axios from '../../export'
+import { key } from '../../store'
 
 interface Relic {
     id: string
@@ -183,11 +184,20 @@ export default defineComponent({
             }
         }
 
-        const test = ()=> {
-            const nRelics: string[] = []
+        const countDuplicate = (array:string[])=> {
+            return array.filter(v=> v).reduce((prev,current) => {
+                prev[current] = (prev[current] || 0) + 1
+                return prev
+            },{})
+        }
+
+        const sumArray = computed(() => {
+            let compornents: string[] = []
+            
+            // 作りたい遺物のcompornentを取得
             necessaryRelics.value.filter(relic=> {
                 for(let i = 0; i < relic.count; i++){
-                    nRelics.push(
+                    compornents.push(
                         relic.compornent1,
                         relic.compornent2,
                         relic.compornent3,
@@ -195,36 +205,32 @@ export default defineComponent({
                     )
                 }
             })
+
+            const test:string[] = []
             
-            const count = nRelics.filter(Boolean).reduce((prev,current) => {
-                prev[current] = (prev[current] || 0) + 1
-                return prev
-            },{})
-            // {素材a:個数,素材b:個数,素材c:個数}
-            console.log(count)
+            Object.keys(countDuplicate(compornents)).filter(v => {
+                return relics.value.filter((v2) =>{
+                    return console.log(v2.jaName.includes(v))
+                    // for(let i =0; i < Number(Object.values(countDuplicate(compornents))); i++){
+                    //     test.push(v)
+                    // }
+                })
+            })
+            console.log(test)
 
-            // const test2 = comps.filter(Boolean)
-            // console.log(test2)
-            // // test2 = [知恵の眼,知恵の眼]
-            // relics.value.filter((relic)=>{
-            //     if(test2.find(value=> value === relic.jaName)){
-            //         // 知恵の石
-            //         console.log(relic.compornent1)
-            //     }
-        }
-
-        const sumArray = computed(() => {
+            // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓保留中↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
             let belongingsPrice: number = 0
-            let necessaryRelicsPrice: number = 0
-            test()
-            for (let i in belongings.value) {
-                belongingsPrice +=
-                    belongings.value[i].totalPrice * belongings.value[i].count
-            }
-            for (let i in necessaryRelics.value){
-                necessaryRelicsPrice += necessaryRelics.value[i].totalPrice * necessaryRelics.value[i].count
-            }
-            return necessaryRelicsPrice - belongingsPrice
+            // let necessaryRelicsPrice: number = 0
+
+            // for (let i in belongings.value) {
+            //     belongingsPrice +=
+            //         belongings.value[i].totalPrice * belongings.value[i].count
+            // }
+            // for (let i in necessaryRelics.value){
+            //     necessaryRelicsPrice += necessaryRelics.value[i].totalPrice * necessaryRelics.value[i].count
+            // }
+            // return necessaryRelicsPrice - belongingsPrice
+            return belongingsPrice
         })
 
         axios
