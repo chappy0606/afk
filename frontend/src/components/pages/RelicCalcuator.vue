@@ -191,10 +191,9 @@ export default defineComponent({
             },{})
         }
 
-        const sumArray = computed(() => {
+        const createArray = (array:Relic[]) :string[] => {
             let compornents: string[] = []
-            // 作りたい遺物のcompornentを取得
-            necessaryRelics.value.filter(relic=> {
+            array.filter(relic=> {
                 for(let i = 0; i < relic.count; i++){
                     compornents.push(
                         relic.compornent1,
@@ -204,10 +203,21 @@ export default defineComponent({
                     )
                 }
             })
+            return compornents
+        }
+        
+
+        const sumArray = computed(() => {
+        let compornents: string[] = createArray(necessaryRelics.value)
+        if(compornents.length){
+            console.log('length')
+        }else{
+            console.log('soreigai')
+        }
 
         let test:string[] = []
+        const obj = countDuplicate(compornents)
         relics.value.filter(v2 =>{
-            const obj = countDuplicate(compornents)
             for(let key of Object.keys(obj)){
                 if(v2.jaName.includes(key)){
                     for(let i = 0; i < obj[key]; i++){
@@ -216,7 +226,7 @@ export default defineComponent({
                 }
             }
         })
-        console.log(test)
+        console.log(obj)
 
             // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓保留中↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
             let belongingsPrice: number = 0
