@@ -191,8 +191,30 @@ export default defineComponent({
             },{})
         }
 
+        const reduceQuality = (compornents:string[]) => {
+        let test:string[] = []
+        const obj = countDuplicate(compornents)
+        console.log(obj)
+        relics.value.filter(v2 =>{
+            for(let key of Object.keys(obj)){
+                if(v2.jaName.includes(key)){
+                    for(let i = 0; i < obj[key]; i++){
+                        test.push(
+                            v2.compornent1,
+                            v2.compornent2,
+                            v2.compornent3,
+                            v2.compornent4,
+                        )
+                    }
+                }
+            }
+        })
+        return test
+        }
+
+
         const createArray = (array:Relic[]) :string[] => {
-            let compornents: string[] = []
+            const compornents: string[] = []
             array.filter(relic=> {
                 for(let i = 0; i < relic.count; i++){
                     compornents.push(
@@ -209,24 +231,9 @@ export default defineComponent({
 
         const sumArray = computed(() => {
         let compornents: string[] = createArray(necessaryRelics.value)
-        if(compornents.length){
-            console.log('length')
-        }else{
-            console.log('soreigai')
-        }
-
-        let test:string[] = []
-        const obj = countDuplicate(compornents)
-        relics.value.filter(v2 =>{
-            for(let key of Object.keys(obj)){
-                if(v2.jaName.includes(key)){
-                    for(let i = 0; i < obj[key]; i++){
-                        test.push(key)
-                    }
-                }
-            }
-        })
-        console.log(obj)
+        const test = reduceQuality(compornents)
+        console.log(test)
+        console.log(reduceQuality(test))
 
             // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓保留中↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
             let belongingsPrice: number = 0
