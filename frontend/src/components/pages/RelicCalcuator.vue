@@ -92,24 +92,26 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
-import { component } from 'vue/types/umd'
 import draggable from 'vuedraggable'
 import axios from '../../export'
-import { key } from '../../store'
 
 interface Relic {
     id: string
     enName: string
     jaName: string
     quality: string
-    compornent1: string
-    compornent2: string
-    compornent3: string
-    compornent4: string
+    compornent1: string | null
+    compornent2: string | null
+    compornent3: string | null
+    compornent4: string | null
     cost: number
     totalPrice: number
     icon: string
     count: number | undefined
+}
+interface Counter {
+    key: string,
+    num: number
 }
 
 export default defineComponent({
@@ -129,8 +131,8 @@ export default defineComponent({
                     .filter(relic => {
                         return (
                             relic.enName
-                                .toUpperCase()
-                                .includes(searchWord.value.toUpperCase()) ||
+                                .toLowerCase()
+                                .includes(searchWord.value.toLowerCase()) ||
                             relic.jaName.includes(searchWord.value)
                         )
                     })
@@ -160,7 +162,7 @@ export default defineComponent({
             set: value => necessaryRelics.value = filterRelics(value)
         })
 
-        const addCount = (event:{target:HTMLInputElement}, index: number) => {
+        const addCount = (event:{target:HTMLInputElement}, index: number) :void => {
             if(event.target.id === 'belongings-add-btn'){
                 belongings.value[index].count++
             }else{
@@ -168,13 +170,13 @@ export default defineComponent({
             }
         }
 
-        const removeRelic= (array:Relic[],index:number) =>{
+        const removeRelic= (array:Relic[],index:number) :void =>{
             if(array[index].count <= 0){
                 array.splice(index,1)
             }
         }
 
-        const subtractCount = (event:{target:HTMLInputElement}, index: number) => {
+        const subtractCount = (event:{target:HTMLInputElement}, index: number) :void => {
             if(event.target.id === 'belongings-sub-btn'){
                 belongings.value[index].count--
                 removeRelic(belongings.value,index)
@@ -184,37 +186,48 @@ export default defineComponent({
             }
         }
 
-        const countDuplicate = (array:string[])=> {
-            return array.filter(v=> v).reduce((prev,current) => {
+        const countDuplicate = (compornents:string[]) :Counter => {
+            return compornents.filter(v=> v).reduce((prev,current) => {
                 prev[current] = (prev[current] || 0) + 1
                 return prev
-            },{})
+                },{} as Partial<Counter>) as Counter
         }
 
-        const reduceQuality = (compornents:string[]) => {
-        let test:string[] = []
-        const obj = countDuplicate(compornents)
-        console.log(obj)
-        relics.value.filter(v2 =>{
-            for(let key of Object.keys(obj)){
-                if(v2.jaName.includes(key)){
-                    for(let i = 0; i < obj[key]; i++){
-                        test.push(
-                            v2.compornent1,
-                            v2.compornent2,
-                            v2.compornent3,
-                            v2.compornent4,
-                        )
+        const reduceQuality = (compornents:string[]) :Counter => {
+
+            if(!Object.keys(countDuplicate(compornents)).length){
+                return
+            }
+
+            const result:string[] = []
+
+            relics.value.filter(v =>{
+                for(let key of Object.keys(countDuplicate(compornents))){
+                    if(v.jaName.includes(key) && v.quality === 'Common'){
+                        for(let i = 0; i < countDuplicate(compornents)[key]; i++){
+                            result.push(key)
+                        }
+                        break
+                    }
+                    if(v.jaName.includes(key)){
+                        for(let i = 0; i < countDuplicate(compornents)[key]; i++){
+                            result.push(
+                                v.compornent1,
+                                v.compornent2,
+                                v.compornent3,
+                                v.compornent4,
+                            )
+                        }
                     }
                 }
-            }
-        })
-        return test
+            })
+            return countDuplicate(result)
         }
 
 
         const createArray = (array:Relic[]) :string[] => {
             const compornents: string[] = []
+
             array.filter(relic=> {
                 for(let i = 0; i < relic.count; i++){
                     compornents.push(
@@ -228,25 +241,12 @@ export default defineComponent({
             return compornents
         }
         
-
         const sumArray = computed(() => {
-        let compornents: string[] = createArray(necessaryRelics.value)
-        const test = reduceQuality(compornents)
-        console.log(test)
-        console.log(reduceQuality(test))
+            let compornents: string[] = createArray(necessaryRelics.value)
+            const minimumUnitRelics = reduceQuality(compornents)
+            console.log(minimumUnitRelics)
 
-            // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓保留中↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
             let belongingsPrice: number = 0
-            // let necessaryRelicsPrice: number = 0
-
-            // for (let i in belongings.value) {
-            //     belongingsPrice +=
-            //         belongings.value[i].totalPrice * belongings.value[i].count
-            // }
-            // for (let i in necessaryRelics.value){
-            //     necessaryRelicsPrice += necessaryRelics.value[i].totalPrice * necessaryRelics.value[i].count
-            // }
-            // return necessaryRelicsPrice - belongingsPrice
             return belongingsPrice
         })
 
