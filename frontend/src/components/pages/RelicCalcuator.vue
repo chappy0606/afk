@@ -117,12 +117,14 @@ export default defineComponent({
     components: {
         draggable
     },
+    
     setup() {
         const relics = ref<Relic[]>([])
         const belongings = ref<Relic[]>([])
         const necessaryRelics = ref<Relic[]>([])
         const quality = ref<string>('')
         const searchWord = ref<string>('')
+        
         const filteredRelics = computed({
             get: () => {
                 return relics.value
@@ -138,6 +140,7 @@ export default defineComponent({
             },
             set: value => (relics.value = value)
         })
+
         const filterRelics = (array:Relic[])=> {
             return array
                 .filter((x, i, self) => {
@@ -148,14 +151,17 @@ export default defineComponent({
                 })
                 .sort((a, b) => Number(a.id) - Number(b.id))
         }
+
         const filteredbelongings = computed({
             get: () => belongings.value,
             set: value => belongings.value = filterRelics(value)
         })
+
         const filterednecessaryRelics = computed({
             get: () => necessaryRelics.value,
             set: value => necessaryRelics.value = filterRelics(value)
         })
+
         const addCount = (event:{target:HTMLInputElement}, index: number) :void => {
             if(event.target.id === 'belongings-add-btn'){
                 belongings.value[index].count++
@@ -163,11 +169,13 @@ export default defineComponent({
                 necessaryRelics.value[index].count++
             }
         }
+
         const removeRelic= (array:Relic[],index:number) :void =>{
             if(array[index].count <= 0){
                 array.splice(index,1)
             }
         }
+
         const subtractCount = (event:{target:HTMLInputElement}, index: number) :void => {
             if(event.target.id === 'belongings-sub-btn'){
                 belongings.value[index].count--
@@ -177,12 +185,14 @@ export default defineComponent({
                 removeRelic(necessaryRelics.value,index)
             }
         }
+
         const countDuplicate = (compornents:string[]) :Counter => {
             return compornents.filter(v=> v).reduce((prev,current) => {
                 prev[current] = (prev[current] || 0) + 1
                 return prev
                 },{} as Partial<Counter>) as Counter
         }
+
         const reduceQuality = (array:Relic[]) :Counter => {
             const compornents: string[] = []
             array.filter(relic=> {
@@ -228,6 +238,7 @@ export default defineComponent({
             let belongingsPrice: number = 0
             return belongingsPrice
         })
+
         axios
             .get('relic_calculator/relics')
             .then(response => {
@@ -236,6 +247,7 @@ export default defineComponent({
             .catch(error => {
                 console.log(error.response)
             })
+
         return {
             relics,
             belongings,
