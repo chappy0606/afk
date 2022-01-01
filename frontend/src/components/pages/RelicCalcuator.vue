@@ -117,7 +117,7 @@ export default defineComponent({
     components: {
         draggable
     },
-    
+
     setup() {
         const relics = ref<Relic[]>([])
         const belongings = ref<Relic[]>([])
@@ -195,35 +195,39 @@ export default defineComponent({
 
         const reduceQuality = (array:Relic[]) :Counter => {
             const compornents: string[] = []
+            
             array.filter(relic=> {
                 for(let i = 0; i < relic.count; i++){
-                    compornents.push(
+                    compornents.push(                        
                         relic.compornent1,
                         relic.compornent2,
                         relic.compornent3,
-                        relic.compornent4
-                    )
+                        relic.compornent4)
                 }
             })
-            if(!Object.keys(countDuplicate(compornents)).length){
+
+            if(compornents.every(e => e === null)){
                 return
             }
-            const result:string[] = []
-            relics.value.filter(v =>{
-                for(let key of Object.keys(countDuplicate(compornents))){
-                    if(v.jaName.includes(key) && v.quality === 'Common'){
-                        for(let i = 0; i < countDuplicate(compornents)[key]; i++){
-                            result.push(key)
+
+            const obj = countDuplicate(compornents)
+            let result:string[] = []
+
+            relics.value.filter(relic =>{
+                for(let key of Object.keys(obj)){
+                    if(relic.jaName.includes(key) && relic.quality === 'Common'){
+                        for(let i = 0; i < obj[key]; i++){
+                            result.push(relic.jaName)
                         }
                         break
                     }
-                    if(v.jaName.includes(key)){
-                        for(let i = 0; i < countDuplicate(compornents)[key]; i++){
+                    if(relic.jaName.includes(key)){
+                        for(let i = 0; i < obj[key]; i++){
                             result.push(
-                                v.compornent1,
-                                v.compornent2,
-                                v.compornent3,
-                                v.compornent4,
+                                relic.compornent1,
+                                relic.compornent2,
+                                relic.compornent3,
+                                relic.compornent4,
                             )
                         }
                     }
