@@ -13,7 +13,6 @@
                 v-model="filteredRelics"
                 :group="{ name: 'items', pull: 'clone', put: false }"
                 :sort="false"
-                :clone="cloneRelic"
                 item-key="id"
                 handle=".handle"
             >
@@ -37,6 +36,7 @@
                 v-model="filteredbelongings"
                 :group="{ name: 'items' }"
                 :sort="false"
+                :clone="cloneRelic"
                 item-key="id"
                 handle=".handle"
                 tag="transition-group"
@@ -99,18 +99,17 @@ interface Relic {
     enName: string
     jaName: string
     quality: string
-    compornent1: string | null
-    compornent2: string | null
-    compornent3: string | null
-    compornent4: string | null
+    compornent1: string
+    compornent2: string
+    compornent3: string
+    compornent4: string
     cost: number
     totalPrice: number
     icon: string
-    count: number | undefined
+    count: number
 }
 interface Counter {
-    key: string,
-    num: number
+    [key:string]: number
 }
 export default defineComponent({
     components: {
@@ -164,7 +163,7 @@ export default defineComponent({
         const removeRelic= (array:Relic[],index:number) :void =>{
             if(array[index].count <= 0){
                 array.splice(index,1)
-            }
+            }      
         }
 
         const addCount = (event:{target:HTMLInputElement}, index: number) :void => {
@@ -198,7 +197,7 @@ export default defineComponent({
                 }
             })
 
-            const countDuplicate = (array:string[]) :Counter => {
+            const countDuplicate = (array:string[]) => {
                 return array.filter(v=> v).reduce((prev,current) => {
                     prev[current] = (prev[current] || 0) + 1
                     return prev
@@ -211,13 +210,13 @@ export default defineComponent({
             relics.value.filter(relic =>{
                 for(let key of Object.keys(obj)){
                     if(relic.jaName.includes(key) && relic.quality === 'Common'){
-                        for(let i = 0; i < obj[key]; i++){
+                        for(let i = 0; i < obj[key as keyof Counter]; i++){
                             result.push(relic.jaName)
                         }
                         break
                     }
                     if(relic.jaName.includes(key)){
-                        for(let i = 0; i < obj[key]; i++){
+                        for(let i = 0; i < obj[key as keyof Counter]; i++){
                             result.push(
                                 relic.compornent1,
                                 relic.compornent2,
@@ -232,7 +231,7 @@ export default defineComponent({
         }
 
         const cloneRelic = (value:Relic) => {
-            return {
+            return {                
                 id: value.id,
                 enName: value.enName,
                 jaName: value.jaName,
@@ -244,8 +243,7 @@ export default defineComponent({
                 cost: value.cost,
                 totalPrice: value.totalPrice,
                 icon: value.icon,
-                count: value.count
-            }
+                count: value.count}
         }
         
         const toralCost = computed(() => {
