@@ -13,6 +13,7 @@
                 v-model="filteredRelics"
                 :group="{ name: 'items', pull: 'clone', put: false }"
                 :sort="false"
+                :clone="cloneRelic"
                 item-key="id"
                 handle=".handle"
             >
@@ -49,11 +50,9 @@
                                 width="50"
                                 height="50"
                             />
-                            <div>
                             <label>{{ element.count }}</label>
                             <button id="belongings-add-btn" @click="addCount($event, index)">+</button>
                             <button id="belongings-sub-btn" @click="subtractCount($event, index)">-</button>
-                            </div>
                         </span>
                     </div>
                 </template>
@@ -87,7 +86,7 @@
             </draggable>
             </div>
         </div>
-        必要コスト:{{sumArray}}
+        必要コスト:{{toralCost}}
     </div>
 </template>
 
@@ -138,8 +137,8 @@ export default defineComponent({
                     })
                     .filter(relic => relic.quality.includes(quality.value))
             },
-            set: value => (relics.value = value)
-        })
+            set: value => relics.value = value
+            })
 
         const filterRelics = (array:Relic[])=> {
             return array
@@ -162,17 +161,17 @@ export default defineComponent({
             set: value => necessaryRelics.value = filterRelics(value)
         })
 
-        const addCount = (event:{target:HTMLInputElement}, index: number) :void => {
-            if(event.target.id === 'belongings-add-btn'){
-                belongings.value[index].count++
-            }else{
-                necessaryRelics.value[index].count++
-            }
-        }
-
         const removeRelic= (array:Relic[],index:number) :void =>{
             if(array[index].count <= 0){
                 array.splice(index,1)
+            }
+        }
+
+        const addCount = (event:{target:HTMLInputElement}, index: number) :void => {
+            if(event.target.id === 'belongings-add-btn'){
+                belongings.value[index].count++
+            }else if(event.target.id === 'necessary-relic-add-btn'){
+                necessaryRelics.value[index].count++
             }
         }
 
@@ -180,17 +179,10 @@ export default defineComponent({
             if(event.target.id === 'belongings-sub-btn'){
                 belongings.value[index].count--
                 removeRelic(belongings.value,index)
-            }else{
+            }else if(event.target.id === 'necessary-relic-sub-btn'){
                 necessaryRelics.value[index].count--
                 removeRelic(necessaryRelics.value,index)
             }
-        }
-
-        const countDuplicate = (compornents:string[]) :Counter => {
-            return compornents.filter(v=> v).reduce((prev,current) => {
-                prev[current] = (prev[current] || 0) + 1
-                return prev
-                },{} as Partial<Counter>) as Counter
         }
 
         const reduceQuality = (array:Relic[]) :Counter => {
@@ -206,8 +198,11 @@ export default defineComponent({
                 }
             })
 
-            if(compornents.every(e => e === null)){
-                return
+            const countDuplicate = (array:string[]) :Counter => {
+                return array.filter(v=> v).reduce((prev,current) => {
+                    prev[current] = (prev[current] || 0) + 1
+                    return prev
+                    },{} as Partial<Counter>) as Counter
             }
 
             const obj = countDuplicate(compornents)
@@ -235,10 +230,30 @@ export default defineComponent({
             })
             return countDuplicate(result)
         }
+
+        const cloneRelic = (value:Relic) => {
+            return {
+                id: value.id,
+                enName: value.enName,
+                jaName: value.jaName,
+                quality: value.quality,
+                compornent1: value.compornent1,
+                compornent2: value.compornent2,
+                compornent3: value.compornent3,
+                compornent4: value.compornent4,
+                cost: value.cost,
+                totalPrice: value.totalPrice,
+                icon: value.icon,
+                count: value.count
+            }
+        }
         
-        const sumArray = computed(() => {
+        const toralCost = computed(() => {
             const minimumUnitRelics = reduceQuality(necessaryRelics.value)
+            const a = reduceQuality(belongings.value)
             console.log(minimumUnitRelics)
+            console.log(a)
+
             let belongingsPrice: number = 0
             return belongingsPrice
         })
@@ -263,7 +278,8 @@ export default defineComponent({
             subtractCount,
             necessaryRelics,
             filterednecessaryRelics,
-            sumArray
+            toralCost,
+            cloneRelic
         }
     }
 })
