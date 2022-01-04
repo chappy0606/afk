@@ -13,6 +13,7 @@
                 v-model="filteredRelics"
                 :group="{ name: 'items', pull: 'clone', put: false }"
                 :sort="false"
+                :clone="cloneRelic"
                 item-key="id"
                 handle=".handle"
             >
@@ -36,7 +37,6 @@
                 v-model="filteredbelongings"
                 :group="{ name: 'items' }"
                 :sort="false"
-                :clone="cloneRelic"
                 item-key="id"
                 handle=".handle"
                 tag="transition-group"
@@ -141,18 +141,20 @@ export default defineComponent({
 
         const filterRelics = (array:Relic[])=> {
             return array
-                .filter((x, i, self) => {
-                    if (typeof x.count === 'undefined' || x.count <= 0) {
-                        x.count = 1
+                .filter((relic, index, array) => {
+                    if (typeof relic.count === 'undefined' || relic.count <= 0) {
+                        relic.count = 1
                     }
-                    return self.indexOf(x) === i
+                    return array.findIndex(v => relic.id === v.id) === index
                 })
                 .sort((a, b) => Number(a.id) - Number(b.id))
         }
 
         const filteredbelongings = computed({
-            get: () => belongings.value,
-            set: value => belongings.value = filterRelics(value)
+            get: () => {
+                return belongings.value},
+            set: value => {
+                return belongings.value = filterRelics(value)}
         })
 
         const filterednecessaryRelics = computed({
@@ -198,7 +200,7 @@ export default defineComponent({
             })
 
             const countDuplicate = (array:string[]) => {
-                return array.filter(v=> v).reduce((prev,current) => {
+                return array.filter(Boolean).reduce((prev,current) => {
                     prev[current] = (prev[current] || 0) + 1
                     return prev
                     },{} as Partial<Counter>) as Counter
@@ -231,8 +233,7 @@ export default defineComponent({
         }
 
         const cloneRelic = (value:Relic) => {
-            return {                
-                id: value.id,
+            return {id: value.id,
                 enName: value.enName,
                 jaName: value.jaName,
                 quality: value.quality,
@@ -243,7 +244,8 @@ export default defineComponent({
                 cost: value.cost,
                 totalPrice: value.totalPrice,
                 icon: value.icon,
-                count: value.count}
+                count: value.count
+            }
         }
         
         const toralCost = computed(() => {
