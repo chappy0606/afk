@@ -249,12 +249,16 @@ export default defineComponent({
         }
         
         const toralCost = computed(() => {
-            const minimumUnitRelics = reduceQuality(necessaryRelics.value)
-            const a = reduceQuality(belongings.value)
-            console.log(minimumUnitRelics)
+            const a = reduceQuality(necessaryRelics.value)
+            const b = reduceQuality(belongings.value)
             console.log(a)
+            console.log(b)
+
+            const marged = Object.entries(b).reduce(acc,[key,value])=>
+            ({ ...acc, [key]: (acc[key] || 0) + value }) , { ...a })
 
             let belongingsPrice: number = 0
+
             return belongingsPrice
         })
 
