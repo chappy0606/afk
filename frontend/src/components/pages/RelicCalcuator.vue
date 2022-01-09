@@ -190,12 +190,18 @@ export default defineComponent({
             const compornents: string[] = []
             
             array.filter(relic=> {
-                for(let i = 0; i < relic.count; i++){
-                    compornents.push(                        
-                        relic.compornent1,
-                        relic.compornent2,
-                        relic.compornent3,
-                        relic.compornent4)
+                if(!relic.compornent1){
+                    for(let i = 0; i < relic.count; i++){
+                        compornents.push(relic.jaName)
+                    }
+                }else{
+                    for(let i = 0; i < relic.count; i++){
+                        compornents.push(                        
+                            relic.compornent1,
+                            relic.compornent2,
+                            relic.compornent3,
+                            relic.compornent4)
+                    }
                 }
             })
 
@@ -211,7 +217,7 @@ export default defineComponent({
 
             relics.value.filter(relic =>{
                 for(let key of Object.keys(obj)){
-                    if(relic.jaName.includes(key) && relic.quality === 'Common'){
+                    if(relic.jaName.includes(key) && !relic.compornent1){
                         for(let i = 0; i < obj[key as keyof Counter]; i++){
                             result.push(relic.jaName)
                         }
@@ -249,13 +255,15 @@ export default defineComponent({
         }
         
         const toralCost = computed(() => {
-            const a = reduceQuality(necessaryRelics.value)
-            const b = reduceQuality(belongings.value)
-            console.log(a)
-            console.log(b)
+            const nes = reduceQuality(necessaryRelics.value)
+            const bel = reduceQuality(belongings.value)
 
-            const marged = Object.entries(b).reduce(acc,[key,value])=>
-            ({ ...acc, [key]: (acc[key] || 0) + value }) , { ...a })
+            const marged = Object.entries(nes).reduce((acc,[key,value]) => {
+                console.log(acc[key])
+                return  ({ ...acc, [key]: (acc[key] || 0) - value })
+            },{...bel} as Partial<Counter>) as Counter
+            
+            console.log(marged)
 
             let belongingsPrice: number = 0
 
