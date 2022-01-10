@@ -254,6 +254,10 @@ export default defineComponent({
             })
             return countDuplicate(result)
         }
+
+        const fetchRelic = (value:string): Relic => {
+            return relics.value[relics.value.findIndex(relic => relic.jaName === value)]
+        }
         
         const toralCost = computed(() => {
             const nes = reduceQuality(necessaryRelics.value)
@@ -272,6 +276,9 @@ export default defineComponent({
             let belTotal = 0
             belongings.value.filter(relic=> belTotal+= relic.totalPrice * relic.count)
             console.log(belTotal)
+
+            const c = fetchRelic('不滅の冠')
+            console.log(c)
 
             let belongingsPrice: number = 0
 
