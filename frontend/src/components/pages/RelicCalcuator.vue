@@ -86,7 +86,7 @@
             </draggable>
             </div>
         </div>
-        必要コスト:{{toralCost}}
+        必要コスト:{{toralCost[1]}}
     </div>
 </template>
 
@@ -186,6 +186,23 @@ export default defineComponent({
             }
         }
 
+        const cloneRelic = (value:Relic) => {
+            return {id: value.id,
+                enName: value.enName,
+                jaName: value.jaName,
+                quality: value.quality,
+                compornent1: value.compornent1,
+                compornent2: value.compornent2,
+                compornent3: value.compornent3,
+                compornent4: value.compornent4,
+                cost: value.cost,
+                totalPrice: value.totalPrice,
+                icon: value.icon,
+                count: value.count
+            }
+        }
+
+
         const reduceQuality = (array:Relic[]) :Counter => {
             const compornents: string[] = []
             
@@ -237,33 +254,24 @@ export default defineComponent({
             })
             return countDuplicate(result)
         }
-
-        const cloneRelic = (value:Relic) => {
-            return {id: value.id,
-                enName: value.enName,
-                jaName: value.jaName,
-                quality: value.quality,
-                compornent1: value.compornent1,
-                compornent2: value.compornent2,
-                compornent3: value.compornent3,
-                compornent4: value.compornent4,
-                cost: value.cost,
-                totalPrice: value.totalPrice,
-                icon: value.icon,
-                count: value.count
-            }
-        }
         
         const toralCost = computed(() => {
             const nes = reduceQuality(necessaryRelics.value)
             const bel = reduceQuality(belongings.value)
 
-            const marged = Object.entries(nes).reduce((acc,[key,value]) => {
-                console.log(acc[key])
-                return  ({ ...acc, [key]: (acc[key] || 0) - value })
-            },{...bel} as Partial<Counter>) as Counter
+            // const marged = Object.entries(nes).reduce((acc,[key,value]) => {
+            //     return  ({ ...acc, [key]: (acc[key] || 0) - value })
+            // },{...bel} as Partial<Counter>) as Counter
             
-            console.log(marged)
+            // console.log(marged)
+
+            let nesTotal = 0
+            necessaryRelics.value.filter(relic=> nesTotal += relic.totalPrice * relic.count)
+            console.log(nesTotal)
+
+            let belTotal = 0
+            belongings.value.filter(relic=> belTotal+= relic.totalPrice * relic.count)
+            console.log(belTotal)
 
             let belongingsPrice: number = 0
 
