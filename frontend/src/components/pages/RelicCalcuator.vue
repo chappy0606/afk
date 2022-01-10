@@ -204,16 +204,16 @@ export default defineComponent({
 
 
         const reduceQuality = (array:Relic[]) :Counter => {
-            const compornents: string[] = []
+            const components: string[] = []
             
             array.filter(relic=> {
                 if(!relic.compornent1){
                     for(let i = 0; i < relic.count; i++){
-                        compornents.push(relic.jaName)
+                        components.push(relic.jaName)
                     }
                 }else{
                     for(let i = 0; i < relic.count; i++){
-                        compornents.push(                        
+                        components.push(                        
                             relic.compornent1,
                             relic.compornent2,
                             relic.compornent3,
@@ -229,7 +229,7 @@ export default defineComponent({
                     },{} as Partial<Counter>) as Counter
             }
 
-            const obj = countDuplicate(compornents)
+            const obj = countDuplicate(components)
             let result:string[] = []
 
             relics.value.filter(relic =>{
