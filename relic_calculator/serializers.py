@@ -4,13 +4,13 @@ from .models import Relic
 
 class RelicSerializer(serializers.ModelSerializer):
     quality = serializers.StringRelatedField()
-    compornent1 = serializers.StringRelatedField()
-    compornent2 = serializers.StringRelatedField()
-    compornent3 = serializers.StringRelatedField()
-    compornent4 = serializers.StringRelatedField()
+    component1_relic = serializers.StringRelatedField()
+    component2_relic = serializers.StringRelatedField()
+    component3_relic = serializers.StringRelatedField()
+    component4_relic = serializers.StringRelatedField()
 
     class Meta:
         model = Relic
         fields = ('id', 'en_name', 'ja_name', 'quality',
-                'compornent1', 'compornent2', 'compornent3', 'compornent4',
+                'component1', 'component2', 'component3', 'component14',
                 'cost', 'total_price', 'icon')

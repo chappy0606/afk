@@ -6,8 +6,8 @@ class QualityAdmin(admin.ModelAdmin):
 
 
 class RelicAdmin(admin.ModelAdmin):
-    list_display = ('id', 'en_name', 'ja_name','quality', 'compornent1',
-                    'compornent2', 'compornent3', 'compornent4', 'cost', 'total_price')
+    list_display = ('id', 'en_name', 'ja_name','quality', 'component1',
+                    'component2', 'component3', 'component4', 'cost', 'total_price')
 
 
 admin.site.register(Quality, QualityAdmin)

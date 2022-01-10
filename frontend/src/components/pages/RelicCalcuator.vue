@@ -277,9 +277,6 @@ export default defineComponent({
             belongings.value.filter(relic=> belTotal+= relic.totalPrice * relic.count)
             console.log(belTotal)
 
-            const c = fetchRelic('不滅の冠')
-            console.log(c)
-
             let belongingsPrice: number = 0
 
             return belongingsPrice
