@@ -99,10 +99,10 @@ interface Relic {
     enName: string
     jaName: string
     quality: string
-    compornent1: string
-    compornent2: string
-    compornent3: string
-    compornent4: string
+    component1: string
+    component2: string
+    component3: string
+    component4: string
     cost: number
     totalPrice: number
     icon: string
@@ -191,10 +191,10 @@ export default defineComponent({
                 enName: value.enName,
                 jaName: value.jaName,
                 quality: value.quality,
-                compornent1: value.compornent1,
-                compornent2: value.compornent2,
-                compornent3: value.compornent3,
-                compornent4: value.compornent4,
+                component1: value.component1,
+                component2: value.component2,
+                component3: value.component3,
+                component4: value.component4,
                 cost: value.cost,
                 totalPrice: value.totalPrice,
                 icon: value.icon,
@@ -202,81 +202,70 @@ export default defineComponent({
             }
         }
 
-
-        const reduceQuality = (array:Relic[]) :Counter => {
-            const components: string[] = []
-            
-            array.filter(relic=> {
-                if(!relic.compornent1){
-                    for(let i = 0; i < relic.count; i++){
-                        components.push(relic.jaName)
-                    }
-                }else{
-                    for(let i = 0; i < relic.count; i++){
-                        components.push(                        
-                            relic.compornent1,
-                            relic.compornent2,
-                            relic.compornent3,
-                            relic.compornent4)
-                    }
-                }
-            })
-
-            const countDuplicate = (array:string[]) => {
-                return array.filter(Boolean).reduce((prev,current) => {
-                    prev[current] = (prev[current] || 0) + 1
-                    return prev
-                    },{} as Partial<Counter>) as Counter
-            }
-
-            const obj = countDuplicate(components)
-            let result:string[] = []
-
-            relics.value.filter(relic =>{
-                for(let key of Object.keys(obj)){
-                    if(relic.jaName.includes(key) && !relic.compornent1){
-                        for(let i = 0; i < obj[key as keyof Counter]; i++){
-                            result.push(relic.jaName)
-                        }
-                        break
-                    }
-                    if(relic.jaName.includes(key)){
-                        for(let i = 0; i < obj[key as keyof Counter]; i++){
-                            result.push(
-                                relic.compornent1,
-                                relic.compornent2,
-                                relic.compornent3,
-                                relic.compornent4,
-                            )
-                        }
-                    }
-                }
-            })
-            return countDuplicate(result)
+        const countDuplicates = (array:string[]) :Counter => {
+            return array.filter(Boolean).reduce((prev,current) => {
+                prev[current] = (prev[current] || 0) + 1
+                return prev
+                },{} as Partial<Counter>) as Counter
         }
 
-        const fetchRelic = (value:string): Relic => {
-            return relics.value[relics.value.findIndex(relic => relic.jaName === value)]
+        const getRelics = (array:Relic[]) :Counter => {
+            const relics:string[] = []
+            array.filter(relic=> {
+                    for(let i = 0; i < relic.count; i++){
+                        relics.push(relic.jaName)
+                    }
+            })
+            return countDuplicates(relics)
+        }
+
+        const getComponents = (array:Relic[]) :Counter => {
+            const components:string[] = []
+            array.filter(relic=> {
+                for(let i = 0; i < relic.count; i++){
+                    components.push(                        
+                        relic.component1,
+                        relic.component2,
+                        relic.component3,
+                        relic.component4)
+                }
+            })
+            return countDuplicates(components)
+        }
+
+        const calculateRemainder = (nes:Counter,bel:Counter) :Counter => {
+            const diff = Object.entries(nes).reduce((acc,[key,value]) => {
+                return  ({ ...acc, [key]: (acc[key] || 0) - value })
+            },{...bel} as Partial<Counter>) as Counter
+
+            let remainder:Counter = {}
+            for(let i in diff){
+                if(diff[i] > 0){
+                    remainder = {...remainder,[i]: diff[i]}
+                }
+            } 
+
+            return remainder
         }
         
         const toralCost = computed(() => {
-            const nes = reduceQuality(necessaryRelics.value)
-            const bel = reduceQuality(belongings.value)
-
-            // const marged = Object.entries(nes).reduce((acc,[key,value]) => {
-            //     return  ({ ...acc, [key]: (acc[key] || 0) - value })
-            // },{...bel} as Partial<Counter>) as Counter
+            const nes = getRelics(necessaryRelics.value)
+            const bel = getRelics(belongings.value)
+            const nescomponents = getComponents(necessaryRelics.value)
+            const belcomponents = getComponents(belongings.value)
             
-            // console.log(marged)
 
-            let nesTotal = 0
-            necessaryRelics.value.filter(relic=> nesTotal += relic.totalPrice * relic.count)
-            console.log(nesTotal)
+            //作りたいものと所持品を比べて１以上の物をピックアップ(余り)
+            const a = calculateRemainder(nes,bel)
+            console.log(a)
 
-            let belTotal = 0
-            belongings.value.filter(relic=> belTotal+= relic.totalPrice * relic.count)
-            console.log(belTotal)
 
+
+            // let nesTotal = 0
+            // necessaryRelics.value.filter(relic=> nesTotal += relic.totalPrice * relic.count)
+
+            // let belTotal = 0
+            // belongings.value.filter(relic=> belTotal+= relic.totalPrice * relic.count)
             let belongingsPrice: number = 0
 
             return belongingsPrice
