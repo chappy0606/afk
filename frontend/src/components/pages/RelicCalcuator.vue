@@ -86,7 +86,7 @@
             </draggable>
             </div>
         </div>
-        必要コスト:{{toralCost[1]}}
+        必要コスト:{{toralCost}}
     </div>
 </template>
 
@@ -233,40 +233,78 @@ export default defineComponent({
             return countDuplicates(components)
         }
 
+        const getRelicDetail = (obj:Counter) => {
+            const relicsDetail:Relic[] = []
+            const relicsDetail2:Relic[] = []
+
+            const start2 = performance.now();
+            for(let i in obj){
+                for(let i2 in relics.value){
+                    if(relics.value[i2].jaName === i){
+                        relicsDetail2.push(relics.value[i2])
+                    }
+                }
+            }
+            const end2 = performance.now();
+            console.log(end2 - start2);
+
+            const start = performance.now();
+            for(let i in obj){
+                relics.value.filter(v=> {
+                    if(v.jaName === i){
+                        relicsDetail.push(v)
+                    }
+                })
+            }
+            const end = performance.now();
+            console.log(end - start);
+            return relicsDetail
+        }
+
         const calculateRemainder = (nes:Counter,bel:Counter) :Counter => {
             const diff = Object.entries(nes).reduce((acc,[key,value]) => {
                 return  ({ ...acc, [key]: (acc[key] || 0) - value })
             },{...bel} as Partial<Counter>) as Counter
 
             let remainder:Counter = {}
+
             for(let i in diff){
                 if(diff[i] > 0){
                     remainder = {...remainder,[i]: diff[i]}
                 }
             } 
-
             return remainder
         }
         
         const toralCost = computed(() => {
-            const nes = getRelics(necessaryRelics.value)
-            const bel = getRelics(belongings.value)
-            const nescomponents = getComponents(necessaryRelics.value)
-            const belcomponents = getComponents(belongings.value)
-            
+            let belongingsPrice: number = 0
 
             //作りたいものと所持品を比べて１以上の物をピックアップ(余り)
-            const a = calculateRemainder(nes,bel)
-            console.log(a)
+            const a = calculateRemainder(
+                getRelics(necessaryRelics.value),
+                getRelics(belongings.value)
+            )
+            //この時点で差がなければreturn
+            // if(!Object.keys(a).length){
+            //     console.log('return')
+            //     return belongingsPrice
+            // }
+
+            //作りたいもののcomponetとピックアップされた所持品を比べる
+            const b = calculateRemainder(
+                getComponents(necessaryRelics.value), a
+            )
+            console.log(b)
+            //作りたいもののcomponentのcomponentと現在の所持品比べる
+            console.log(getRelicDetail(getComponents(necessaryRelics.value)))
+            
 
 
 
             // let nesTotal = 0
             // necessaryRelics.value.filter(relic=> nesTotal += relic.totalPrice * relic.count)
-
             // let belTotal = 0
             // belongings.value.filter(relic=> belTotal+= relic.totalPrice * relic.count)
-            let belongingsPrice: number = 0
 
             return belongingsPrice
         })
