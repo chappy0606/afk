@@ -235,29 +235,16 @@ export default defineComponent({
 
         const getRelicDetail = (obj:Counter) => {
             const relicsDetail:Relic[] = []
-            const relicsDetail2:Relic[] = []
 
-            const start2 = performance.now();
             for(let i in obj){
-                for(let i2 in relics.value){
-                    if(relics.value[i2].jaName === i){
-                        relicsDetail2.push(relics.value[i2])
+                for(let i2 of relics.value){
+                    if(i2.jaName === i){
+                        i2.count = obj[i]
+                        relicsDetail.push(i2)
                     }
                 }
             }
-            const end2 = performance.now();
-            console.log(end2 - start2);
-
-            const start = performance.now();
-            for(let i in obj){
-                relics.value.filter(v=> {
-                    if(v.jaName === i){
-                        relicsDetail.push(v)
-                    }
-                })
-            }
-            const end = performance.now();
-            console.log(end - start);
+            
             return relicsDetail
         }
 
@@ -277,27 +264,43 @@ export default defineComponent({
         }
         
         const toralCost = computed(() => {
+            /* 
+            作りたいもの 敏捷のコア1 知恵のコア1
+            所持品 敏捷の眼1 敏捷の石3 貴族の刃
+            不要物 貴族の刃1 敏捷の石1
+            */
             let belongingsPrice: number = 0
+            //作りたいものがなければ即刻return
+            if(!necessaryRelics.value.length){
+                return belongingsPrice
+            }
 
             //作りたいものと所持品を比べて１以上の物をピックアップ(余り)
+            //出力される値{敏捷の石: 3, 敏捷の眼: 1, 貴族の刃: 1}
             const a = calculateRemainder(
                 getRelics(necessaryRelics.value),
                 getRelics(belongings.value)
             )
-            //この時点で差がなければreturn
-            // if(!Object.keys(a).length){
-            //     console.log('return')
-            //     return belongingsPrice
-            // }
+            //差がなくても早期リターン
+            if(!Object.keys(a).length){
+                return belongingsPrice
+            }
 
             //作りたいもののcomponetとピックアップされた所持品を比べる
+            //この時点では敏捷の石も不要なものになる
+            //出力される値{敏捷の石: 3, 貴族の刃: 1}
             const b = calculateRemainder(
                 getComponents(necessaryRelics.value), a
             )
-            console.log(b)
-            //作りたいもののcomponentのcomponentと現在の所持品比べる
-            console.log(getRelicDetail(getComponents(necessaryRelics.value)))
-            
+
+            //作りたいもののcomponentのcomponentと不要物を比べる
+            //敏捷の眼の詳細データの取得
+            const c = getComponents(necessaryRelics.value)
+            const d = getRelicDetail(c)
+            //俊敏の眼のcomponentの取 敏捷の石:4
+            const e = getComponents(d)
+            console.log(e)
+
 
 
 
