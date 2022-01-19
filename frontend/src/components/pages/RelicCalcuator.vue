@@ -219,10 +219,31 @@ export default defineComponent({
             return countDuplicates(relics)
         }
 
-        const getComponents = (array:Relic[]) :Counter => {
+        const getComponents = (obj:Counter) :Counter => {
+            //obj = {敏捷のコア: 1}
+            //obj[i] = 1
+            // i = 敏捷のコア
             const components:string[] = []
-            array.filter(relic=> {
-                for(let i = 0; i < relic.count; i++){
+
+            const a = relics.value.filter(relic=> {
+                for(let i in obj){
+                    if(relic.jaName === i){
+                        return relic
+                    }
+                }
+            })
+
+            a.filter(v => {
+                v.count = 1
+            })
+
+            // ここでcountの値帰るとrelics.valueの方も更新される
+            console.log(relics.value)
+            console.log('-------------------')
+            console.log(a)
+
+            a.filter(relic=> {
+                for(let i = 0; i < 1; i++){
                     components.push(                        
                         relic.component1,
                         relic.component2,
@@ -230,79 +251,94 @@ export default defineComponent({
                         relic.component4)
                 }
             })
+
+            console.log(components)
+            // array.filter(relic=> {
+            //     for(let i = 0; i < relic.count; i++){
+            //         components.push(                        
+            //             relic.component1,
+            //             relic.component2,
+            //             relic.component3,
+            //             relic.component4)
+            //     }
+            // })
             return countDuplicates(components)
         }
 
-        const getRelicDetail = (obj:Counter) => {
-            const relicsDetail:Relic[] = []
+        // const getRelicDetail = (obj:Counter) => {
+        //     const relicsDetail:Relic[] = []
 
-            for(let i in obj){
-                for(let i2 of relics.value){
-                    if(i2.jaName === i){
-                        i2.count = obj[i]
-                        relicsDetail.push(i2)
-                    }
-                }
-            }
+        //     for(let i in obj){
+        //         for(let i2 of relics.value){
+        //             if(i2.jaName === i){
+        //                 i2.count = obj[i]
+        //                 relicsDetail.push(i2)
+        //             }
+        //         }
+        //     }
             
-            return relicsDetail
-        }
+        //     return relicsDetail
+        // }
 
-        const calculateRemainder = (nes:Counter,bel:Counter) :Counter => {
+        const calculateRemainder = (nes:Counter,bel:Counter) :{remainder:Counter,lack:Counter} => {
             const diff = Object.entries(nes).reduce((acc,[key,value]) => {
                 return  ({ ...acc, [key]: (acc[key] || 0) - value })
             },{...bel} as Partial<Counter>) as Counter
 
             let remainder:Counter = {}
+            let lack:Counter = {}
 
             for(let i in diff){
                 if(diff[i] > 0){
                     remainder = {...remainder,[i]: diff[i]}
+                }else if(diff[i] < 0){
+                    lack = {...lack,[i]: Math.abs(diff[i])}
                 }
             } 
-            return remainder
+            return {
+                remainder:remainder,
+                lack:lack
+            }
         }
         
         const toralCost = computed(() => {
-            /* 
-            作りたいもの 敏捷のコア1 知恵のコア1
-            所持品 敏捷の眼1 敏捷の石3 貴族の刃
-            不要物 貴族の刃1 敏捷の石1
-            */
+            // /* 
+            // 作りたいもの 敏捷のコア1 知恵のコア1
+            // 所持品 敏捷の眼1 敏捷の石3 貴族の刃
+            // 不要物 貴族の刃1 敏捷の石1
+            // */
             let belongingsPrice: number = 0
-            //作りたいものがなければ即刻return
+
+            // //作りたいものがなかったらリターン
             if(!necessaryRelics.value.length){
                 return belongingsPrice
             }
 
-            //作りたいものと所持品を比べて１以上の物をピックアップ(余り)
-            //出力される値{敏捷の石: 3, 敏捷の眼: 1, 貴族の刃: 1}
+            // //lack不足分 remainder余り
+            // // a = lack: {敏捷のコア: 1, 知恵のコア: 1},remainder: {敏捷の石: 3, 敏捷の眼: 1, 貴族の刃: 1}
             const a = calculateRemainder(
                 getRelics(necessaryRelics.value),
                 getRelics(belongings.value)
             )
-            //差がなくても早期リターン
+
+            //空な即リターン
             if(!Object.keys(a).length){
                 return belongingsPrice
             }
 
-            //作りたいもののcomponetとピックアップされた所持品を比べる
-            //この時点では敏捷の石も不要なものになる
-            //出力される値{敏捷の石: 3, 貴族の刃: 1}
-            const b = calculateRemainder(
-                getComponents(necessaryRelics.value), a
+            const b = getComponents(a.lack)
+            // //c= lack: {敏捷の眼: 1, 知恵の眼: 2},remainder: {敏捷の石: 3, 貴族の刃: 1}
+            const c = calculateRemainder(
+                b,a.remainder
             )
 
-            //作りたいもののcomponentのcomponentと不要物を比べる
-            //敏捷の眼の詳細データの取得
-            const c = getComponents(necessaryRelics.value)
-            const d = getRelicDetail(c)
-            //俊敏の眼のcomponentの取 敏捷の石:4
-            const e = getComponents(d)
+            //ここでエラー
+            const d = getComponents(c.lack)
+
+            const e = calculateRemainder(
+                d,c.remainder
+            )
             console.log(e)
-
-
-
 
             // let nesTotal = 0
             // necessaryRelics.value.filter(relic=> nesTotal += relic.totalPrice * relic.count)
