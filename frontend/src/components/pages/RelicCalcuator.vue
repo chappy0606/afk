@@ -92,6 +92,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
+import Vue from 'vue/types/umd'
 import draggable from 'vuedraggable'
 import axios from '../../export'
 interface Relic {
@@ -224,26 +225,10 @@ export default defineComponent({
             //obj[i] = 1
             // i = 敏捷のコア
             const components:string[] = []
+            const array = getRelicDetails(obj)
 
-            const a = relics.value.filter(relic=> {
-                for(let i in obj){
-                    if(relic.jaName === i){
-                        return relic
-                    }
-                }
-            })
-
-            a.filter(v => {
-                v.count = 1
-            })
-
-            // ここでcountの値帰るとrelics.valueの方も更新される
-            console.log(relics.value)
-            console.log('-------------------')
-            console.log(a)
-
-            a.filter(relic=> {
-                for(let i = 0; i < 1; i++){
+            array.filter(relic=> {
+                for(let i = 0; i < relic.count; i++){
                     components.push(                        
                         relic.component1,
                         relic.component2,
@@ -251,34 +236,25 @@ export default defineComponent({
                         relic.component4)
                 }
             })
-
-            console.log(components)
-            // array.filter(relic=> {
-            //     for(let i = 0; i < relic.count; i++){
-            //         components.push(                        
-            //             relic.component1,
-            //             relic.component2,
-            //             relic.component3,
-            //             relic.component4)
-            //     }
-            // })
             return countDuplicates(components)
         }
 
-        // const getRelicDetail = (obj:Counter) => {
-        //     const relicsDetail:Relic[] = []
+        const getRelicDetails = (obj:Counter) => {
+            const relicsDetails:Relic[] = []
+            // ディープコピーしないとrelics.valueの値も変わる
+            const relicInformation:Relic[] = JSON.parse(JSON.stringify(relics.value))
 
-        //     for(let i in obj){
-        //         for(let i2 of relics.value){
-        //             if(i2.jaName === i){
-        //                 i2.count = obj[i]
-        //                 relicsDetail.push(i2)
-        //             }
-        //         }
-        //     }
+            for(let i in obj){
+                for(let i2 of relicInformation){
+                    if(i2.jaName === i){
+                        i2.count = obj[i]
+                        relicsDetails.push(i2)
+                    }
+                }
+            }
             
-        //     return relicsDetail
-        // }
+            return relicsDetails
+        }
 
         const calculateRemainder = (nes:Counter,bel:Counter) :{remainder:Counter,lack:Counter} => {
             const diff = Object.entries(nes).reduce((acc,[key,value]) => {
@@ -332,12 +308,12 @@ export default defineComponent({
                 b,a.remainder
             )
 
-            //ここでエラー
             const d = getComponents(c.lack)
 
             const e = calculateRemainder(
                 d,c.remainder
             )
+            //lack: {知恵の石: 4},remainder: {敏捷の石: 1, 貴族の刃: 1}
             console.log(e)
 
             // let nesTotal = 0
