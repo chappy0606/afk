@@ -221,9 +221,6 @@ export default defineComponent({
         }
 
         const getComponents = (obj:Counter) :Counter => {
-            //obj = {敏捷のコア: 1}
-            //obj[i] = 1
-            // i = 敏捷のコア
             const components:string[] = []
             const array = getRelicDetails(obj)
 
@@ -252,7 +249,7 @@ export default defineComponent({
                     }
                 }
             }
-            
+
             return relicsDetails
         }
 
@@ -283,6 +280,7 @@ export default defineComponent({
             // 所持品 敏捷の眼1 敏捷の石3 貴族の刃
             // 不要物 貴族の刃1 敏捷の石1
             // */
+
             let belongingsPrice: number = 0
 
             // //作りたいものがなかったらリターン
@@ -308,6 +306,9 @@ export default defineComponent({
                 b,a.remainder
             )
 
+            /*エリート前提で書いてるからレアを作りたい時
+            2回目でcomponentが空になるから条件つけてループさせる
+            */
             const d = getComponents(c.lack)
 
             const e = calculateRemainder(
