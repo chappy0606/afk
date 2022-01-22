@@ -275,47 +275,23 @@ export default defineComponent({
         }
         
         const toralCost = computed(() => {
-            // /* 
-            // 作りたいもの 敏捷のコア1 知恵のコア1
-            // 所持品 敏捷の眼1 敏捷の石3 貴族の刃
-            // 不要物 貴族の刃1 敏捷の石1
-            // */
 
             let belongingsPrice: number = 0
 
-            // //作りたいものがなかったらリターン
             if(!necessaryRelics.value.length){
                 return belongingsPrice
             }
 
-            // //lack不足分 remainder余り
-            // // a = lack: {敏捷のコア: 1, 知恵のコア: 1},remainder: {敏捷の石: 3, 敏捷の眼: 1, 貴族の刃: 1}
-            const a = calculateRemainder(
+            let relics = calculateRemainder(
                 getRelics(necessaryRelics.value),
                 getRelics(belongings.value)
             )
 
-            //空な即リターン
-            if(!Object.keys(a).length){
-                return belongingsPrice
+            while(Object.keys(getComponents(relics.lack)).length){
+                relics = calculateRemainder(getComponents(relics.lack),relics.remainder)
             }
 
-            const b = getComponents(a.lack)
-            // //c= lack: {敏捷の眼: 1, 知恵の眼: 2},remainder: {敏捷の石: 3, 貴族の刃: 1}
-            const c = calculateRemainder(
-                b,a.remainder
-            )
-
-            /*エリート前提で書いてるからレアを作りたい時
-            2回目でcomponentが空になるから条件つけてループさせる
-            */
-            const d = getComponents(c.lack)
-
-            const e = calculateRemainder(
-                d,c.remainder
-            )
-            //lack: {知恵の石: 4},remainder: {敏捷の石: 1, 貴族の刃: 1}
-            console.log(e)
+            console.log(relics)
 
             // let nesTotal = 0
             // necessaryRelics.value.filter(relic=> nesTotal += relic.totalPrice * relic.count)
