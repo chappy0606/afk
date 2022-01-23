@@ -294,12 +294,6 @@ export default defineComponent({
             return unnecessaryRelics.remainder
         })
 
-        const test = (obj:Counter)=> {
-            for(let i in obj){
-                console.log(obj[i])
-            }
-        }
-
         const totalCost = computed(() => {
             let nesTotal = 0
             necessaryRelics.value.filter(nes => {
