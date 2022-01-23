@@ -88,6 +88,7 @@
         </div>
         不必要な遺物:
         <p v-for="(num,relic) in unnecessaryRelics" :key="relic">{{relic}}:{{num}}個</p>
+        {{totalCost}}
     </div>
 </template>
 
@@ -293,6 +294,31 @@ export default defineComponent({
             return unnecessaryRelics.remainder
         })
 
+        const test = (obj:Counter)=> {
+            for(let i in obj){
+                console.log(obj[i])
+            }
+        }
+
+        const totalCost = computed(() => {
+            let nesTotal = 0
+            necessaryRelics.value.filter(nes => {
+                nesTotal += nes.totalPrice * nes.count
+                belongings.value.filter(bel => {
+                    //作りたいものより持ち物の方が多い時は作りたいもの分だけ引く
+                    if(nes.jaName === bel.jaName && nes.count >= bel.count){
+                        nesTotal -= bel.totalPrice * bel.count
+                    }else if(nes.jaName === bel.jaName && nes.count <= bel.count){
+                        nesTotal -= bel.totalPrice * nes.count
+                    }
+                })
+            })
+
+            console.log(nesTotal)
+
+            return 'totalCost'
+        })
+
         axios
             .get('relic_calculator/relics')
             .then(response => {
@@ -314,7 +340,8 @@ export default defineComponent({
             necessaryRelics,
             filterednecessaryRelics,
             unnecessaryRelics,
-            cloneRelic
+            cloneRelic,
+            totalCost
         }
     }
 })
