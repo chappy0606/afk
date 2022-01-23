@@ -86,13 +86,13 @@
             </draggable>
             </div>
         </div>
-        必要コスト:{{toralCost}}
+        不必要な遺物:
+        <p v-for="(num,relic) in unnecessaryRelics" :key="relic">{{relic}}:{{num}}個</p>
     </div>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
-import Vue from 'vue/types/umd'
 import draggable from 'vuedraggable'
 import axios from '../../export'
 interface Relic {
@@ -238,7 +238,6 @@ export default defineComponent({
 
         const getRelicDetails = (obj:Counter) => {
             const relicsDetails:Relic[] = []
-            // ディープコピーしないとrelics.valueの値も変わる
             const relicInformation:Relic[] = JSON.parse(JSON.stringify(relics.value))
 
             for(let i in obj){
@@ -274,31 +273,24 @@ export default defineComponent({
             }
         }
         
-        const toralCost = computed(() => {
-
-            let belongingsPrice: number = 0
-
+        const unnecessaryRelics = computed(() => {
             if(!necessaryRelics.value.length){
-                return belongingsPrice
+                return
             }
 
-            let relics = calculateRemainder(
+            let unnecessaryRelics = calculateRemainder(
                 getRelics(necessaryRelics.value),
                 getRelics(belongings.value)
             )
 
-            while(Object.keys(getComponents(relics.lack)).length){
-                relics = calculateRemainder(getComponents(relics.lack),relics.remainder)
+            while (Object.keys(getComponents(unnecessaryRelics.lack)).length) {
+                unnecessaryRelics = calculateRemainder(
+                    getComponents(unnecessaryRelics.lack),
+                    unnecessaryRelics.remainder
+                )
             }
 
-            console.log(relics)
-
-            // let nesTotal = 0
-            // necessaryRelics.value.filter(relic=> nesTotal += relic.totalPrice * relic.count)
-            // let belTotal = 0
-            // belongings.value.filter(relic=> belTotal+= relic.totalPrice * relic.count)
-
-            return belongingsPrice
+            return unnecessaryRelics.remainder
         })
 
         axios
@@ -321,7 +313,7 @@ export default defineComponent({
             subtractCount,
             necessaryRelics,
             filterednecessaryRelics,
-            toralCost,
+            unnecessaryRelics,
             cloneRelic
         }
     }
