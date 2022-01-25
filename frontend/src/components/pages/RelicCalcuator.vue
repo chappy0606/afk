@@ -223,7 +223,13 @@ export default defineComponent({
 
         const getComponents = (obj:Counter) :Counter => {
             const components:string[] = []
-            const array = getRelicDetails(obj)
+            const array:Relic[] = []
+            if(obj){
+            for(let i = 0; i < Object.keys(obj).length; i++){
+                const a = getRelicDetails(obj)
+                array.push(a)
+            }
+            }
 
             array.filter(relic=> {
                 for(let i = 0; i < relic.count; i++){
@@ -238,19 +244,33 @@ export default defineComponent({
         }
 
         const getRelicDetails = (obj:Counter) => {
-            const relicsDetails:Relic[] = []
+            // const relicsDetails:Relic[] = []
+            let relicDetail:Relic = {
+              id: '',
+              enName: '',
+              jaName: '',
+              quality: '',
+              component1: '',
+              component2: '',
+              component3: '',
+              component4: '',
+              cost: 0,
+              totalPrice: 0,
+              icon: '',
+              count: 0
+            }
             const relicInformation:Relic[] = JSON.parse(JSON.stringify(relics.value))
 
             for(let i in obj){
                 for(let i2 of relicInformation){
                     if(i2.jaName === i){
                         i2.count = obj[i]
-                        relicsDetails.push(i2)
+                        return i2
+                        // relicsDetails.push(i2)
                     }
                 }
             }
-
-            return relicsDetails
+            return 
         }
 
         const calculateRemainder = (nes:Counter,bel:Counter) :{remainder:Counter,lack:Counter} => {
@@ -290,25 +310,35 @@ export default defineComponent({
                     unnecessaryRelics.remainder
                 )
             }
-
             return unnecessaryRelics.remainder
         })
+
+        const test = (nes:Counter,bel:Counter) => {
+            //nes:敏捷のコア1 bel:敏捷の眼1
+            let total = 0
+            for(let nesRelic in nes){
+                for(let belRelic in bel){
+                    if(belRelic === nesRelic){
+                        console.log('同じ')
+                        const a = getRelicDetails(nes)
+                        console.log(a)
+                    }
+                }
+            }
+            return total
+        }
 
         const totalCost = computed(() => {
             let nesTotal = 0
             necessaryRelics.value.filter(nes => {
                 nesTotal += nes.totalPrice * nes.count
-                belongings.value.filter(bel => {
-                    //作りたいものより持ち物の方が多い時は作りたいもの分だけ引く
-                    if(nes.jaName === bel.jaName && nes.count >= bel.count){
-                        nesTotal -= bel.totalPrice * bel.count
-                    }else if(nes.jaName === bel.jaName && nes.count <= bel.count){
-                        nesTotal -= bel.totalPrice * nes.count
-                    }
-                })
             })
 
-            console.log(nesTotal)
+            const nes = getRelics(necessaryRelics.value)
+            const bel = getRelics(belongings.value)
+            test(nes,bel)
+            const total = nesTotal - test(nes,bel)
+            console.log(total)
 
             return 'totalCost'
         })
