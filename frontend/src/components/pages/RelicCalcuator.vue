@@ -294,10 +294,9 @@ export default defineComponent({
 
         const test = (nes:Counter,bel:Counter) => {
             let totalDiscount = 0
-
             for(let nesRelic in nes){
                 for(let belRelic in bel){
-                    if(!(belRelic === nesRelic)){
+                    if(!(nesRelic === belRelic)){
                         continue
                     }
                     const relic = 
@@ -305,13 +304,19 @@ export default defineComponent({
 
                     if(nes[nesRelic] >= bel[belRelic]){
                         totalDiscount += relic.totalPrice * bel[belRelic]
-                        continue
+                        nes[nesRelic] -= bel[belRelic]
                     }
-                    
-                    totalDiscount += relic.totalPrice * nes[nesRelic]
+                    else if(nes[nesRelic] <= bel[belRelic]){
+                        totalDiscount += relic.totalPrice * nes[nesRelic]
+                        nes[nesRelic] -= nes[nesRelic]
+                    }
+
+                    if(nes[nesRelic] === 0){
+                        delete nes[nesRelic]
                     }
                 }
-            return totalDiscount
+            }
+            return {nes,totalDiscount}
         }
 
         const totalCost = computed(() => {
@@ -321,15 +326,18 @@ export default defineComponent({
                 nesTotal += nes.totalPrice * nes.count
             })
 
-            nesTotal -= test(
+            let obj = test(
                     getRelics(necessaryRelics.value),
                     getRelics(belongings.value)
                 )
 
-            let comp = getComponents(getRelics(necessaryRelics.value))
-            nesTotal -= test(comp,getRelics(belongings.value))
-            comp = getComponents(comp)
-            nesTotal -= test(comp,getRelics(belongings.value))
+            nesTotal -= obj.totalDiscount
+
+            while(Object.keys(getComponents(obj.nes)).length){
+                obj = test(getComponents(obj.nes),getRelics(belongings.value))
+                nesTotal -= obj.totalDiscount
+            }
+
             console.log(nesTotal)
 
             return 'totalCost'
