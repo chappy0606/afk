@@ -6,6 +6,7 @@ import LoginPage from '@/components/pages/LoginPage.vue'
 import Registration from '@/components/pages/Registration.vue'
 import Profile from '@/components/pages/Profile.vue'
 import RelicCalcuator from '@/components/pages/RelicCalcuator.vue'
+import NotFound from '@/components/pages/NotFound.vue'
 import { store } from '@/store'
 
 const routes: Array<RouteRecordRaw> = [
@@ -51,6 +52,13 @@ const routes: Array<RouteRecordRaw> = [
         name: 'RelicCalcuator',
         component: RelicCalcuator
     },
+
+    //vue-router3と4で書き方違う
+    {
+        path: '/:pathMatch(.*)*',
+        name: 'notFound',
+        component: NotFound
+    }
 ]
 
 const router = createRouter({

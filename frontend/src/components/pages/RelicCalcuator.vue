@@ -88,7 +88,7 @@
         </div>
         不必要な遺物:
         <p v-for="(num,relic) in unnecessaryRelics" :key="relic">{{relic}}:{{num}}個</p>
-        {{totalCost}}
+        合計エッセンス:{{totalCost}}
     </div>
 </template>
 
@@ -338,9 +338,7 @@ export default defineComponent({
                 nesTotal -= obj.totalDiscount
             }
 
-            console.log(nesTotal)
-
-            return 'totalCost'
+            return nesTotal
         })
 
         axios
