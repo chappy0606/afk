@@ -1,10 +1,8 @@
 <template>
     <div id="app">
-        <div class="footer-fixed">
-            <Header />
-            <router-view />
-            <Footer />
-        </div>
+        <Header />
+        <router-view />
+        <Footer />
     </div>
 </template>
 
@@ -17,16 +15,17 @@ import { useStore } from './store'
 
 export default defineComponent({
     components: { Header, Footer },
-    setup(){
+    setup() {
         const store = useStore()
 
-        if (store.state.auth.isAuth){
-            axios.post('/auth/token/verify/',{
-                token : store.state.authUser.refreshToken
-            })
-            .catch(()=> {
-                store.dispatch('authLogout')
-            })
+        if (store.state.auth.isAuth) {
+            axios
+                .post('/auth/token/verify/', {
+                    token: store.state.authUser.refreshToken
+                })
+                .catch(() => {
+                    store.dispatch('authLogout')
+                })
         }
     }
 })
@@ -37,7 +36,6 @@ export default defineComponent({
     margin: 0px;
     padding: 0px;
 }
-
 html,
 body {
     height: 100%;
@@ -46,15 +44,15 @@ body {
 body {
     background-color: rgb(82, 82, 82);
     font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ',
-        Meiryo, Osaka, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
+        Meiryo, Osaka, 'MSPゴシック', 'MS PGothic', sans-serif;
     -webkit-text-size-adjust: none;
     width: 100%;
 }
 
-.footer-fixed {
-    min-height: 100vh;
+#id {
     position: relative;
-    padding-bottom: 30%;
-    box-sizing: border-box;
+    height: auto !important; /*IE6対策*/
+    height: 100%; /*IE6対策*/
+    min-height: 100%;
 }
 </style>

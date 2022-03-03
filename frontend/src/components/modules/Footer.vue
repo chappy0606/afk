@@ -33,13 +33,13 @@
     </footer>
 </template>
 
-<style>
+<style scoped>
 
 footer {
     position: absolute;
-    bottom: 0;
     width: 100%;
     padding-bottom: 15%;
+    bottom: 0;
     text-align: center;
 }
 

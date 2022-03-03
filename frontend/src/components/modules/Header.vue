@@ -36,7 +36,7 @@ export default defineComponent({
     }
 })
 </script>
-<style>
+<style scoped>
 header {
     font-size: 20px;
     width: 100%;

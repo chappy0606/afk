@@ -368,7 +368,7 @@ export default defineComponent({
     }
 })
 </script>
-<style>
+<style scoped>
 
 .Common, .Rare, .Elite   {
     display: inline-block;
