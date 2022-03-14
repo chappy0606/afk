@@ -41,12 +41,17 @@ export default defineComponent({
 html,
 body {
     height: 100%;
+    background-color: rgb(82, 82, 82);
 }
 
 #app {
     height: 100%;
     display: flex;
     flex-direction: column;
+    font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ',
+        Meiryo, Osaka, 'MSPゴシック', 'MS PGothic', sans-serif;
+    -webkit-text-size-adjust: none;
+    width: 100%;
 }
 
 .active-component {
