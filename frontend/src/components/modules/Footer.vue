@@ -36,14 +36,18 @@
 <style scoped>
 
 footer {
-    position: absolute;
+    /* position: absolute;
     width: 100%;
     padding-bottom: 15%;
     bottom: 0;
-    text-align: center;
+    text-align: center; */
+    background-color: blue;
+    font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ',
+        Meiryo, Osaka, 'MSPゴシック', 'MS PGothic', sans-serif;
+    -webkit-text-size-adjust: none;
 }
 
-.copyright-bar p {
+/* .copyright-bar p {
     position: absolute;
     font-size: 15px;
     color: black;
@@ -124,7 +128,7 @@ footer {
 }
 
 .youtube:hover {
-    background: linear-gradient(135deg, #f5515f 0%, #c9293c 100%);
-}
+    background: linear-gradient(135deg, #f5515f 0%, #c9293c 100%); */
+
 
 </style>

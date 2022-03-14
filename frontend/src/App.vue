@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <Header />
-        <router-view />
+        <router-view class="active-component" />
         <Footer />
     </div>
 </template>
@@ -32,27 +32,25 @@ export default defineComponent({
 </script>
 
 <style>
+/* スタイルのリセット */
 * {
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
 }
+
 html,
 body {
     height: 100%;
 }
 
-body {
-    background-color: rgb(82, 82, 82);
-    font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ',
-        Meiryo, Osaka, 'MSPゴシック', 'MS PGothic', sans-serif;
-    -webkit-text-size-adjust: none;
-    width: 100%;
+#app {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
-#id {
-    position: relative;
-    height: auto !important; /*IE6対策*/
-    height: 100%; /*IE6対策*/
-    min-height: 100%;
+.active-component {
+    flex: 1;
 }
+
 </style>

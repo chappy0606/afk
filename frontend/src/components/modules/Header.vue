@@ -37,8 +37,14 @@ export default defineComponent({
 })
 </script>
 <style scoped>
+
 header {
-    font-size: 20px;
-    width: 100%;
+    background-color: red;
+    /* font-size: 20px;
+    background-color: rgb(82, 82, 82);
+    font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ',
+        Meiryo, Osaka, 'MSPゴシック', 'MS PGothic', sans-serif;
+    -webkit-text-size-adjust: none;
+    width: 100%; */
 }
 </style>

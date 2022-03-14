@@ -21,6 +21,17 @@
 </template>
 
 <style scoped>
+.top-page {
+	background-color: rgb(82, 82, 82);
+}
+/* .top-page {
+    background-color: rgb(82, 82, 82);
+    font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ',
+        Meiryo, Osaka, 'MSPゴシック', 'MS PGothic', sans-serif;
+    -webkit-text-size-adjust: none;
+    width: 100%;
+}
+
 @keyframes opa1 {
     0% {
         pacity: 0;
@@ -71,5 +82,5 @@ a {
 .menubar li a:hover {
     border-bottom: 2px solid #fff;
     letter-spacing: 0.1em;
-}
+} */
 </style>
