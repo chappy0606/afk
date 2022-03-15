@@ -3,7 +3,7 @@
         <h1 class="logo">
             <a href="#"><img src="@/assets/logo.png" alt="AFK"/></a>
         </h1>
-        <nav class="menubar">
+        <div class="menubar">
             <ul>
                 <li>
                     <router-link :to="{ name: 'PveComp' }"
@@ -16,7 +16,7 @@
                     >
                 </li>
             </ul>
-        </nav>
+        </div>
     </div>
 </template>
 

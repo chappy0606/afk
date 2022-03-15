@@ -1,31 +1,29 @@
 <template>
     <footer>
-        <div class="footer-widgets-container">
-            <div class="footer-widget">
-                <div class="footer-widget-name">
-                    <h2>Follow me</h2>
-                </div>
-                <ul class="sns-button">
-                    <li>
-                        <a
-                            href="https://twitter.com/otodo3"
-                            class="flow-button twitter"
-                            ><i class="fab fa-twitter"></i
-                        ></a>
-                    </li>
-                    <li>
-                        <a
-                            href="https://www.youtube.com/channel/UCih6MT0eHkyT23VZVcdgBxA"
-                            class="flow-button youtube"
-                            ><i class="fab fa-youtube"></i
-                        ></a>
-                    </li>
-                </ul>
+        <div class="footer-widget">
+            <div class="footer-widget-name">
+                <h2>Follow me</h2>
             </div>
-            <div class="footer-widget2">
-                <h2>About me</h2>
-                <p>job:Unemployed</p>
-            </div>
+            <ul class="sns-button">
+                <li>
+                    <a
+                        href="https://twitter.com/otodo3"
+                        class="flow-button twitter"
+                        ><i class="fab fa-twitter"></i
+                    ></a>
+                </li>
+                <li>
+                    <a
+                        href="https://www.youtube.com/channel/UCih6MT0eHkyT23VZVcdgBxA"
+                        class="flow-button youtube"
+                        ><i class="fab fa-youtube"></i
+                    ></a>
+                </li>
+            </ul>
+        </div>
+        <div class="footer-widget">
+            <h2>About me</h2>
+            <p>job:Unemployed</p>
         </div>
         <div class="copyright-bar">
             <p>Copyright © 2021. All rights reserved.</p>
@@ -34,21 +32,16 @@
 </template>
 
 <style scoped>
-
 footer {
-    /* position: absolute;
-    width: 100%;
-    padding-bottom: 15%;
-    bottom: 0;
-    text-align: center; */
-    background-color: blue;
     font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', 'メイリオ',
         Meiryo, Osaka, 'MSPゴシック', 'MS PGothic', sans-serif;
     -webkit-text-size-adjust: none;
+    padding-bottom: 50%;
 }
 
-/* .copyright-bar p {
+.copyright-bar p {
     position: absolute;
+    text-align: center;
     font-size: 15px;
     color: black;
     width: 100%;
@@ -59,31 +52,21 @@ footer {
 }
 
 .footer-widgets-container {
-    position: relative;
-    padding-bottom: 10%;
-    color: white;
-    text-align: center;
+    padding-bottom: 30%;
 }
 
-.footer-widget,
-.footer-widget2 {
+.footer-widget {
+    color: white;
     text-align: center;
-    position: relative;
     width: 50%;
-    vertical-align: bottom;
     float: left;
 }
 
-.footer-widget-name {
-    width: 100%;
-}
-
-.footer-widget2 > p {
+.footer-widget > p {
     font-size: 20px;
 }
 
-.footer-widget h2,
-.footer-widget2 h2 {
+.footer-widget h2 {
     display: inline-block;
     font-size: 20px;
     border-bottom: white solid;
@@ -128,7 +111,6 @@ footer {
 }
 
 .youtube:hover {
-    background: linear-gradient(135deg, #f5515f 0%, #c9293c 100%); */
-
-
+    background: linear-gradient(135deg, #f5515f 0%, #c9293c 100%);
+}
 </style>
