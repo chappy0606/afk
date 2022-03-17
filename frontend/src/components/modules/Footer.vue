@@ -51,10 +51,6 @@ footer {
     background-color: white;
 }
 
-.footer-widgets-container {
-    padding-bottom: 30%;
-}
-
 .footer-widget {
     color: white;
     text-align: center;
