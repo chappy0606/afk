@@ -33,6 +33,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
+    '192.168.10.11'
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -52,7 +53,6 @@ REST_FRAMEWORK = {
         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
     ),
 
-# ここkerror
     'DEFAULT_RENDERER_CLASSES': (
         'djangorestframework_camel_case.render.CamelCaseJSONRenderer',
         'djangorestframework_camel_case.render.CamelCaseBrowsableAPIRenderer',
@@ -77,6 +77,7 @@ JWT_AUTH_SECURE = True
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
+    'https://192.168.10.11:8080',
     'https://127.0.0.1:8080',
     'https://localhost:8080',
 ]

@@ -4,7 +4,7 @@ import { store } from '@/store'
 let isRetry: boolean = false
 
 const instance = axios.create({
-    baseURL: 'https://127.0.0.1:8000/api/v1'
+    baseURL: 'https://192.168.10.11:8000/api/v1'
 })
 
 instance.interceptors.response.use(
