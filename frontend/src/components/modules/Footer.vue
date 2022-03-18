@@ -37,6 +37,7 @@ footer {
         Meiryo, Osaka, 'MSPゴシック', 'MS PGothic', sans-serif;
     -webkit-text-size-adjust: none;
     padding-bottom: 50%;
+    position: relative;
 }
 
 .copyright-bar p {
