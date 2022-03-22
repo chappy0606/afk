@@ -13,44 +13,47 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/',
         name: 'TopPage',
-        component: TopPage
+        component: TopPage,
+        meta: { isPublic: true }
     },
 
     {
         path: '/login',
         name: 'Login',
-        component: LoginPage
+        component: LoginPage,
+        meta: { isPublic: true }
     },
 
     {
         path: '/pve_comp',
         name: 'PveComp',
-        component: PveComp
+        component: PveComp,
+        meta: { isPublic: true }
     },
 
     {
         path: '/pve_comp/upload',
         name: 'Upload',
-        component: UploadPage,
-        meta: { requiresAuth: true }
+        component: UploadPage
     },
 
     {
         path: '/registration',
         name: 'Registration',
-        component: Registration
+        component: Registration,
+        meta: { isPublic: true }
     },
 
     {
         path: '/profile',
         name: 'Profile',
-        component: Profile,
-        meta: { requiresAuth: true }
+        component: Profile
     },
     {
         path: '/relic_calcuator',
         name: 'RelicCalcuator',
-        component: RelicCalcuator
+        component: RelicCalcuator,
+        meta: { isPublic: true }
     },
 
     //vue-router3と4で書き方違う
@@ -70,23 +73,21 @@ const isLogin = () => {
     return store.state.auth.isAuth
 }
 
-const url:string[] = ['/login', '/registration']
-
 router.beforeEach((to, from, next) => {
-    if (url.includes(to.path) && isLogin()) {
-        router.push({ name: 'TopPage' })
-    }
-
-    if (to.matched.some(record => record.meta.requiresAuth)) {
+    //認証なしのページの場合
+    if (to.matched.some(record => record.meta.isPublic)) {
         store.commit('setCurrentPath', { currentPath: to.path })
+        next()
         if (isLogin()) {
-            next()
+            next({ name: 'TopPage' })
         } else {
-            next({ name: 'Login' })
-        }
-    } else {
             next()
         }
+    }
+    //認証ありの場合ログイン誘導
+    else { 
+        next({ name: 'Login' })
+    }
 })
 
 export default router
