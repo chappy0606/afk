@@ -13,47 +13,59 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/',
         name: 'TopPage',
-        component: TopPage,
-        meta: { isPublic: true }
+        component: TopPage
     },
 
     {
         path: '/login',
         name: 'Login',
         component: LoginPage,
-        meta: { isPublic: true }
+        beforeEnter: (to, from, next) => {
+            if (isLogin()) {
+                next({ name: 'TopPage' })
+            } else {
+                next()
+            }
+        }
     },
 
     {
         path: '/pve_comp',
         name: 'PveComp',
-        component: PveComp,
-        meta: { isPublic: true }
+        component: PveComp
     },
 
     {
         path: '/pve_comp/upload',
         name: 'Upload',
-        component: UploadPage
+        component: UploadPage,
+        meta: { requiresAuth: true }
+    },
+
+    {
+        path: '/profile',
+        name: 'Profile',
+        component: Profile,
+        meta: { requiresAuth: true }
     },
 
     {
         path: '/registration',
         name: 'Registration',
         component: Registration,
-        meta: { isPublic: true }
+        beforeEnter: (to, from, next) => {
+            if (isLogin()) {
+                next({ name: 'TopPage' })
+            } else {
+                next()
+            }
+        }
     },
 
     {
-        path: '/profile',
-        name: 'Profile',
-        component: Profile
-    },
-    {
         path: '/relic_calcuator',
         name: 'RelicCalcuator',
-        component: RelicCalcuator,
-        meta: { isPublic: true }
+        component: RelicCalcuator
     },
 
     //vue-router3と4で書き方違う
@@ -74,19 +86,11 @@ const isLogin = () => {
 }
 
 router.beforeEach((to, from, next) => {
-    //認証なしのページの場合
-    if (to.matched.some(record => record.meta.isPublic)) {
+    if (to.matched.some(record => record.meta.requiresAuth && !isLogin())) {
         store.commit('setCurrentPath', { currentPath: to.path })
-        next()
-        if (isLogin()) {
-            next({ name: 'TopPage' })
-        } else {
-            next()
-        }
-    }
-    //認証ありの場合ログイン誘導
-    else { 
         next({ name: 'Login' })
+    } else {
+        next()
     }
 })
 
