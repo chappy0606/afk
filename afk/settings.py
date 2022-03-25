@@ -32,9 +32,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
-    'localhost',
-    '192.168.10.11'
+    '192.168.10.11',
 ]
+
+CORS_ORIGIN_WHITELIST = (
+    'https://192.168.10.11:8080',
+    'https://127.0.0.1:8080',
+    'https://localhost:8080',
+)
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
@@ -75,12 +80,6 @@ JWT_AUTH_COOKIE = 'jwt-access-token'
 JWT_AUTH_REFRESH_COOKIE = 'jwt-refresh-token'
 JWT_AUTH_SECURE = True
 
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = [
-    'https://192.168.10.11:8080',
-    'https://127.0.0.1:8080',
-    'https://localhost:8080',
-]
 
 ACCOUNT_EMAIL_REQUIRED = False
 ACCOUNT_USERNAME_REQUIRED = True

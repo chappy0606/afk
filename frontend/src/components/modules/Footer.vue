@@ -21,10 +21,10 @@
                 </li>
             </ul>
         </div>
-        <div class="footer-widget">
+        <!-- <div class="footer-widget">
             <h2>About me</h2>
             <p>job:Unemployed</p>
-        </div>
+        </div> -->
         <div class="copyright-bar">
             <p>Copyright © 2021. All rights reserved.</p>
         </div>
