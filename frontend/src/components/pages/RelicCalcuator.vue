@@ -2,7 +2,6 @@
 <template>
     <div>
         <div class="quality-nav">
-            <label><input type="radio" value="" v-model="quality" />all</label>
             <label><input type="radio" value="Common" v-model="quality" />Common</label>
             <label><input type="radio" value="Rare" v-model="quality" />Rare</label>
             <label><input type="radio" value="Elite" v-model="quality" />Elite</label>
@@ -31,7 +30,7 @@
                 </template>
             </draggable>
 
-            <div class="test">
+            <div class="wrapper-box">
             <div class="belongings">
             <draggable
                 v-model="filteredbelongings"
@@ -122,7 +121,7 @@ export default defineComponent({
         const relics = ref<Relic[]>([])
         const belongings = ref<Relic[]>([])
         const necessaryRelics = ref<Relic[]>([])
-        const quality = ref<string>('')
+        const quality = ref<string>('Common')
         const searchWord = ref<string>('')
         
         const filteredRelics = computed({
@@ -344,6 +343,7 @@ export default defineComponent({
         axios
             .get('relic_calculator/relics')
             .then(response => {
+                console.log('ddd')
                 relics.value = response.data
             })
             .catch(error => {
@@ -374,7 +374,7 @@ export default defineComponent({
     display: inline-block;
 }
 
-.test {
+.wrapper-box {
     display: flex;
 }
 
