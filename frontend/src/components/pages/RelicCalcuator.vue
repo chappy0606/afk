@@ -7,7 +7,7 @@
             <label><input type="radio" value="Elite" v-model="quality" />Elite</label>
             <input type="text" v-model="searchWord" />
         </div>
-
+        <vue-element-loading :active="isLoading" />
             <draggable
                 v-model="filteredRelics"
                 :group="{ name: 'items', pull: 'clone', put: false }"
@@ -29,6 +29,7 @@
                     </div>
                 </template>
             </draggable>
+        
 
             <div class="wrapper-box">
             <div class="belongings">
@@ -94,7 +95,9 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
 import draggable from 'vuedraggable'
+import VueElementLoading from 'vue-element-loading'
 import axios from '../../export'
+
 interface Relic {
     id: string
     enName: string
@@ -114,7 +117,8 @@ interface Counter {
 }
 export default defineComponent({
     components: {
-        draggable
+        draggable,
+        VueElementLoading
     },
 
     setup() {
@@ -123,6 +127,7 @@ export default defineComponent({
         const necessaryRelics = ref<Relic[]>([])
         const quality = ref<string>('Common')
         const searchWord = ref<string>('')
+        const isLoading = ref<boolean>(true)
         
         const filteredRelics = computed({
             get: () => {
@@ -345,6 +350,7 @@ export default defineComponent({
             .then(response => {
                 console.log('ddd')
                 relics.value = response.data
+                isLoading.value = false
             })
             .catch(error => {
                 console.log(error.response)
@@ -363,7 +369,8 @@ export default defineComponent({
             filterednecessaryRelics,
             unnecessaryRelics,
             cloneRelic,
-            totalCost
+            totalCost,
+            isLoading
         }
     }
 })
