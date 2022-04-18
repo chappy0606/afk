@@ -19,7 +19,7 @@
                         ><i class="fab fa-youtube"></i
                     ></a>
                 </li>
-            </ul>
+            </ul>   
         </div>
         <!-- <div class="footer-widget">
             <h2>About me</h2>

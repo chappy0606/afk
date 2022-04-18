@@ -7,7 +7,7 @@
             <label><input type="radio" value="Elite" v-model="quality" />Elite</label>
             <input type="text" v-model="searchWord" />
         </div>
-        <vue-element-loading :active="isLoading" />
+        <vue-element-loading :active="isLoading" :is-full-screen="true" />
             <draggable
                 v-model="filteredRelics"
                 :group="{ name: 'items', pull: 'clone', put: false }"
@@ -348,7 +348,6 @@ export default defineComponent({
         axios
             .get('relic_calculator/relics')
             .then(response => {
-                console.log('ddd')
                 relics.value = response.data
                 isLoading.value = false
             })
