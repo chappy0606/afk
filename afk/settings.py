@@ -45,6 +45,7 @@ CORS_ORIGIN_WHITELIST = (
     'https://192.168.10.14:8080',
     'https://127.0.0.1:8080',
     'https://localhost:8080',
+    'http://localhost:3000'
 )
 
 AUTHENTICATION_BACKENDS = [
