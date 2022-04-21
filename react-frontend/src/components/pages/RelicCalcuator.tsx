@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import Modal from 'components/modules/Modal'
 
 interface Relic {
   id: string
@@ -20,10 +21,17 @@ const RelicCalcuator = () => {
   const [relics, setRelic] = useState<Relic[]>([])
   const [quality, setQuality] = useState<string>('Common')
 
+  const [showModal, setShowModal] = useState<boolean>(false)
+
+  const ShowModal = (): void => {
+    setShowModal(true)
+  }
+
   useEffect(() => {
     axios
       .get('https://192.168.10.14:8000/api/v1/relic_calculator/relics')
       .then((res) => {
+        //シャローコピー
         setRelic(res.data)
       })
       .catch((error) => console.log(error.response))
@@ -31,7 +39,8 @@ const RelicCalcuator = () => {
 
   return (
     <>
-      <h2>聖物計算機</h2>
+      <button onClick={ShowModal}>showmodal</button>
+      <Modal showFlag={showModal} setShowModal={setShowModal} />
       <div className="quality-nav">
         <label>
           <input
@@ -65,6 +74,7 @@ const RelicCalcuator = () => {
         .filter((relic) => relic.quality === quality)
         .map((relic) => (
           <img
+            onClick={ShowModal}
             key={relic.id}
             src={relic.icon}
             alt={relic.jaName}
