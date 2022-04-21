@@ -1,8 +1,9 @@
 import { Dispatch, SetStateAction } from 'react'
-
+import { Relic } from 'components/pages/RelicCalcuator'
 const Modal = (props: {
   showFlag: boolean
   setShowModal: Dispatch<SetStateAction<boolean>>
+  relic: Relic
 }) => {
   const closeModal = () => {
     props.setShowModal(false)
@@ -32,7 +33,7 @@ const Modal = (props: {
       {props.showFlag ? (
         <div id="overlay" style={overlay}>
           <div id="modalContent" style={modalContent}>
-            <p>This is ModalContent</p>
+            <img src={ props.relic.icon }></img>
             <button onClick={closeModal}>Close</button>
           </div>
         </div>

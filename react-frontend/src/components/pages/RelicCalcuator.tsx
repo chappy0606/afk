@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import Modal from 'components/modules/Modal'
 
-interface Relic {
+export interface Relic {
   id: string
   enName: string
   jaName: string
@@ -14,17 +14,29 @@ interface Relic {
   cost: number
   totalPrice: number
   icon: string
-  count: number
 }
 
 const RelicCalcuator = () => {
-  const [relics, setRelic] = useState<Relic[]>([])
+  const [relics, setRelics] = useState<Relic[]>([])
+  const [relic, setRelic] = useState<Relic>({
+    id: '1',
+    enName: '',
+    jaName: '',
+    quality: '',
+    component1: '',
+    component2: '',
+    component3: '',
+    component4: '',
+    cost: 0,
+    totalPrice: 0,
+    icon: '',
+  })
   const [quality, setQuality] = useState<string>('Common')
-
   const [showModal, setShowModal] = useState<boolean>(false)
 
-  const ShowModal = (): void => {
+  const ShowModal = (relic: Relic) => {
     setShowModal(true)
+    setRelic(relic)
   }
 
   useEffect(() => {
@@ -32,15 +44,13 @@ const RelicCalcuator = () => {
       .get('https://192.168.10.14:8000/api/v1/relic_calculator/relics')
       .then((res) => {
         //シャローコピー
-        setRelic(res.data)
+        setRelics(res.data)
       })
       .catch((error) => console.log(error.response))
   }, [])
 
   return (
     <>
-      <button onClick={ShowModal}>showmodal</button>
-      <Modal showFlag={showModal} setShowModal={setShowModal} />
       <div className="quality-nav">
         <label>
           <input
@@ -70,16 +80,18 @@ const RelicCalcuator = () => {
           Elite
         </label>
       </div>
+
+      <Modal showFlag={showModal} setShowModal={setShowModal} relic={relic} />
       {relics
         .filter((relic) => relic.quality === quality)
         .map((relic) => (
           <img
-            onClick={ShowModal}
             key={relic.id}
             src={relic.icon}
             alt={relic.jaName}
             width="50"
             height="50"
+            onClick={() => ShowModal(relic)}
           ></img>
         ))}
     </>
