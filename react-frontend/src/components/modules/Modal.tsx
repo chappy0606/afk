@@ -1,12 +1,14 @@
 import { Dispatch, SetStateAction } from 'react'
-import { Relic } from 'components/pages/RelicCalcuator'
+
 const Modal = (props: {
   showFlag: boolean
   setShowModal: Dispatch<SetStateAction<boolean>>
-  relic: Relic
 }) => {
+
+  const { showFlag, setShowModal } = props
+
   const closeModal = () => {
-    props.setShowModal(false)
+    setShowModal(false)
   }
 
   //React.CSSPropertiesの型指定ないとエラー吐く
@@ -30,10 +32,21 @@ const Modal = (props: {
   }
   return (
     <>
-      {props.showFlag ? (
+      {showFlag ? (
         <div id="overlay" style={overlay}>
           <div id="modalContent" style={modalContent}>
-            <img src={ props.relic.icon }></img>
+            {/* <label>{props.relic.jaName}</label>
+            <br />
+            <label />
+            所有数:{props.relic.jaName}
+            <label />
+            作成数:{props.relic.enName}
+            <img
+              src={props.relic.icon}
+              alt={props.relic.jaName}
+              width="50"
+              height="50"
+            /> */}
             <button onClick={closeModal}>Close</button>
           </div>
         </div>
