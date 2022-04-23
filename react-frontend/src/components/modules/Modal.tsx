@@ -1,14 +1,36 @@
+import { Relic } from 'components/pages/RelicCalcuator'
 import { Dispatch, SetStateAction } from 'react'
 
 const Modal = (props: {
   showFlag: boolean
   setShowModal: Dispatch<SetStateAction<boolean>>
+  relics: Relic[]
+  setRelics: Dispatch<SetStateAction<Relic[]>>
+  relicId: string
 }) => {
-
-  const { showFlag, setShowModal } = props
+  const { showFlag, setShowModal, relics, setRelics, relicId } = props
 
   const closeModal = () => {
+    console.log(setRelics)
     setShowModal(false)
+  }
+
+  const FindRelicsByID = () => {
+    const relic = relics.find((r) => r.id === relicId)
+    return (
+      <>
+        {relic !== undefined ? (
+          <>
+            <label>{relic.jaName}</label>
+            <label>所有数:{relic.belongings}</label>
+            <label>作成数:{relic.productionCount}</label>
+            <img src={relic.icon} alt={relic.jaName} width="50" height="50" />
+          </>
+        ) : (
+          <></>
+        )}
+      </>
+    )
   }
 
   //React.CSSPropertiesの型指定ないとエラー吐く
@@ -35,18 +57,7 @@ const Modal = (props: {
       {showFlag ? (
         <div id="overlay" style={overlay}>
           <div id="modalContent" style={modalContent}>
-            {/* <label>{props.relic.jaName}</label>
-            <br />
-            <label />
-            所有数:{props.relic.jaName}
-            <label />
-            作成数:{props.relic.enName}
-            <img
-              src={props.relic.icon}
-              alt={props.relic.jaName}
-              width="50"
-              height="50"
-            /> */}
+            {FindRelicsByID()}
             <button onClick={closeModal}>Close</button>
           </div>
         </div>

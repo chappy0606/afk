@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { useEffect, useState } from 'react'
 import Modal from 'components/modules/Modal'
 
@@ -13,38 +13,29 @@ export interface Relic {
   component4: string
   cost: number
   totalPrice: number
+  productionCount: number
+  belongings: number
   icon: string
 }
 
 const RelicCalcuator = () => {
   const [relics, setRelics] = useState<Relic[]>([])
-  const [relic, setRelic] = useState<Relic>({
-    id: '1',
-    enName: '',
-    jaName: '',
-    quality: '',
-    component1: '',
-    component2: '',
-    component3: '',
-    component4: '',
-    cost: 0,
-    totalPrice: 0,
-    icon: '',
-  })
   const [quality, setQuality] = useState<string>('Common')
   const [showModal, setShowModal] = useState<boolean>(false)
+  const [relicId, setRelicId] = useState<string>('')
 
-  const ShowModal = (relic: Relic) => {
+  const ShowModal = () => {
     setShowModal(true)
-    setRelic(relic)
   }
 
   useEffect(() => {
     axios
       .get('https://192.168.10.14:8000/api/v1/relic_calculator/relics')
-      .then((res) => {
-        //シャローコピー
-        setRelics(res.data)
+      .then((res: AxiosResponse<Relic[]>) => {
+        /* responseにpropatyなし undefined返ってくる　初期値の設定 */
+        setRelics(
+          res.data.map((r) => ({ ...r, productionCount: 0, belongings: 0 })),
+        )
       })
       .catch((error) => console.log(error.response))
   }, [])
@@ -81,7 +72,14 @@ const RelicCalcuator = () => {
         </label>
       </div>
 
-      <Modal showFlag={showModal} setShowModal={setShowModal} relic={relic} />
+      <Modal
+        showFlag={showModal}
+        setShowModal={setShowModal}
+        relics={relics}
+        setRelics={setRelics}
+        relicId={relicId}
+      />
+
       {relics
         .filter((relic) => relic.quality === quality)
         .map((relic) => (
@@ -91,7 +89,10 @@ const RelicCalcuator = () => {
             alt={relic.jaName}
             width="50"
             height="50"
-            onClick={() => ShowModal(relic)}
+            onClick={() => {
+              setRelicId(relic.id)
+              ShowModal()
+            }}
           ></img>
         ))}
     </>
