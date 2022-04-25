@@ -14,6 +14,15 @@ const Modal = (props: {
     console.log(setRelics)
     setShowModal(false)
   }
+  /* relic.productionCount += 1この更新の仕方は
+        リアルタイムに反映しないuseSet使う必要がありそう*/
+  const test = (e: any) => {
+    console.log(e.target)
+    const relic = relics.find((r) => r.id === relicId)
+    if (relic !== undefined) {
+      relic.productionCount += 1
+    }
+  }
 
   const FindRelicsByID = () => {
     const relic = relics.find((r) => r.id === relicId)
@@ -23,7 +32,12 @@ const Modal = (props: {
           <>
             <label>{relic.jaName}</label>
             <label>所有数:{relic.belongings}</label>
+            <button>+</button>
+            <button>-</button>
+
             <label>作成数:{relic.productionCount}</label>
+            <button onClick={test}>+</button>
+            <button>-</button>
             <img src={relic.icon} alt={relic.jaName} width="50" height="50" />
           </>
         ) : (
