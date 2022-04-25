@@ -11,16 +11,19 @@ const Modal = (props: {
   const { showFlag, setShowModal, relics, setRelics, relicId } = props
 
   const closeModal = () => {
-    console.log(setRelics)
     setShowModal(false)
   }
-  /* relic.productionCount += 1この更新の仕方は
-        リアルタイムに反映しないuseSet使う必要がありそう*/
-  const test = (e: any) => {
-    console.log(e.target)
-    const relic = relics.find((r) => r.id === relicId)
-    if (relic !== undefined) {
-      relic.productionCount += 1
+  const Increment = (e: { currentTarget: HTMLButtonElement }, relic: Relic) => {
+    const key = e.currentTarget.name as keyof typeof relic
+    relic[key]++
+    setRelics([...relics])
+  }
+
+  const Decrement = (e: { currentTarget: HTMLButtonElement }, relic: Relic) => {
+    const key = e.currentTarget.name as keyof typeof relic
+    if (relic[key] > 0) {
+      relic[key]--
+      setRelics([...relics])
     }
   }
 
@@ -31,13 +34,23 @@ const Modal = (props: {
         {relic !== undefined ? (
           <>
             <label>{relic.jaName}</label>
-            <label>所有数:{relic.belongings}</label>
-            <button>+</button>
-            <button>-</button>
+            <div className="">
+              <label>所有数:{relic.belongings}</label>
+              <button name="belongings" onClick={(e) => Increment(e, relic)}>
+                +
+              </button>
+              <button name="belongings" onClick={(e) => Decrement(e, relic)}>
+                -
+              </button>
+            </div>
 
             <label>作成数:{relic.productionCount}</label>
-            <button onClick={test}>+</button>
-            <button>-</button>
+            <button name="productionCount" onClick={(e) => Increment(e, relic)}>
+              +
+            </button>
+            <button name="productionCount" onClick={(e) => Decrement(e, relic)}>
+              -
+            </button>
             <img src={relic.icon} alt={relic.jaName} width="50" height="50" />
           </>
         ) : (
