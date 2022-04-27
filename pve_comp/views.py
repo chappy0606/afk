@@ -7,6 +7,7 @@ from rest_framework.response import Response
 
 class ChapterViewSet(viewsets.ViewSet):
     def list(self, request):
+        print('dddd')
         queryset = Chapter.objects.all()
         serializer = ChapterSerializer(queryset, many=True)
         return Response(serializer.data)

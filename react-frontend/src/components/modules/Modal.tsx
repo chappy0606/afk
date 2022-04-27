@@ -13,22 +13,38 @@ const Modal = (props: {
   const closeModal = () => {
     setShowModal(false)
   }
+
   const Increment = (e: { currentTarget: HTMLButtonElement }, relic: Relic) => {
     const key = e.currentTarget.name as keyof typeof relic
-    relic[key]++
-    setRelics([...relics])
+    const copy: Relic[] = JSON.parse(JSON.stringify(relics))
+
+    const newState = copy.map((v) => {
+      if (v.id === relic.id) {
+        v[key]++
+      }
+      return v
+    })
+    setRelics(newState)
   }
 
   const Decrement = (e: { currentTarget: HTMLButtonElement }, relic: Relic) => {
     const key = e.currentTarget.name as keyof typeof relic
-    if (relic[key] > 0) {
-      relic[key]--
-      setRelics([...relics])
-    }
+    const copy: Relic[] = JSON.parse(JSON.stringify(relics))
+
+    const newState = copy.map((v) => {
+      if (v.id === relic.id && v[key] > 0) {
+        v[key]--
+      }
+      return v
+    })
+    setRelics(newState)
   }
 
   const FindRelicsByID = () => {
-    const relic = relics.find((r) => r.id === relicId)
+    const relic: Relic = JSON.parse(
+      JSON.stringify(relics.find((r) => r.id === relicId)),
+    )
+
     return (
       <>
         {relic !== undefined ? (
