@@ -18,6 +18,17 @@ export interface Relic {
   icon: string
 }
 
+// interface Counter {
+//   [key: string]: number
+// }
+
+// const countDuplicates = (array: string[]): Counter => {
+//   return array.filter(Boolean).reduce((prev, current) => {
+//     prev[current] = (prev[current] || 0) + 1
+//     return prev
+//   }, {} as Partial<Counter>) as Counter
+// }
+
 const RelicCalcuator = () => {
   const [relics, setRelics] = useState<Relic[]>([])
   const [quality, setQuality] = useState<string>('Common')
@@ -26,6 +37,31 @@ const RelicCalcuator = () => {
 
   const ShowModal = () => {
     setShowModal(true)
+  }
+
+  const test = () => {
+    const copyRelics: Relic[] = JSON.parse(
+      JSON.stringify(relics.filter((v) => v.productionCount != v.belongings)),
+    )
+
+    copyRelics.map((v) => {
+      const diff: number = v.productionCount - v.belongings
+
+      if (diff > 0) {
+        v.productionCount = diff
+        v.belongings = 0
+      } else {
+        v.productionCount = 0
+        v.belongings = Math.abs(diff)
+      }
+      // 三項演算子はeslintの設定いじる必要あり
+      // diff > 0
+      //   ? ((v.productionCount = diff), (v.belongings = 0))
+      //   : ((v.productionCount = 0), (v.belongings = Math.abs(diff)))
+      console.log(copyRelics)
+    })
+
+    console.log(copyRelics)
   }
 
   useEffect(() => {
@@ -71,7 +107,6 @@ const RelicCalcuator = () => {
           Elite
         </label>
       </div>
-
       <Modal
         showFlag={showModal}
         setShowModal={setShowModal}
@@ -79,7 +114,6 @@ const RelicCalcuator = () => {
         setRelics={setRelics}
         relicId={relicId}
       />
-
       {relics
         .filter((relic) => relic.quality === quality)
         .map((relic) => (
@@ -97,6 +131,7 @@ const RelicCalcuator = () => {
         ))}
       <h3>合計エッセンス</h3>
       <h3>不必要な遺物</h3>
+      {test()}
     </>
   )
 }
