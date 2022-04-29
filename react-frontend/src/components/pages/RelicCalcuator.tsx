@@ -47,18 +47,9 @@ const RelicCalcuator = () => {
     copyRelics.map((v) => {
       const diff: number = v.productionCount - v.belongings
 
-      if (diff > 0) {
-        v.productionCount = diff
-        v.belongings = 0
-      } else {
-        v.productionCount = 0
-        v.belongings = Math.abs(diff)
-      }
-      // 三項演算子はeslintの設定いじる必要あり
-      // diff > 0
-      //   ? ((v.productionCount = diff), (v.belongings = 0))
-      //   : ((v.productionCount = 0), (v.belongings = Math.abs(diff)))
-      console.log(copyRelics)
+      diff > 0
+        ? ((v.productionCount = diff), (v.belongings = 0))
+        : ((v.productionCount = 0), (v.belongings = Math.abs(diff)))
     })
 
     console.log(copyRelics)
