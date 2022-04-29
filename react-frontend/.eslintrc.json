@@ -1,14 +1,39 @@
 {
-	"env": {
-		"browser": true,
-		"es2021": true
-	},
-	"extends": ["eslint:recommended", "prettier"],
-	"parserOptions": {
-		"ecmaVersion": 12,
-		"sourceType": "module"
-	},
-	"rules": {
-    "no-unused-expressions": ["error", {"allowTernary": true}]
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "react-app",
+    "react-app/jest",
+    "plugin:react/recommended",
+    "airbnb",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript"
+  ],
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "import"
+  ],
+  "rules": {
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
   }
 }
