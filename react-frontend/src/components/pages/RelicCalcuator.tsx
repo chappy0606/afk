@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios'
+import axios, { AxiosResponse, AxiosError } from 'axios'
 import { useEffect, useState } from 'react'
 import Modal from 'components/modules/Modal'
 
@@ -40,9 +40,9 @@ const RelicCalcuator = () => {
   }
 
   const test = () => {
-    const copyRelics: Relic[] = JSON.parse(
+    const copyRelics = JSON.parse(
       JSON.stringify(relics.filter((v) => v.productionCount !== v.belongings)),
-    )
+    ) as Relic[]
 
     copyRelics.map((v) => {
       const diff: number = v.productionCount - v.belongings
@@ -63,37 +63,41 @@ const RelicCalcuator = () => {
           res.data.map((r) => ({ ...r, productionCount: 0, belongings: 0 })),
         )
       })
-      .catch((error) => console.log(error.response))
+      .catch((error: AxiosError) => console.log(error.response))
   }, [])
 
   return (
     <>
       <div className="quality-nav">
-        <label>
+        <label htmlFor="Common">
+          Common
           <input
             type="radio"
             value="Common"
+            id="Common"
             checked={quality === 'Common'}
             onChange={(e) => setQuality(e.target.value)}
           />
         </label>
-        <label>
-          Common
+        <label htmlFor="Rare">
+          Rare
           <input
             type="radio"
             value="Rare"
+            id="Rare"
             checked={quality === 'Rare'}
             onChange={(e) => setQuality(e.target.value)}
           />
         </label>
-        <label>
+        <label htmlFor="Elite">
+          Elite
           <input
             type="radio"
             value="Elite"
+            id="Elite"
             checked={quality === 'Elite'}
             onChange={(e) => setQuality(e.target.value)}
           />
-          Elite
         </label>
       </div>
       <Modal
@@ -106,17 +110,19 @@ const RelicCalcuator = () => {
       {relics
         .filter((relic) => relic.quality === quality)
         .map((relic) => (
-          <img
-            key={relic.id}
-            src={relic.icon}
-            alt={relic.jaName}
-            width="50"
-            height="50"
-            onClick={() => {
-              setRelicId(relic.id)
-              ShowModal()
-            }}
-          ></img>
+          <button type="button" id="img-wrapper-btn" key={relic.id}>
+            <img
+              src={relic.icon}
+              alt={relic.jaName}
+              width="50"
+              height="50"
+              role="presentation"
+              onClick={() => {
+                setRelicId(relic.id)
+                ShowModal()
+              }}
+            />
+          </button>
         ))}
       <h3>合計エッセンス</h3>
       <h3>不必要な遺物</h3>
