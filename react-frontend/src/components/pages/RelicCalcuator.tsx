@@ -41,25 +41,24 @@ const RelicCalcuator = () => {
 
   const test = () => {
     const copyRelics: Relic[] = JSON.parse(
-      JSON.stringify(relics.filter((v) => v.productionCount != v.belongings)),
+      JSON.stringify(relics.filter((v) => v.productionCount !== v.belongings)),
     )
 
     copyRelics.map((v) => {
       const diff: number = v.productionCount - v.belongings
 
-      diff > 0
-        ? ((v.productionCount = diff), (v.belongings = 0))
-        : ((v.productionCount = 0), (v.belongings = Math.abs(diff)))
+      return diff > 0
+        ? { ...v, productionCount: diff, belongings: 0 }
+        : { ...v, productionCount: 0, belongings: Math.abs(diff) }
     })
-
-    console.log(copyRelics)
   }
 
   useEffect(() => {
     axios
       .get('https://192.168.10.14:8000/api/v1/relic_calculator/relics')
       .then((res: AxiosResponse<Relic[]>) => {
-        /* responseにpropatyなし undefined返ってくる　初期値の設定 */
+        /* responseにpropatyなし undefined返ってくる
+        初期値の設定 */
         setRelics(
           res.data.map((r) => ({ ...r, productionCount: 0, belongings: 0 })),
         )
@@ -77,16 +76,15 @@ const RelicCalcuator = () => {
             checked={quality === 'Common'}
             onChange={(e) => setQuality(e.target.value)}
           />
-          Common
         </label>
         <label>
+          Common
           <input
             type="radio"
             value="Rare"
             checked={quality === 'Rare'}
             onChange={(e) => setQuality(e.target.value)}
           />
-          Rare
         </label>
         <label>
           <input
