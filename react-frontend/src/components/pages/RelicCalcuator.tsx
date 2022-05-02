@@ -18,17 +18,6 @@ export interface Relic {
   icon: string
 }
 
-// interface Counter {
-//   [key: string]: number
-// }
-
-// const countDuplicates = (array: string[]): Counter => {
-//   return array.filter(Boolean).reduce((prev, current) => {
-//     prev[current] = (prev[current] || 0) + 1
-//     return prev
-//   }, {} as Partial<Counter>) as Counter
-// }
-
 const RelicCalcuator = () => {
   const [relics, setRelics] = useState<Relic[]>([])
   const [quality, setQuality] = useState<string>('Common')
@@ -57,8 +46,7 @@ const RelicCalcuator = () => {
     axios
       .get('https://192.168.10.14:8000/api/v1/relic_calculator/relics')
       .then((res: AxiosResponse<Relic[]>) => {
-        /* responseにpropatyなし undefined返ってくる
-        初期値の設定 */
+
         setRelics(
           res.data.map((r) => ({ ...r, productionCount: 0, belongings: 0 })),
         )
